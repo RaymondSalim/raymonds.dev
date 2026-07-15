@@ -162,7 +162,7 @@ export class Experiences extends React.Component<ExperiencesProps, ExperiencesSt
         >
           <span
             tabIndex={0}
-            className={this.state.activeTabID === index ? 'text-blue-sapphire dark:text-blue-sky' : ''}
+            className={this.state.activeTabID === index ? 'text-brutalist-accent' : ''}
           >{exp.name}</span>
         </button>
       );
