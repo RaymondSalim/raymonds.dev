@@ -212,6 +212,7 @@ export default class App extends React.Component<any, AppState> {
           </section>
           <section id="contact">
             <div id="contact-content" className="content mb-16">
+              <p className="font-mono uppercase tracking-wide text-sm text-brutalist-accent mb-2">04 &middot; Contact</p>
               <h2>Contact</h2>
               <Contact />
             </div>
