@@ -320,7 +320,7 @@ git commit -m "feat(theme): rewrite global typography/link/focus styles for brut
 - Modify: `src/navigation/menu/Menu.css` (full file)
 - Modify: `src/util/darkmode/DarkModeToggle.tsx:22,36,38` (icon color classNames)
 - Modify: `src/icons/Logo.tsx:32` (className)
-- Modify: `src/App.css:37-59` (`#home`, `#home-content`, hero `h1`/`p`)
+- Modify: `src/App.css:1-7,37-59` (`main`, `#page` global background — plan gap discovered during implementation, these two rules were unclaimed by any task and blocked the production build; plus `#home`, `#home-content`, hero `h1`/`p`)
 - Modify: `src/App.tsx:140-154` (hero section JSX — apply `.content` to `#home-content`, static accent on "Raymond", restyled button className)
 - Modify: `src/buttons/Button.css` (full file)
 
@@ -509,7 +509,19 @@ to:
 
 - [ ] **Step 8: Rewrite the hero block in `src/App.css`**
 
-Modify lines 29-59 (from `#section-curve-start` through the end of the `#home-content p` rule):
+First, modify lines 1-7 (the `main` and `#page` rules — these set the global page background and were missed by this task's original file-line range; they use the same now-removed `gray-*` tokens and block the production build until fixed):
+
+```css
+main {
+    @apply bg-brutalist-bg dark:bg-brutalist-fg transition-all ease-in duration-150;
+}
+
+#page {
+    @apply antialiased relative bg-brutalist-bg dark:bg-brutalist-fg;
+}
+```
+
+Then modify lines 29-59 (from `#section-curve-start` through the end of the `#home-content p` rule):
 
 ```css
 #home {
