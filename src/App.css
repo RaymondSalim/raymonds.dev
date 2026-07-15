@@ -6,6 +6,13 @@ main {
     @apply antialiased relative bg-brutalist-bg dark:bg-brutalist-fg;
 }
 
+#page::before {
+    @apply hidden dark:block fixed inset-0 pointer-events-none opacity-0 dark:opacity-[0.035];
+    content: "";
+    z-index: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' fill='white'/%3E%3C/svg%3E");
+}
+
 #menu-blur-layer {
     @apply w-screen h-screen fixed top-0 left-full z-30 backdrop-blur-sm bg-white bg-opacity-0 md:hidden;
 }
