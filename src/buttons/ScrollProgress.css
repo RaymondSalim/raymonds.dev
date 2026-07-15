@@ -1,0 +1,19 @@
+#scroll-progress-snake {
+    @apply hidden md:flex fixed right-6 top-1/2 -translate-y-1/2 z-40 flex-col gap-1 pointer-events-none;
+}
+
+.scroll-progress-segment {
+    @apply w-1.5 h-4 bg-brutalist-fg dark:bg-brutalist-bg bg-opacity-10 dark:bg-opacity-10 transition-colors duration-150;
+}
+
+.scroll-progress-segment-lit {
+    @apply bg-brutalist-accent bg-opacity-100;
+}
+
+#scroll-progress-bar {
+    @apply md:hidden fixed top-0 left-0 w-full h-[3px] z-50 pointer-events-none bg-brutalist-fg dark:bg-brutalist-bg bg-opacity-10 dark:bg-opacity-10;
+}
+
+#scroll-progress-bar-fill {
+    @apply h-full bg-brutalist-accent transition-[width] duration-150;
+}

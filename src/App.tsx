@@ -23,6 +23,7 @@ import { EnvironmentVariables } from './enum';
 import { Contact } from './components/Contact';
 import { Footer } from './components/Footer';
 import { ScrollToTop } from './buttons/ScrollToTop';
+import { ScrollProgress } from './buttons/ScrollProgress';
 
 export interface AppState {
   siteReady: boolean
@@ -224,6 +225,7 @@ export default class App extends React.Component<any, AppState> {
         </main>
         <Footer />
         <ScrollToTop />
+        <ScrollProgress />
       </div>
     );
   }
