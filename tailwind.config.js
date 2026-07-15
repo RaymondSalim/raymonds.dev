@@ -5,17 +5,19 @@ module.exports = {
     extend: {
       colors: {
         'current': 'currentColor',
-        'blue': {
-          sky: '#00DFE7',
-          sapphire: '#00ADB5'
+        'brutalist': {
+          bg: '#FAFAF7',
+          fg: '#0A0A0A',
+          'fg-muted': '#4B5563',
+          border: '#0A0A0A',
+          accent: '#FF4B1F',
+          'accent-contrast': '#0A0A0A',
+          surface: '#FFFFFF',
         },
-        'gray': {
-          lightest: '#FAFAFA',
-          light: '#EEEEEE',
-          dark: '#2D323A',
-          darker: '#222831',
-          darkest: '#201f28',
-        }
+      },
+      fontFamily: {
+        display: ['"Big Shoulders"', 'sans-serif'],
+        mono: ['"Space Mono"', 'monospace'],
       },
       screens: {
         '2xl': '1536px',
