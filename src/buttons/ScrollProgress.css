@@ -7,7 +7,7 @@
 }
 
 .scroll-progress-segment-lit {
-    @apply bg-brutalist-accent bg-opacity-100;
+    @apply !bg-brutalist-accent;
 }
 
 #scroll-progress-bar {
