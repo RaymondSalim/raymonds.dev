@@ -11,11 +11,11 @@ main {
 }
 
 section:nth-of-type(2) {
-    @apply mt-[100vh] mb-16 md:mb-[4.5rem] pt-0;
+    @apply mt-[100vh] mb-16 md:mb-[4.5rem] pt-0 border-t-2 border-brutalist-border dark:border-brutalist-bg;
 }
 
 section:not(:first-of-type):not(:last-of-type):not(:nth-of-type(2)) {
-    @apply my-16 md:my-[4.5rem];
+    @apply my-16 md:my-[4.5rem] border-t-2 border-brutalist-border dark:border-brutalist-bg;
 }
 
 section:nth-of-type(n+3) {
@@ -23,7 +23,7 @@ section:nth-of-type(n+3) {
 }
 
 section:last-of-type {
-    @apply pb-0 md:pb-0 mb-32 md:mb-36;
+    @apply pb-0 md:pb-0 mb-32 md:mb-36 border-t-2 border-brutalist-border dark:border-brutalist-bg;
 }
 
 #home {
