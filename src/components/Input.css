@@ -3,7 +3,7 @@
 }
 
 .styled-input-container .label {
-    @apply bg-brutalist-bg dark:bg-brutalist-fg dark:text-brutalist-fg-muted px-1 font-mono uppercase text-xs tracking-wide;
+    @apply bg-brutalist-bg dark:bg-brutalist-fg dark:text-brutalist-fg-muted-dark px-1 font-mono uppercase text-xs tracking-wide;
 }
 
 .styled-input {
@@ -15,7 +15,7 @@
 }
 
 .styled-input:focus {
-    @apply outline-none border-brutalist-accent placeholder-brutalist-fg-muted;
+    @apply outline-none border-brutalist-accent placeholder-brutalist-fg-muted dark:placeholder-brutalist-fg-muted-dark;
 }
 
 .styled-input.typed-on:valid,

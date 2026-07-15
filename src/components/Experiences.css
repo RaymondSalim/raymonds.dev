@@ -24,7 +24,7 @@
 }
 
 .experience-tab-button {
-    @apply px-5 py-2 relative duration-1000 transition-colors w-full whitespace-nowrap text-left text-brutalist-fg-muted dark:text-brutalist-fg-muted font-mono uppercase tracking-wide text-sm border-b-2 border-transparent;
+    @apply px-5 py-2 relative duration-1000 transition-colors w-full whitespace-nowrap text-left text-brutalist-fg-muted dark:text-brutalist-fg-muted-dark font-mono uppercase tracking-wide text-sm border-b-2 border-transparent;
 }
 
 .experience-tab-button:focus,

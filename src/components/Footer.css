@@ -7,7 +7,7 @@ footer a {
 }
 
 footer span {
-    @apply inline-block font-mono text-sm text-brutalist-fg-muted;
+    @apply inline-block font-mono text-sm text-brutalist-fg-muted dark:text-brutalist-fg-muted-dark;
 }
 
 #footer-content {

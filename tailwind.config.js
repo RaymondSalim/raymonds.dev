@@ -9,6 +9,7 @@ module.exports = {
           bg: '#FAFAF7',
           fg: '#0A0A0A',
           'fg-muted': '#4B5563',
+          'fg-muted-dark': '#9CA3AF',
           border: '#0A0A0A',
           accent: '#FF4B1F',
           'accent-contrast': '#0A0A0A',

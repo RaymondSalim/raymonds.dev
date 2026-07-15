@@ -67,7 +67,7 @@ body {
     }
 
     span, p, li, a {
-        @apply font-mono dark:text-brutalist-fg-muted text-brutalist-fg-muted relative 2xl:text-xl;
+        @apply font-mono dark:text-brutalist-fg-muted-dark text-brutalist-fg-muted relative 2xl:text-xl;
     }
 
     ul {
@@ -85,7 +85,7 @@ body {
     }
 
     h3 {
-        @apply text-xl font-bold dark:text-brutalist-fg-muted my-3;
+        @apply text-xl font-bold dark:text-brutalist-fg-muted-dark my-3;
     }
 
     a {
