@@ -23,7 +23,7 @@ section:nth-of-type(n+3) {
 }
 
 section:last-of-type {
-    @apply pb-0 md:pb-0 mb-32 md:mb-36 border-t-2 border-brutalist-border dark:border-brutalist-bg;
+    @apply pb-0 md:pb-0 mb-0 md:mb-0 border-t-2 border-brutalist-border dark:border-brutalist-bg;
 }
 
 #home {

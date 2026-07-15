@@ -11,7 +11,7 @@ footer span {
 }
 
 #footer-content {
-    @apply content flex justify-between items-end gap-y-2 min-h-[max(10vh,100px)];
+    @apply content flex flex-wrap justify-between items-end gap-y-4 py-10 min-h-[max(10vh,100px)];
 }
 
 #footer-content > div:last-of-type {
