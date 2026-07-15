@@ -7,23 +7,23 @@
 }
 
 .project-image-container {
-    @apply relative col-start-1 col-end-13 row-start-1 row-end-2 drop-shadow-2xl bp-max-768:h-full;
+    @apply relative col-start-1 col-end-13 row-start-1 row-end-2 bp-max-768:h-full;
 }
 
 .project-image-container::before {
-    @apply bp-max-768:hidden absolute z-0 w-full h-full content-[""] bg-blue-sapphire overflow-hidden rounded-md;
+    @apply bp-max-768:hidden absolute z-0 w-full h-full content-[""] bg-brutalist-accent bg-opacity-20 overflow-hidden;
 }
 
 .project-image-container::after {
-    @apply bp-max-768:hidden absolute pointer-events-none w-full h-full translate-y-4 content-[""] outline outline-1 outline-gray-600 dark:outline-white top-0 left-0 transition-all -z-20 overflow-hidden rounded-md;
+    @apply bp-max-768:hidden absolute pointer-events-none w-full h-full translate-y-4 content-[""] outline outline-2 outline-brutalist-border dark:outline-brutalist-bg top-0 left-0 transition-all -z-20 overflow-hidden;
 }
 
 .project-image-container img {
-    @apply bp-max-768:h-full bp-max-768:object-cover z-20 relative md:mix-blend-overlay transition-all grayscale overflow-hidden rounded-md;
+    @apply bp-max-768:h-full bp-max-768:object-cover z-20 relative md:mix-blend-overlay transition-all md:grayscale overflow-hidden;
 }
 
 .project-image-container img:hover {
-    @apply md:mix-blend-normal grayscale-0;
+    @apply md:mix-blend-normal md:grayscale-0;
 }
 
 #project-grid > div[id^="project-"]:nth-of-type(even) .project-image-container {
@@ -39,8 +39,8 @@
 }
 
 .project-info-container {
-    @apply bp-max-768:bg-gray-dark bp-max-768:bg-opacity-90 bp-max-768:!translate-y-0 bp-max-768:p-10 col-start-1 col-end-13
-    row-start-1 row-end-2 child-no-pseudo z-20;
+    @apply bp-max-768:bg-brutalist-fg bp-max-768:bg-opacity-90 bp-max-768:!translate-y-0 bp-max-768:p-10 col-start-1 col-end-13
+    row-start-1 row-end-2 z-20;
 }
 
 #project-grid > div[id^="project-"]:nth-of-type(even) .project-info-container {
@@ -52,23 +52,27 @@
 }
 
 .project-title {
-    @apply text-blue-sapphire dark:text-blue-sky my-4;
+    @apply text-brutalist-accent my-4;
 }
 
 .project-description-container {
-    @apply md:bg-gray-dark rounded-md p-6 bp-max-768:px-0 my-4 drop-shadow-2xl;
+    @apply md:bg-brutalist-fg md:border-2 md:border-brutalist-border dark:md:border-brutalist-bg p-6 bp-max-768:px-0 my-4;
 }
 
 .project-description-container > p {
-    @apply mb-4 text-white;
+    @apply mb-4 text-brutalist-bg;
 }
 
 .project-stack-list {
-    @apply list-none my-4;
+    @apply list-none my-4 flex flex-wrap gap-2;
+}
+
+#project-grid > div[id^="project-"]:nth-of-type(odd) .project-stack-list {
+    @apply md:justify-end;
 }
 
 .project-stack-list > li {
-    @apply inline-block first-of-type:ml-0 last-of-type:mr-0 mx-4
+    @apply inline-block bg-brutalist-accent text-brutalist-accent-contrast font-mono font-bold text-xs uppercase tracking-wide px-2 py-1;
 }
 
 .project-links {
@@ -76,7 +80,7 @@
 }
 
 .project-links:hover {
-    @apply scale-125 text-blue-sapphire dark:text-blue-sky
+    @apply scale-125 text-brutalist-accent;
 }
 
 #project-grid > div[id^="project-"]:nth-of-type(even) .project-links {
