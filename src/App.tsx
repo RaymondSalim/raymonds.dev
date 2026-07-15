@@ -201,6 +201,7 @@ export default class App extends React.Component<any, AppState> {
           </section>
           <section id="experience">
             <div id="experience-content" className="content">
+              <p className="font-mono uppercase tracking-wide text-sm text-brutalist-accent mb-2">02 &middot; Experience</p>
               <h2>Experience</h2>
               <Experiences/>
             </div>
