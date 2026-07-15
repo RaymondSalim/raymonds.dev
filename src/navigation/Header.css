@@ -1,13 +1,13 @@
 #header {
-    @apply bg-gray-lightest dark:bg-gray-dark z-50 fixed max-w-[100vw] w-full top-0 flex justify-between transition-all duration-[250ms] px-4;
+    @apply bg-brutalist-bg dark:bg-brutalist-fg z-50 fixed max-w-[100vw] w-full top-0 flex justify-between transition-all duration-[250ms] px-4 border-b-2 border-brutalist-border dark:border-brutalist-bg;
 }
 
 #header.header-hidden {
-    @apply !bg-opacity-50 shadow-md backdrop-blur-md h-header-scroll;
+    @apply !bg-opacity-90 backdrop-blur-md h-header-scroll;
 }
 
 #header .header-logo {
-    @apply text-blue-sapphire p-1 h-[calc(var(--header-height-scroll)-1rem)] w-[calc(var(--header-height-scroll)-1rem)] my-auto ml-3 z-40;
+    @apply text-brutalist-fg dark:text-brutalist-bg hover:text-brutalist-accent dark:hover:text-brutalist-accent p-1 h-[calc(var(--header-height-scroll)-1rem)] w-[calc(var(--header-height-scroll)-1rem)] my-auto ml-3 z-40 transition-colors;
 }
 
 #header nav {

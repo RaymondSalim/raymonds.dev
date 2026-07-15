@@ -8,15 +8,15 @@
 }
 
 #navbar-desktop li a {
-    @apply p-2 rounded-lg;
+    @apply p-2;
 }
 
 #navbar-desktop li a span {
-    @apply dark:text-white transition-colors duration-200 2xl:text-lg;
+    @apply dark:text-brutalist-bg text-brutalist-fg transition-colors duration-200 2xl:text-lg uppercase tracking-wide text-sm font-bold;
 }
 
 #navbar-desktop li a:hover span {
-    @apply text-blue-sapphire dark:text-blue-sapphire;
+    @apply text-brutalist-accent dark:text-brutalist-accent;
 }
 
 #navbar-desktop .toggle-container {

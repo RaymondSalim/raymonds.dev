@@ -131,7 +131,6 @@ export class Projects extends React.Component<ProjectsProps, ProjectsState> {
         date: new Date(2020, 10),
       },
     ];
-    // TODO! Find better color for light scheme? (replace bg-gray-dark)
     return (
       <div id="project-grid">
         {

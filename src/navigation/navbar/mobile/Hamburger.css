@@ -12,7 +12,7 @@
 }
 
 .burger-btn {
-    @apply h-full z-40 flex items-center relative p-4 rounded-lg outline-none;
+    @apply h-full z-40 flex items-center relative p-4 outline-none;
 }
 
 .burger-container {
@@ -24,9 +24,9 @@
 .burger > div,
 .burger::before,
 .burger::after {
-    @apply bg-blue-sapphire origin-center;
+    @apply bg-brutalist-fg dark:bg-brutalist-bg origin-center;
     height: var(--burger-height);
-    border-radius: var(--burger-border-rad);
+    border-radius: 0;
     animation: var(--animation-time) forwards;
 }
 

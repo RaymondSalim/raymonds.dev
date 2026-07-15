@@ -11,7 +11,7 @@
 }
 
 #contact-links a {
-    @apply focus:ring-0;
+    @apply focus:ring-0 text-brutalist-fg dark:text-brutalist-bg;
 }
 
 #contact-links a span {
@@ -20,7 +20,7 @@
 
 #contact-links a:hover span,
 #contact-links a:focus span {
-    @apply text-blue-sapphire;
+    @apply text-brutalist-accent;
 }
 
 #contact-links a:hover span::after,
@@ -39,10 +39,6 @@
 
 #contact-form {
     @apply row-start-2 md:row-start-1 row-span-full col-start-1 md:col-start-3 col-span-8 md:col-span-full grid grid-rows-5 grid-cols-4 gap-x-3 gap-y-2;
-}
-
-#contact-form .form-input {
-    @apply bg-gray-lightest dark:bg-gray-darker;
 }
 
 .form-input.name {
@@ -66,5 +62,5 @@
 }
 
 #contact-form #email-status {
-    @apply row-start-6 row-span-1 col-start-1 col-span-2 mt-4 no-pseudo;
+    @apply row-start-6 row-span-1 col-start-1 col-span-2 mt-4;
 }

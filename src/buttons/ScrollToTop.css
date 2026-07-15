@@ -1,0 +1,11 @@
+#scroll-to-top {
+    @apply fixed bottom-6 right-6 z-40 h-12 w-12 flex items-center justify-center border-2 border-brutalist-border dark:border-brutalist-bg bg-brutalist-bg dark:bg-brutalist-fg text-brutalist-fg dark:text-brutalist-bg hover:bg-brutalist-accent hover:text-brutalist-accent-contrast hover:border-brutalist-accent transition-all duration-200 cursor-pointer;
+}
+
+#scroll-to-top.scroll-to-top-hidden {
+    @apply opacity-0 translate-y-4 pointer-events-none;
+}
+
+#scroll-to-top.scroll-to-top-visible {
+    @apply opacity-100 translate-y-0;
+}

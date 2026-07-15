@@ -22,6 +22,8 @@ import { debounce } from './util/common';
 import { EnvironmentVariables } from './enum';
 import { Contact } from './components/Contact';
 import { Footer } from './components/Footer';
+import { ScrollToTop } from './buttons/ScrollToTop';
+import { ScrollProgress } from './buttons/ScrollProgress';
 
 export interface AppState {
   siteReady: boolean
@@ -156,26 +158,16 @@ export default class App extends React.Component<any, AppState> {
           {/* See https://developer.mozilla.org/en-US/docs/Web/CSS/position#fixed */}
           <div id="menu-blur-layer" className={`${this.state.menuActive ? '-translate-x-full' : ''}`} onClick={() => { this.toggleMenu(); }}/>
           <section id="about-me">
-            <div id="section-curve-start">
-              <svg
-                className="fill-current w-screen"
-                viewBox="0 0 1440 145.68176"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M 0,132.29692 84.485809,105.64055 C 190.92453,72.057753 239.56437,71.31983 360,90 486.54269,109.20909 660,43.000003 780,53.300003 c 120,10.7 240,42.7 360,37.4 C 1260,85.000003 1320,50 1380,21.3 L 1440,0 V 145.68176 H 1380 1080 720 360 60 0 Z"
-                />
-              </svg>
-            </div>
             <div id="about-me-content" className="content">
+              <p className="font-mono uppercase tracking-wide text-sm text-brutalist-accent mb-2">01 &middot; About</p>
               <h2>About me</h2>
               <div id="about-me-grid">
                 <div className="row-start-1 md:col-start-1">
-                  <div className="multiple-p">
+                  <div className="space-y-4">
                     <p>I am passionate about creating software that improves and simplifies the lives of those around
                       me. My interest in software development started back in 2019 when I stumbled upon a youtube
                       tutorial on building an android application.</p>
-                    <p className="after:content-none md:after:p-after">
+                    <p>
                       Fast forward to today, I have developed software for clients ranging from individuals to large
                       enterprise corporations such as&nbsp;
                       <a href="https://www.tokopedia.com/about/" target="_blank" rel="noopener noreferrer" className={'text-highlight'}>Tokopedia</a>
@@ -189,7 +181,7 @@ export default class App extends React.Component<any, AppState> {
                   </div>
                 </div>
                 <div className="-mt-10 md:mt-0 row-start-2 md:row-start-1 md:col-start-2">
-                  <p className="before:content-none md:before:p-before">When I am not coding, you can find me doing any
+                  <p>When I am not coding, you can find me doing any
                     of the following:</p>
                   <ul className="list-disc list-outside mt-8 ml-5">
                     <li>Gym</li>
@@ -211,36 +203,29 @@ export default class App extends React.Component<any, AppState> {
           </section>
           <section id="experience">
             <div id="experience-content" className="content">
+              <p className="font-mono uppercase tracking-wide text-sm text-brutalist-accent mb-2">02 &middot; Experience</p>
               <h2>Experience</h2>
               <Experiences/>
             </div>
           </section>
           <section id="projects">
             <div id="projects-content" className="content">
+              <p className="font-mono uppercase tracking-wide text-sm text-brutalist-accent mb-2">03 &middot; Projects</p>
               <h2>Things I&apos;ve Built</h2>
               <Projects/>
             </div>
           </section>
           <section id="contact">
             <div id="contact-content" className="content mb-16">
+              <p className="font-mono uppercase tracking-wide text-sm text-brutalist-accent mb-2">04 &middot; Contact</p>
               <h2>Contact</h2>
               <Contact />
-            </div>
-            <div id="section-curve-end">
-              <svg
-                className="fill-current w-screen"
-                viewBox="0 0 1440 197.57188"
-                version="1.1"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="m 0,197.57189 34.3,-32 c 34.3,-32 102.7,-96.000002 171.7,-96.000002 68.3,0 137,64.000002 205,74.700002 69,10.3 138,-31.7 206,-64.000002 68.7,-31.7 137,-53.7 206,-37.4 68.4,15.7 137,69.700002 206,58.700002 94.4653,-6.347816 143.7223,-45.494867 220.5845,-69.268819 C 1315.9249,14.100715 1376.1797,14.46226 1440,14.593227 V 0 H 1405.7 1234 1029 823 617 411 206 34 0 Z"
-                />
-              </svg>
             </div>
           </section>
         </main>
         <Footer />
+        <ScrollToTop />
+        <ScrollProgress />
       </div>
     );
   }

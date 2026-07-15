@@ -3,11 +3,11 @@
 }
 
 .styled-input-container .label {
-    @apply bg-gray-lightest dark:bg-gray-darker dark:text-gray-400 px-1;
+    @apply bg-brutalist-bg dark:bg-brutalist-fg dark:text-brutalist-fg-muted-dark px-1 font-mono uppercase text-xs tracking-wide;
 }
 
 .styled-input {
-    @apply relative w-full h-full rounded-md transition-colors border border-gray-400 p-2 bg-transparent dark:text-white z-10;
+    @apply relative w-full h-full transition-colors border-2 border-brutalist-border dark:border-brutalist-bg p-2 bg-transparent dark:text-brutalist-bg font-mono z-10;
 }
 
 .styled-input:not(:focus) {
@@ -15,7 +15,7 @@
 }
 
 .styled-input:focus {
-    @apply outline-none border-blue-sapphire placeholder-gray-500;
+    @apply outline-none border-brutalist-accent placeholder-brutalist-fg-muted dark:placeholder-brutalist-fg-muted-dark;
 }
 
 .styled-input.typed-on:valid,
@@ -49,6 +49,6 @@ input.styled-input:invalid:not(:placeholder-shown) {
 }
 
 .styled-input:focus ~ .label-container > .label {
-    @apply transition-colors text-blue-sapphire;
+    @apply transition-colors text-brutalist-accent;
 }
 

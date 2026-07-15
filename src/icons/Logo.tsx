@@ -29,7 +29,7 @@ export class Logo extends React.Component<LogoProps> {
     return (
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        className={`text-blue-sapphire ${this.props.className}`}
+        className={`text-brutalist-fg dark:text-brutalist-bg hover:text-brutalist-accent dark:hover:text-brutalist-accent transition-colors ${this.props.className}`}
         id={this.props.id ?? 'logo'}
         viewBox="0 0 132.10498 132.10498"
         fill="none"

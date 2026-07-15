@@ -1,5 +1,5 @@
 .skill-icon-container {
-    @apply relative rounded-full bg-skills-icon transition-all hover:scale-110 h-20 w-20 lg:h-24 lg:w-24;
+    @apply relative border-2 border-brutalist-border dark:border-brutalist-bg bg-brutalist-surface dark:bg-[#141414] transition-all hover:border-brutalist-accent h-20 w-20 lg:h-24 lg:w-24;
 }
 
 .skill-icon-container > svg {

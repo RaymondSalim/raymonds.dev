@@ -3,7 +3,16 @@
 }
 
 #experience-tabs {
-    @apply flex md:flex-col w-full md:w-max overflow-auto md:overflow-visible items-start dark:text-white relative div-pseudo mt-3;
+    @apply flex md:flex-col w-full md:w-max overflow-auto md:overflow-visible items-start relative mt-3;
+    -webkit-mask-image: linear-gradient(to right, black 90%, transparent 100%);
+    mask-image: linear-gradient(to right, black 90%, transparent 100%);
+}
+
+@media (min-width: 768px) {
+    #experience-tabs {
+        -webkit-mask-image: none;
+        mask-image: none;
+    }
 }
 
 #experience-info {
@@ -15,11 +24,12 @@
 }
 
 .experience-tab-button {
-    @apply px-5 py-1 relative duration-1000 transition-colors w-full whitespace-nowrap text-left text-gray-400;
+    @apply px-5 py-2 relative duration-1000 transition-colors w-full whitespace-nowrap text-left text-brutalist-fg-muted dark:text-brutalist-fg-muted-dark font-mono uppercase tracking-wide text-sm border-b-2 border-transparent;
 }
+
 .experience-tab-button:focus,
 .experience-tab-button[aria-selected=true] {
-    @apply ring-0 text-blue-sky;
+    @apply ring-0 text-brutalist-accent border-brutalist-accent;
 }
 
 .experience-tab-button > span {
@@ -27,7 +37,7 @@
 }
 
 .experience-tab-selector {
-    @apply absolute leading-[0] !text-blue-sky transition-[top] hidden md:block;
+    @apply hidden;
 }
 
 .experience-info-container {
@@ -39,23 +49,24 @@
 }
 
 .experience-title .company-name {
-    @apply text-blue-sapphire dark:text-blue-sky;
+    @apply text-brutalist-accent;
 }
 
 .company-name a {
     @apply text-highlight;
 }
 
-.experience-info-container > *:not(ul) {
-    @apply no-pseudo;
-}
-
 .experience-info-container .job-description {
-    @apply mt-4 list-disc list-outside ml-8;
+    @apply mt-4 list-none ml-0;
 }
 
 .job-description > li {
-    @apply md:pl-4
+    @apply pl-6 relative;
+}
+
+.job-description > li::before {
+    content: "\2014";
+    @apply absolute left-0 text-brutalist-accent;
 }
 
 @keyframes exp-desc-fade-out {
