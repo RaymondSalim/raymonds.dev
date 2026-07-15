@@ -22,6 +22,7 @@ import { debounce } from './util/common';
 import { EnvironmentVariables } from './enum';
 import { Contact } from './components/Contact';
 import { Footer } from './components/Footer';
+import { ScrollToTop } from './buttons/ScrollToTop';
 
 export interface AppState {
   siteReady: boolean
@@ -222,6 +223,7 @@ export default class App extends React.Component<any, AppState> {
           </section>
         </main>
         <Footer />
+        <ScrollToTop />
       </div>
     );
   }
