@@ -208,6 +208,7 @@ export default class App extends React.Component<any, AppState> {
           </section>
           <section id="projects">
             <div id="projects-content" className="content">
+              <p className="font-mono uppercase tracking-wide text-sm text-brutalist-accent mb-2">03 &middot; Projects</p>
               <h2>Things I&apos;ve Built</h2>
               <Projects/>
             </div>
