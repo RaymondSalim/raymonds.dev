@@ -17,7 +17,7 @@ module.exports = {
         },
       },
       fontFamily: {
-        display: ['"Big Shoulders"', 'sans-serif'],
+        display: ['"Anton"', 'sans-serif'],
         mono: ['"Space Mono"', 'monospace'],
       },
       screens: {
