@@ -157,14 +157,15 @@ export default class App extends React.Component<any, AppState> {
           <div id="menu-blur-layer" className={`${this.state.menuActive ? '-translate-x-full' : ''}`} onClick={() => { this.toggleMenu(); }}/>
           <section id="about-me">
             <div id="about-me-content" className="content">
+              <p className="font-mono uppercase tracking-wide text-sm text-brutalist-accent mb-2">01 &middot; About</p>
               <h2>About me</h2>
               <div id="about-me-grid">
                 <div className="row-start-1 md:col-start-1">
-                  <div className="multiple-p">
+                  <div className="space-y-4">
                     <p>I am passionate about creating software that improves and simplifies the lives of those around
                       me. My interest in software development started back in 2019 when I stumbled upon a youtube
                       tutorial on building an android application.</p>
-                    <p className="after:content-none md:after:p-after">
+                    <p>
                       Fast forward to today, I have developed software for clients ranging from individuals to large
                       enterprise corporations such as&nbsp;
                       <a href="https://www.tokopedia.com/about/" target="_blank" rel="noopener noreferrer" className={'text-highlight'}>Tokopedia</a>
@@ -178,7 +179,7 @@ export default class App extends React.Component<any, AppState> {
                   </div>
                 </div>
                 <div className="-mt-10 md:mt-0 row-start-2 md:row-start-1 md:col-start-2">
-                  <p className="before:content-none md:before:p-before">When I am not coding, you can find me doing any
+                  <p>When I am not coding, you can find me doing any
                     of the following:</p>
                   <ul className="list-disc list-outside mt-8 ml-5">
                     <li>Gym</li>
