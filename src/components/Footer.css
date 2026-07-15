@@ -1,5 +1,5 @@
 footer {
-    @apply mt-16 bg-gray-light dark:bg-gray-dark;
+    @apply mt-16 bg-brutalist-bg dark:bg-brutalist-fg border-t-2 border-brutalist-border dark:border-brutalist-bg;
 }
 
 footer a {
@@ -7,7 +7,7 @@ footer a {
 }
 
 footer span {
-    @apply inline-block;
+    @apply inline-block font-mono text-sm text-brutalist-fg-muted;
 }
 
 #footer-content {
