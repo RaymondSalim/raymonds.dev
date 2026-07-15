@@ -1,0 +1,88 @@
+#project-grid {
+    @apply flex flex-col gap-y-24 md:gap-y-36;
+}
+
+#project-grid > div {
+    @apply w-full grid grid-cols-12 items-center;
+}
+
+.project-image-container {
+    @apply relative col-start-1 col-end-13 row-start-1 row-end-2 drop-shadow-2xl bp-max-768:h-full;
+}
+
+.project-image-container::before {
+    @apply bp-max-768:hidden absolute z-0 w-full h-full content-[""] bg-blue-sapphire overflow-hidden rounded-md;
+}
+
+.project-image-container::after {
+    @apply bp-max-768:hidden absolute pointer-events-none w-full h-full translate-y-4 content-[""] outline outline-1 outline-gray-600 dark:outline-white top-0 left-0 transition-all -z-20 overflow-hidden rounded-md;
+}
+
+.project-image-container img {
+    @apply bp-max-768:h-full bp-max-768:object-cover z-20 relative md:mix-blend-overlay transition-all grayscale overflow-hidden rounded-md;
+}
+
+.project-image-container img:hover {
+    @apply md:mix-blend-normal grayscale-0;
+}
+
+#project-grid > div[id^="project-"]:nth-of-type(even) .project-image-container {
+    @apply md:col-start-6 md:col-end-13 after:-translate-x-4;
+}
+
+#project-grid > div[id^="project-"]:nth-of-type(odd) .project-image-container {
+    @apply md:col-start-1 md:col-end-8 after:translate-x-4;
+}
+
+#project-grid > div[id^="project-"] .project-image-container:hover {
+    @apply after:translate-x-0 after:translate-y-0 before:hidden;
+}
+
+.project-info-container {
+    @apply bp-max-768:bg-gray-dark bp-max-768:bg-opacity-90 bp-max-768:!translate-y-0 bp-max-768:p-10 col-start-1 col-end-13
+    row-start-1 row-end-2 child-no-pseudo z-20;
+}
+
+#project-grid > div[id^="project-"]:nth-of-type(even) .project-info-container {
+    @apply md:col-start-1 md:col-end-7 md:text-left
+}
+
+#project-grid > div[id^="project-"]:nth-of-type(odd) .project-info-container {
+    @apply md:col-start-7 md:col-end-13 md:text-right
+}
+
+.project-title {
+    @apply text-blue-sapphire dark:text-blue-sky my-4;
+}
+
+.project-description-container {
+    @apply md:bg-gray-dark rounded-md p-6 bp-max-768:px-0 my-4 drop-shadow-2xl;
+}
+
+.project-description-container > p {
+    @apply mb-4 text-white;
+}
+
+.project-stack-list {
+    @apply list-none my-4;
+}
+
+.project-stack-list > li {
+    @apply inline-block first-of-type:ml-0 last-of-type:mr-0 mx-4
+}
+
+.project-links {
+    @apply inline-block transition-transform mx-2;
+}
+
+.project-links:hover {
+    @apply scale-125 text-blue-sapphire dark:text-blue-sky
+}
+
+#project-grid > div[id^="project-"]:nth-of-type(even) .project-links {
+    @apply first:mr-0 last:ml-0;
+}
+
+#project-grid > div[id^="project-"]:nth-of-type(odd) .project-links {
+    @apply first:ml-0 last:mr-0;
+}

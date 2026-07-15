@@ -1,0 +1,7 @@
+.btn {
+    @apply rounded-lg border-2 border-blue-sapphire w-[fit-content] font-semibold cursor-pointer transition-colors hover:bg-blue-sapphire hover:text-white text-blue-sapphire;
+}
+
+.btn:focus {
+    @apply ring-0 bg-blue-sapphire text-white;
+}

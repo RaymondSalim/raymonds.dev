@@ -1,0 +1,208 @@
+:root {
+    --burger-height: 2px;
+    --burger-border-rad: 120px;
+    --burger-extra-y-gap: 2px;
+    --burger-width: calc(var(--burger-height) * 16);
+    --burger-width-before: calc(var(--burger-width) * 0.8);
+    --burger-width-after: calc(var(--burger-width) * 0.6);
+    --burger-top-before: calc((var(--burger-height) * 3) + var(--burger-extra-y-gap));
+    --burger-top-after: calc((var(--burger-height) * 6) + (2 * var(--burger-extra-y-gap)));
+    --burger-container-height: calc((7 * var(--burger-height)) + (3 * var(--burger-extra-y-gap)));
+    --animation-time: 600ms;
+}
+
+.burger-btn {
+    @apply h-full z-40 flex items-center relative p-4 rounded-lg outline-none;
+}
+
+.burger-container {
+    @apply cursor-pointer;
+    height: var(--burger-container-height);
+    width: var(--burger-width);
+}
+
+.burger > div,
+.burger::before,
+.burger::after {
+    @apply bg-blue-sapphire origin-center;
+    height: var(--burger-height);
+    border-radius: var(--burger-border-rad);
+    animation: var(--animation-time) forwards;
+}
+
+.burger,
+.burger > div {
+    @apply relative;
+    content: "";
+    width: var(--burger-width);
+}
+
+.burger::before,
+.burger::after {
+    @apply block absolute left-auto right-0;
+    content: "";
+}
+
+.burger::before {
+    width: var(--burger-width-before);
+    top: var(--burger-top-before);
+}
+
+.burger::after {
+    width: var(--burger-width-after);
+    top: var(--burger-top-after);
+}
+
+.active .burger::after {
+    animation-name: b-after-open;
+}
+
+.inactive .burger::after {
+    animation-name: b-after-close;
+}
+
+.active .burger::before {
+    animation-name: b-before-open;
+}
+
+.inactive .burger::before {
+    animation-name: b-before-close;
+}
+
+.active .burger > div {
+    animation-name: b-open;
+}
+
+.inactive .burger > div {
+    animation-name: b-close;
+}
+
+@keyframes b-after-open {
+    0% {
+        transform: rotate(0deg);
+        width: var(--burger-width-after);
+        top: var(--burger-top-after);
+    }
+
+    50% {
+        @apply rotate-0;
+        width: var(--burger-width);
+        top: var(--burger-top-after);
+    }
+
+    75% {
+        transform: rotate(0deg);
+        width: var(--burger-width);
+        top: var(--burger-top-before);
+    }
+
+    100% {
+        transform: rotate(45deg);
+        width: var(--burger-width);
+        top: var(--burger-top-before);
+    }
+}
+
+@keyframes b-after-close {
+    0% {
+        transform: rotate(45deg);
+        width: var(--burger-width);
+        top: var(--burger-top-before);
+    }
+
+    25% {
+        transform: rotate(0deg);
+        width: var(--burger-width);
+        top: var(--burger-top-before);
+    }
+
+    50% {
+        @apply rotate-0;
+        width: var(--burger-width);
+        top: var(--burger-top-after);
+    }
+
+    100% {
+        transform: rotate(0deg);
+        width: var(--burger-width-after);
+        top: var(--burger-top-after);
+    }
+}
+
+@keyframes b-before-open {
+    0% {
+        @apply opacity-100 translate-x-0;
+        width: var(--burger-width-before);
+    }
+
+    50% {
+        @apply opacity-0 translate-x-0;
+        width: var(--burger-width);
+    }
+    100% {
+        @apply /*translate-x-full */
+        opacity-0;
+        width: var(--burger-width);
+    }
+}
+
+@keyframes b-before-close {
+    0% {
+        @apply /*translate-x-full */
+        opacity-0;
+        width: var(--burger-width);
+    }
+
+    50% {
+        @apply opacity-0 translate-x-0;
+        width: var(--burger-width);
+    }
+
+    75%,
+    100% {
+        @apply opacity-100 translate-x-0;
+        width: var(--burger-width-before);
+    }
+}
+
+@keyframes b-open {
+    0% {
+        @apply top-0 rotate-0;
+    }
+
+    50% {
+        @apply top-0;
+        transform: rotate(0deg);
+    }
+
+    75% {
+        transform: rotate(0deg);
+        top: var(--burger-top-before);
+    }
+
+    100% {
+        transform: rotate(-45deg);
+        top: var(--burger-top-before);
+    }
+}
+
+@keyframes b-close {
+    0% {
+        transform: rotate(-45deg);
+        top: var(--burger-top-before);
+    }
+
+    25% {
+        transform: rotate(0deg);
+        top: var(--burger-top-before);
+    }
+
+    50% {
+        @apply top-0;
+        transform: rotate(0deg);
+    }
+
+    100% {
+        @apply top-0 rotate-0;
+    }
+}

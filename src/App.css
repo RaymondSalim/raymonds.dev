@@ -1,0 +1,67 @@
+main {
+    @apply bg-gray-lightest dark:bg-gray-darkest transition-all ease-in duration-150;
+}
+
+#page {
+    @apply antialiased relative bg-gray-light dark:bg-gray-dark;
+}
+
+#menu-blur-layer {
+    @apply w-screen h-screen fixed top-0 left-full z-30 backdrop-blur-sm bg-white bg-opacity-0 md:hidden;
+}
+
+section:nth-of-type(2) {
+    @apply mt-[100vh] mb-16 md:mb-[4.5rem] pt-0;
+}
+
+section:not(:first-of-type):not(:last-of-type):not(:nth-of-type(2)) {
+    @apply my-16 md:my-[4.5rem];
+}
+
+section:nth-of-type(n+3) {
+    @apply py-16 md:py-[4.5rem];
+}
+
+section:last-of-type {
+    @apply pb-0 md:pb-0 mb-32 md:mb-36;
+}
+
+#section-curve-start {
+    @apply w-screen translate-y-[-99%] text-gray-lightest dark:text-gray-darkest mb-[-5vw] mt-[7vw];
+}
+
+#section-curve-end {
+    @apply w-screen translate-y-[98%] text-gray-lightest dark:text-gray-darkest bg-gray-light dark:bg-gray-dark mt-[-12vw] mb-[15vw];
+}
+
+#home {
+    @apply h-screen fixed top-0 right-0 left-0 bg-gray-light dark:bg-gray-dark max-w-[100vw];
+    z-index: -9000;
+}
+
+#home-content {
+    @apply flex flex-col h-full justify-center;
+}
+
+#home-content h1,
+#home-content h1 > span {
+    @apply font-medium;
+    font-size: clamp(2.25rem, 8vw, 5rem);
+    line-height: clamp(2.25rem, 8vw, 5rem);
+}
+
+#home-content h1 > span {
+    @apply hover:text-blue-sapphire transition-colors duration-200;
+}
+
+#home-content p {
+    @apply my-10 text-lg sm:text-xl md:text-2xl lg:text-3xl font-semibold;
+}
+
+#about-me-grid {
+    @apply grid md:grid-cols-2 md:mt-16 gap-y-10 lg:gap-y-16 2xl:gap-y-20 gap-x-4 md:gap-x-10 2xl:gap-x-16 overflow-x-visible md:text-lg;
+}
+
+.skills-flex-container {
+    @apply flex flex-wrap justify-evenly gap-x-2 gap-y-2 mt-8;
+}

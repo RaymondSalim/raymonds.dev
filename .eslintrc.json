@@ -1,0 +1,44 @@
+{
+    "env": {
+        "browser": true,
+        "es2021": true
+    },
+    "extends": [
+        "react-app",
+        "react-app/jest",
+        "plugin:react/recommended",
+        "airbnb-base",
+        "airbnb-typescript",
+        "plugin:import/typescript"
+    ],
+    "parserOptions": {
+        "ecmaFeatures": {
+            "jsx": true
+        },
+        "ecmaVersion": "latest",
+        "sourceType": "module",
+        "project": "./tsconfig.json"
+    },
+    "plugins": [
+        "react",
+        "react-hooks",
+        "jsx-a11y",
+        "@typescript-eslint"
+    ],
+    "rules": {
+        "max-len": "off",
+        "class-methods-use-this": "warn",
+        "import/extensions": "off",
+        "import/prefer-default-export": "warn",
+        "no-use-before-define": "off",
+        "@typescript-eslint/no-use-before-define": "warn",
+        "@typescript-eslint/lines-between-class-members": "off",
+        "react/react-in-jsx-scope": "warn",
+        "react-hooks/rules-of-hooks": "error"
+    },
+    "settings": {
+        "react": {
+            "version": "detect"
+        }
+    }
+}

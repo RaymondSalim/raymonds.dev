@@ -1,0 +1,23 @@
+footer {
+    @apply mt-16 bg-gray-light dark:bg-gray-dark;
+}
+
+footer a {
+    @apply text-highlight;
+}
+
+footer span {
+    @apply inline-block;
+}
+
+#footer-content {
+    @apply content flex justify-between items-end gap-y-2 min-h-[max(10vh,100px)];
+}
+
+#footer-content > div:last-of-type {
+    @apply text-right;
+}
+
+#footer-credits {
+    @apply whitespace-pre;
+}

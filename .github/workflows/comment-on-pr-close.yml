@@ -1,0 +1,13 @@
+name: comment-on-pr-close
+on:
+  pull_request:
+    types: [ closed ]
+jobs:
+  comment-reminder:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Comment in PR
+        uses: thollander/actions-comment-pull-request@v1
+        with:
+          message: "Looks like this PR has been closed. Don't forget to comment `/deploy` to proceed with the deployment."
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

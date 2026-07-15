@@ -1,0 +1,54 @@
+.styled-input-container {
+    @apply relative;
+}
+
+.styled-input-container .label {
+    @apply bg-gray-lightest dark:bg-gray-darker dark:text-gray-400 px-1;
+}
+
+.styled-input {
+    @apply relative w-full h-full rounded-md transition-colors border border-gray-400 p-2 bg-transparent dark:text-white z-10;
+}
+
+.styled-input:not(:focus) {
+    @apply placeholder-transparent;
+}
+
+.styled-input:focus {
+    @apply outline-none border-blue-sapphire placeholder-gray-500;
+}
+
+.styled-input.typed-on:valid,
+input.styled-input:valid:not(:placeholder-shown) {
+    @apply border-green-500;
+}
+
+.styled-input.typed-on:invalid,
+input.styled-input:invalid:not(:placeholder-shown) {
+    @apply border-red-500;
+}
+
+.content-valid,
+.styled-input.typed-on.content-valid {
+    @apply !border-green-500;
+}
+
+.content-invalid,
+.styled-input.typed-on.content-invalid {
+    @apply !border-red-500;
+}
+
+.styled-input ~ .label-container {
+    @apply absolute left-0 top-0 bottom-0 flex items-center ml-2 transition-all;
+}
+
+.styled-input:focus ~ .label-container,
+.styled-input:valid ~ .label-container,
+.styled-input:invalid:not(:placeholder-shown) ~ .label-container {
+    @apply -top-full text-xs z-10;
+}
+
+.styled-input:focus ~ .label-container > .label {
+    @apply transition-colors text-blue-sapphire;
+}
+

@@ -1,0 +1,15 @@
+#header {
+    @apply bg-gray-lightest dark:bg-gray-dark z-50 fixed max-w-[100vw] w-full top-0 flex justify-between transition-all duration-[250ms] px-4;
+}
+
+#header.header-hidden {
+    @apply !bg-opacity-50 shadow-md backdrop-blur-md h-header-scroll;
+}
+
+#header .header-logo {
+    @apply text-blue-sapphire p-1 h-[calc(var(--header-height-scroll)-1rem)] w-[calc(var(--header-height-scroll)-1rem)] my-auto ml-3 z-40;
+}
+
+#header nav {
+    @apply h-[fit-content] my-auto;
+}

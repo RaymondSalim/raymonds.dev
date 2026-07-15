@@ -1,0 +1,50 @@
+name: deploy-on-comment
+on:
+  issue_comment:
+    types: [ created, edited ]
+jobs:
+  get-repo-details:
+    runs-on: ubuntu-latest
+    if: |
+      contains(github.event.comment.body, '/deploy') && 
+      github.event.issue.pull_request && 
+      github.event.comment.author_association == 'OWNER'
+    outputs:
+      baseRef: ${{ steps.repo_details.outputs.baseRef }}
+    steps:
+      - name: Get repository details
+        id: repo_details
+        uses: RaymondSalim/gh-action-repo-details@v0.5.2
+        with:
+          github-api-token: ${{ secrets.GITHUB_TOKEN }}
+          issue-url: ${{ github.event.comment.issue_url }}
+
+  deploy-stg:
+    runs-on: ubuntu-latest
+    needs: get-repo-details
+    if: ${{ needs.get-repo-details.outputs.baseRef == 'staging' }}
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: 'staging'
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+      - run: echo 'Deploying to staging'
+      - run: npm run deploy-stg -- -p ${{ secrets.STG_ENCRYPT_KEY }} -t ${{ secrets.PAT_TOKEN }} -d ${{ secrets.ACTIONS_RUNNER_DEBUG }}
+
+  deploy-prod:
+    runs-on: ubuntu-latest
+    needs: get-repo-details
+    if: ${{ needs.get-repo-details.outputs.baseRef == 'main' }}
+    env:
+      GH_TOKEN: ${{ secrets.PAT_TOKEN }}
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: 'main'
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+      - run: echo 'Deploying to production'
+      - run: npm run deploy-prod -- -t ${{ secrets.PAT_TOKEN }} -d ${{ secrets.ACTIONS_RUNNER_DEBUG }}

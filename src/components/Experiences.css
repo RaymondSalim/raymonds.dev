@@ -1,0 +1,97 @@
+#experience-grid {
+    @apply max-w-[700px] mx-auto flex flex-col md:flex-row justify-center;
+}
+
+#experience-tabs {
+    @apply flex md:flex-col w-full md:w-max overflow-auto md:overflow-visible items-start dark:text-white relative div-pseudo mt-3;
+}
+
+#experience-info {
+    @apply w-full md:ml-8 relative;
+}
+
+#experience-tabs::-webkit-scrollbar {
+    height: 3px;
+}
+
+.experience-tab-button {
+    @apply px-5 py-1 relative duration-1000 transition-colors w-full whitespace-nowrap text-left text-gray-400;
+}
+.experience-tab-button:focus,
+.experience-tab-button[aria-selected=true] {
+    @apply ring-0 text-blue-sky;
+}
+
+.experience-tab-button > span {
+    @apply text-highlight focus-reset;
+}
+
+.experience-tab-selector {
+    @apply absolute leading-[0] !text-blue-sky transition-[top] hidden md:block;
+}
+
+.experience-info-container {
+    @apply absolute inline-block top-0 left-0;
+}
+
+.experience-info-container .experience-title {
+    @apply mb-0;
+}
+
+.experience-title .company-name {
+    @apply text-blue-sapphire dark:text-blue-sky;
+}
+
+.company-name a {
+    @apply text-highlight;
+}
+
+.experience-info-container > *:not(ul) {
+    @apply no-pseudo;
+}
+
+.experience-info-container .job-description {
+    @apply mt-4 list-disc list-outside ml-8;
+}
+
+.job-description > li {
+    @apply md:pl-4
+}
+
+@keyframes exp-desc-fade-out {
+    0% {
+        position: static;
+        transform: translateY(0);
+        opacity: 100%;
+    }
+
+    50% {
+        opacity: 0;
+    }
+
+    100% {
+        position: absolute;
+        top: 0;
+        transform: translateY(2rem);
+        opacity: 0;
+    }
+}
+
+@keyframes exp-desc-fade-in {
+    0% {
+        position: absolute;
+        top: 0;
+        transform: translateY(2rem);
+        opacity: 0;
+    }
+
+    50% {
+        opacity: 100%;
+    }
+
+    100% {
+        position: static;
+        transform: translateY(0);
+        opacity: 100%;
+    }
+}

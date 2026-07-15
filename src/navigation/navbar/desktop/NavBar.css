@@ -1,0 +1,24 @@
+#navbar-desktop {
+    @apply hidden md:block mr-4;
+}
+
+#navbar-desktop ul::before,
+#navbar-desktop ul::after {
+    @apply content-none;
+}
+
+#navbar-desktop li a {
+    @apply p-2 rounded-lg;
+}
+
+#navbar-desktop li a span {
+    @apply dark:text-white transition-colors duration-200 2xl:text-lg;
+}
+
+#navbar-desktop li a:hover span {
+    @apply text-blue-sapphire dark:text-blue-sapphire;
+}
+
+#navbar-desktop .toggle-container {
+    @apply !ml-4 h-7 w-7;
+}

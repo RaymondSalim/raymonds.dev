@@ -1,0 +1,70 @@
+#contact-grid {
+    @apply flex flex-col gap-y-8 mt-16;
+}
+
+#contact-ways {
+    @apply grid grid-cols-8 grid-rows-5 gap-x-2 gap-y-8;
+}
+
+#contact-links {
+    @apply row-start-1 row-span-1 md:row-span-2 col-start-1 col-span-8 md:col-span-2 flex flex-col gap-y-2;
+}
+
+#contact-links a {
+    @apply focus:ring-0;
+}
+
+#contact-links a span {
+    @apply ml-4 text-highlight;
+}
+
+#contact-links a:hover span,
+#contact-links a:focus span {
+    @apply text-blue-sapphire;
+}
+
+#contact-links a:hover span::after,
+#contact-links a:focus span::after {
+    @apply w-full;
+}
+
+#contact-links a .link-icon {
+    @apply inline-block transition-transform group-hover:scale-125 group-focus:scale-125;
+}
+
+#contact-links a:hover .link-icon,
+#contact-links a:focus .link-icon {
+    @apply scale-125 scale-125;
+}
+
+#contact-form {
+    @apply row-start-2 md:row-start-1 row-span-full col-start-1 md:col-start-3 col-span-8 md:col-span-full grid grid-rows-5 grid-cols-4 gap-x-3 gap-y-2;
+}
+
+#contact-form .form-input {
+    @apply bg-gray-lightest dark:bg-gray-darker;
+}
+
+.form-input.name {
+    @apply row-start-1 row-end-2 col-start-1 col-end-3;
+}
+
+.form-input.email {
+    @apply row-start-1 row-end-2 col-start-3 col-end-5;
+}
+
+.form-input.subject {
+    @apply row-start-2 row-end-3 col-start-1 col-end-5;
+}
+
+.form-input.message {
+    @apply row-start-3 row-end-6 col-start-1 col-end-5;
+}
+
+#contact-form .btn {
+   @apply px-8 py-4 mt-4 row-start-6 row-span-1 col-start-3 col-span-2 justify-self-end;
+}
+
+#contact-form #email-status {
+    @apply row-start-6 row-span-1 col-start-1 col-span-2 mt-4 no-pseudo;
+}
