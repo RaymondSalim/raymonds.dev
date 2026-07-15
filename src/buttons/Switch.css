@@ -13,7 +13,7 @@
 }
 
 .toggle {
-    @apply focus-within:ring-2 focus-within:ring-blue-sapphire;
+    @apply focus-within:ring-2 focus-within:ring-brutalist-accent;
     height: 32px;
     width: 80px;
     background: var(--black);
