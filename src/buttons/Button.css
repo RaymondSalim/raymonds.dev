@@ -3,9 +3,9 @@
 }
 
 .btn:hover {
-    @apply bg-brutalist-fg dark:bg-brutalist-bg !text-brutalist-bg dark:!text-brutalist-fg;
+    @apply bg-brutalist-fg dark:bg-brutalist-bg text-brutalist-bg dark:text-brutalist-fg;
 }
 
 .btn:focus {
-    @apply ring-0 bg-brutalist-fg dark:bg-brutalist-bg !text-brutalist-bg dark:!text-brutalist-fg;
+    @apply ring-0 bg-brutalist-fg dark:bg-brutalist-bg text-brutalist-bg dark:text-brutalist-fg;
 }
