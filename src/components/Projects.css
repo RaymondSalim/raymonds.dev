@@ -11,31 +11,27 @@
 }
 
 .project-image-container::before {
-    @apply bp-max-768:hidden absolute z-0 w-full h-full content-[""] bg-brutalist-accent bg-opacity-20 overflow-hidden;
+    @apply bp-max-768:hidden absolute z-30 w-full h-full content-[""] bg-brutalist-fg bg-opacity-40 dark:bg-opacity-50 overflow-hidden transition-opacity duration-300 pointer-events-none;
 }
 
 .project-image-container::after {
-    @apply bp-max-768:hidden absolute pointer-events-none w-full h-full translate-y-4 content-[""] outline outline-2 outline-brutalist-border dark:outline-brutalist-bg top-0 left-0 transition-all -z-20 overflow-hidden;
+    @apply bp-max-768:hidden absolute pointer-events-none w-full h-full translate-y-6 content-[""] outline outline-2 outline-brutalist-accent top-0 left-0 transition-all duration-300 -z-20 overflow-hidden;
 }
 
 .project-image-container img {
-    @apply bp-max-768:h-full bp-max-768:object-cover z-20 relative md:mix-blend-overlay transition-all md:grayscale overflow-hidden;
-}
-
-.project-image-container img:hover {
-    @apply md:mix-blend-normal md:grayscale-0;
+    @apply bp-max-768:h-full bp-max-768:object-cover z-20 relative overflow-hidden;
 }
 
 #project-grid > div[id^="project-"]:nth-of-type(even) .project-image-container {
-    @apply md:col-start-6 md:col-end-13 after:-translate-x-4;
+    @apply md:col-start-6 md:col-end-13 after:-translate-x-6;
 }
 
 #project-grid > div[id^="project-"]:nth-of-type(odd) .project-image-container {
-    @apply md:col-start-1 md:col-end-8 after:translate-x-4;
+    @apply md:col-start-1 md:col-end-8 after:translate-x-6;
 }
 
 #project-grid > div[id^="project-"] .project-image-container:hover {
-    @apply after:translate-x-0 after:translate-y-0 before:hidden;
+    @apply after:translate-x-0 after:translate-y-0 before:opacity-0;
 }
 
 .project-info-container {
