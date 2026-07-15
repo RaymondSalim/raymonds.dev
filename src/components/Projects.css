@@ -36,7 +36,7 @@
 
 .project-info-container {
     @apply bp-max-768:bg-brutalist-fg bp-max-768:bg-opacity-90 bp-max-768:!translate-y-0 bp-max-768:p-10 col-start-1 col-end-13
-    row-start-1 row-end-2 z-20;
+    row-start-1 row-end-2 relative z-40;
 }
 
 #project-grid > div[id^="project-"]:nth-of-type(even) .project-info-container {
