@@ -1,6 +1,6 @@
 #mobile-menu {
-    @apply fixed top-0 left-full right-0 w-[min(75vw,400px)] h-screen rounded-l-3xl pt-[var(--header-height)] p-4 z-30
-    bg-gray-light dark:bg-gray-darker transition-all flex flex-col;
+    @apply fixed top-0 left-full right-0 w-[min(75vw,400px)] h-screen pt-[var(--header-height)] p-4 z-30
+    bg-brutalist-bg dark:bg-brutalist-fg border-l-2 border-brutalist-border dark:border-brutalist-bg transition-all flex flex-col;
 }
 
 #mobile-menu ul::before,
@@ -17,21 +17,20 @@
 }
 
 #mobile-menu li a svg {
-    @apply dark:text-white transition-colors duration-200 shrink-0;
+    @apply dark:text-brutalist-bg text-brutalist-fg transition-colors duration-200 shrink-0;
 }
 
 #mobile-menu li a:hover span,
 #mobile-menu li a:hover svg {
-    @apply text-blue-sapphire dark:text-blue-sapphire;
+    @apply text-brutalist-accent dark:text-brutalist-accent;
 }
 
 #mobile-menu li a span {
-    @apply text-xl ml-8 p-4 flex justify-center align-middle dark:text-white transition-colors duration-200;
-    font-family: 'Montserrat', sans-serif;
+    @apply text-xl ml-8 p-4 flex justify-center align-middle dark:text-brutalist-bg text-brutalist-fg transition-colors duration-200 font-mono uppercase tracking-wide;
 }
 
 #layer {
-    @apply bg-white dark:bg-black fixed top-0 left-0 bottom-0 right-0 z-20 transition-opacity h-screen opacity-30;
+    @apply bg-brutalist-fg dark:bg-brutalist-bg fixed top-0 left-0 bottom-0 right-0 z-20 transition-opacity h-screen opacity-30;
 }
 
 #mobile-menu .toggle-container {

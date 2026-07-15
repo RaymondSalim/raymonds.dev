@@ -1,9 +1,9 @@
 main {
-    @apply bg-gray-lightest dark:bg-gray-darkest transition-all ease-in duration-150;
+    @apply bg-brutalist-bg dark:bg-brutalist-fg transition-all ease-in duration-150;
 }
 
 #page {
-    @apply antialiased relative bg-gray-light dark:bg-gray-dark;
+    @apply antialiased relative bg-brutalist-bg dark:bg-brutalist-fg;
 }
 
 #menu-blur-layer {
@@ -26,16 +26,8 @@ section:last-of-type {
     @apply pb-0 md:pb-0 mb-32 md:mb-36;
 }
 
-#section-curve-start {
-    @apply w-screen translate-y-[-99%] text-gray-lightest dark:text-gray-darkest mb-[-5vw] mt-[7vw];
-}
-
-#section-curve-end {
-    @apply w-screen translate-y-[98%] text-gray-lightest dark:text-gray-darkest bg-gray-light dark:bg-gray-dark mt-[-12vw] mb-[15vw];
-}
-
 #home {
-    @apply h-screen fixed top-0 right-0 left-0 bg-gray-light dark:bg-gray-dark max-w-[100vw];
+    @apply h-screen fixed top-0 right-0 left-0 bg-brutalist-bg dark:bg-brutalist-fg max-w-[100vw];
     z-index: -9000;
 }
 
@@ -45,17 +37,16 @@ section:last-of-type {
 
 #home-content h1,
 #home-content h1 > span {
-    @apply font-medium;
     font-size: clamp(2.25rem, 8vw, 5rem);
     line-height: clamp(2.25rem, 8vw, 5rem);
 }
 
 #home-content h1 > span {
-    @apply hover:text-blue-sapphire transition-colors duration-200;
+    @apply text-brutalist-accent;
 }
 
 #home-content p {
-    @apply my-10 text-lg sm:text-xl md:text-2xl lg:text-3xl font-semibold;
+    @apply my-10 text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold font-mono normal-case;
 }
 
 #about-me-grid {
