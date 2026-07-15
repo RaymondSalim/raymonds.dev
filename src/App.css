@@ -11,7 +11,7 @@ main {
 }
 
 section:nth-of-type(2) {
-    @apply mt-[100vh] mb-16 md:mb-[4.5rem] pt-0 border-t-2 border-brutalist-border dark:border-brutalist-bg;
+    @apply mt-[100vh] mb-16 md:mb-[4.5rem] pt-16 md:pt-[4.5rem] border-t-2 border-brutalist-border dark:border-brutalist-bg;
 }
 
 section:not(:first-of-type):not(:last-of-type):not(:nth-of-type(2)) {
