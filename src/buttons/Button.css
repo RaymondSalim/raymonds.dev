@@ -1,11 +1,11 @@
 .btn {
-    @apply border-2 border-brutalist-border dark:border-brutalist-bg bg-brutalist-accent w-[fit-content] font-mono font-bold uppercase tracking-wide cursor-pointer transition-colors text-brutalist-accent-contrast;
+    @apply border-2 border-brutalist-border dark:border-brutalist-bg bg-brutalist-accent w-[fit-content] font-mono font-bold uppercase tracking-wide cursor-pointer transition-colors !text-brutalist-accent-contrast;
 }
 
 .btn:hover {
-    @apply bg-brutalist-fg dark:bg-brutalist-bg text-brutalist-bg dark:text-brutalist-fg;
+    @apply bg-brutalist-fg dark:bg-brutalist-bg !text-brutalist-bg dark:!text-brutalist-fg;
 }
 
 .btn:focus {
-    @apply ring-0 bg-brutalist-fg dark:bg-brutalist-bg text-brutalist-bg dark:text-brutalist-fg;
+    @apply ring-0 bg-brutalist-fg dark:bg-brutalist-bg !text-brutalist-bg dark:!text-brutalist-fg;
 }
