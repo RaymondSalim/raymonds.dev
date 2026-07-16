@@ -135,6 +135,8 @@ describe('executeTerminalCommand', () => {
     const helpText = result.lines.join('\n');
 
     expect(helpText).toContain('cd experience');
+    expect(helpText).toContain('cd client-work');
+    expect(helpText).toContain('cd projects');
     expect(helpText).toContain('cd ..');
     expect(helpText).toContain('cd /');
     expect(helpText).toContain('ls experience');
