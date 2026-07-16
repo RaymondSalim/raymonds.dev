@@ -159,4 +159,50 @@ describe('TerminalMode', () => {
 
     expect(output.scrollTop).toBe(200);
   });
+
+  test('Tab completes command names by prefix', () => {
+    renderOpenTerminal();
+    const input = screen.getByLabelText('Terminal command');
+
+    fireEvent.change(input, { target: { value: 'who' } });
+    fireEvent.keyDown(input, { key: 'Tab', code: 'Tab' });
+
+    expect(input).toHaveValue('whoami');
+  });
+
+  test('Tab completes cd directory names by prefix', () => {
+    renderOpenTerminal();
+    const input = screen.getByLabelText('Terminal command');
+
+    fireEvent.change(input, { target: { value: 'cd c' } });
+    fireEvent.keyDown(input, { key: 'Tab', code: 'Tab' });
+
+    expect(input).toHaveValue('cd client-work');
+  });
+
+  test('Tab completes cat paths and keeps directory slash for partial directories', () => {
+    renderOpenTerminal();
+    const input = screen.getByLabelText('Terminal command');
+
+    fireEvent.change(input, { target: { value: 'cat ex' } });
+    fireEvent.keyDown(input, { key: 'Tab', code: 'Tab' });
+
+    expect(input).toHaveValue('cat experience/');
+
+    fireEvent.change(input, { target: { value: 'cat experience/do' } });
+    fireEvent.keyDown(input, { key: 'Tab', code: 'Tab' });
+
+    expect(input).toHaveValue('cat experience/domaintools.txt');
+  });
+
+  test('Tab prints sorted matches when completion is ambiguous', () => {
+    renderOpenTerminal();
+    const input = screen.getByLabelText('Terminal command');
+
+    fireEvent.change(input, { target: { value: 'c' } });
+    fireEvent.keyDown(input, { key: 'Tab', code: 'Tab' });
+
+    expect(input).toHaveValue('c');
+    expect(screen.getByText('cat cd clear client-work contact')).toBeInTheDocument();
+  });
 });

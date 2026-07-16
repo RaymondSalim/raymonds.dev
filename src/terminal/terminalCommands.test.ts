@@ -7,13 +7,26 @@ describe('executeTerminalCommand', () => {
     expect(result.session.cwd).toBe('/');
     expect(result.lines).toEqual([
       'about.txt',
-      'experience/',
       'client-work/',
-      'projects/',
       'contact.txt',
+      'experience/',
       'links.txt',
+      'projects/',
     ]);
     expect(result.action).toEqual({ type: 'none' });
+  });
+
+  test('lists nested virtual files alphabetically', () => {
+    const result = executeTerminalCommand('ls experience', initialTerminalSession());
+
+    expect(result.lines).toEqual([
+      'domaintools.txt',
+      'freelance.txt',
+      'kalbe-farma.txt',
+      'mandiri.txt',
+      'novometrix.txt',
+      'tokopedia.txt',
+    ]);
   });
 
   test('lists named virtual directories from root', () => {

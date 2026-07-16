@@ -8,6 +8,8 @@ import {
 } from './terminalTypes';
 
 const noAction = { type: 'none' as const };
+const terminalCommandNames = ['cat', 'cd', 'clear', 'exit', 'help', 'ls', 'open', 'pwd', 'whoami'];
+const terminalSectionCompletionKeys = ['about', 'experience', 'client-work', 'projects', 'contact'];
 
 export function initialTerminalSession(): TerminalSession {
   return { cwd: '/' };
@@ -60,19 +62,96 @@ function listingEntryName(entry: TerminalDirectoryListingEntry): string {
 
 function listDirectory(path: TerminalDirectory): string[] {
   const directory = terminalDirectories[path];
-
-  if (directory.listing !== undefined) {
-    return directory.listing.map(listingEntryName);
-  }
-
-  return [
-    ...directory.files.map((file) => file.name),
-    ...directory.directories.map((entry) => `${entry.name}/`),
+  const listing = directory.listing ?? [
+    ...directory.files.map((file) => ({ type: 'file' as const, name: file.name })),
+    ...directory.directories.map((entry) => ({ type: 'directory' as const, name: entry.name })),
   ];
+
+  return listing.map(listingEntryName).sort((left, right) => left.localeCompare(right));
 }
 
 function isTerminalSectionKey(input: string): input is TerminalSectionKey {
   return input in terminalSections;
+}
+
+function commonPrefix(values: string[]): string {
+  if (values.length === 0) {
+    return '';
+  }
+
+  return values.reduce((prefix, value) => {
+    let index = 0;
+
+    while (index < prefix.length && prefix[index] === value[index]) {
+      index += 1;
+    }
+
+    return prefix.slice(0, index);
+  });
+}
+
+function entriesForCompletion(cwd: TerminalDirectory, includeFiles: boolean): string[] {
+  return listDirectory(cwd).filter((entry) => includeFiles || entry.endsWith('/'));
+}
+
+function completionEntriesForPath(input: string, cwd: TerminalDirectory, includeFiles: boolean): string[] {
+  const parts = input.split('/');
+  const prefix = parts.pop() ?? '';
+  const parentInput = parts.join('/');
+  const parentDirectory = parentInput.length === 0 ? cwd : pathForDirectory(parentInput, cwd);
+
+  if (parentDirectory === undefined) {
+    return [];
+  }
+
+  const parentPrefix = parentInput.length === 0 ? '' : `${parentInput.replace(/\/+$/, '')}/`;
+
+  return entriesForCompletion(parentDirectory, includeFiles)
+    .filter((entry) => entry.startsWith(prefix))
+    .map((entry) => `${parentPrefix}${entry}`);
+}
+
+export function completeTerminalInput(input: string, session: TerminalSession): { input?: string, matches: string[] } {
+  const normalized = input.replace(/\s+/g, ' ');
+  const lower = normalized.toLowerCase();
+  const [command = '', argument = ''] = normalized.split(' ');
+  let matches: string[] = [];
+
+  if (!normalized.includes(' ')) {
+    matches = [
+      ...terminalCommandNames,
+      ...terminalSectionCompletionKeys,
+      ...Object.keys(terminalExternalLinks),
+    ].filter((candidate) => candidate.startsWith(lower));
+  } else if (command === 'cd' || command === 'ls') {
+    matches = completionEntriesForPath(argument, session.cwd, false)
+      .map((entry) => entry.replace(/\/$/, ''));
+  } else if (command === 'cat') {
+    matches = completionEntriesForPath(argument, session.cwd, true);
+  } else if (command === 'open') {
+    matches = terminalSectionCompletionKeys.filter((candidate) => candidate.startsWith(argument));
+  }
+
+  const uniqueMatches = Array.from(new Set(matches)).sort((left, right) => left.localeCompare(right));
+
+  if (uniqueMatches.length === 1) {
+    return {
+      input: normalized.includes(' ') ? `${command} ${uniqueMatches[0]}` : uniqueMatches[0],
+      matches: uniqueMatches,
+    };
+  }
+
+  const prefix = commonPrefix(uniqueMatches);
+
+  if (prefix.length > argument.length && normalized.includes(' ')) {
+    return { input: `${command} ${prefix}`, matches: uniqueMatches };
+  }
+
+  if (prefix.length > normalized.length && !normalized.includes(' ')) {
+    return { input: prefix, matches: uniqueMatches };
+  }
+
+  return { matches: uniqueMatches };
 }
 
 export function executeTerminalCommand(rawCommand: string, session: TerminalSession): TerminalCommandResult {

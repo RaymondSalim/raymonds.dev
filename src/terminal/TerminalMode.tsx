@@ -1,5 +1,5 @@
 import React from 'react';
-import { executeTerminalCommand, initialTerminalSession } from './terminalCommands';
+import { completeTerminalInput, executeTerminalCommand, initialTerminalSession } from './terminalCommands';
 import { TerminalSession } from './terminalTypes';
 
 export interface TerminalModeProps {
@@ -81,6 +81,12 @@ export class TerminalMode extends React.Component<TerminalModeProps, TerminalMod
       return;
     }
 
+    if (event.key === 'Tab') {
+      event.preventDefault();
+      this.completeInput();
+      return;
+    }
+
     if (event.key === 'Escape') {
       event.preventDefault();
       this.props.onClose();
@@ -139,6 +145,24 @@ export class TerminalMode extends React.Component<TerminalModeProps, TerminalMod
     }, this.scrollOutputToBottom);
 
     this.handleCommandAction(result.action);
+  }
+
+  private completeInput() {
+    const completion = completeTerminalInput(this.state.input, this.state.session);
+
+    if (completion.input !== undefined) {
+      this.setState({ input: completion.input, historyIndex: undefined }, this.scrollOutputToBottom);
+      return;
+    }
+
+    if (completion.matches.length > 1) {
+      this.setState((state) => ({
+        outputLines: [
+          ...state.outputLines,
+          { text: completion.matches.join(' '), kind: 'output' },
+        ],
+      }), this.scrollOutputToBottom);
+    }
   }
 
   private static lineKindForOutput(line: string): TerminalLineKind {
