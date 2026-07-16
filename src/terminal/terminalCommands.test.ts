@@ -45,6 +45,15 @@ describe('executeTerminalCommand', () => {
     expect(catResult.lines.join('\n')).toContain('Software Engineer II');
   });
 
+  test('resolves absolute cat paths from nested directories', () => {
+    const session = executeTerminalCommand('cd experience', initialTerminalSession()).session;
+    const result = executeTerminalCommand('cat /about.txt', session);
+
+    expect(result.session.cwd).toBe('/experience');
+    expect(result.lines[0]).toBe('Raymond Salim');
+    expect(result.lines.join('\n')).toContain('Software Engineer II specializing in backend engineering and data systems.');
+  });
+
   test('supports parent and root directory navigation', () => {
     const inExperience = executeTerminalCommand('cd experience', initialTerminalSession()).session;
     const parent = executeTerminalCommand('cd ..', inExperience);

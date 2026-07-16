@@ -1,7 +1,20 @@
-import { TerminalDirectory, TerminalDirectoryEntry, TerminalFile } from './terminalTypes';
+import {
+  TerminalDirectory,
+  TerminalDirectoryData,
+  TerminalSectionId,
+  TerminalSectionKey,
+} from './terminalTypes';
 
-export const terminalDirectories: Record<TerminalDirectory, { directories: TerminalDirectoryEntry[], files: TerminalFile[] }> = {
+export const terminalDirectories: Record<TerminalDirectory, TerminalDirectoryData> = {
   '/': {
+    listing: [
+      { type: 'file', name: 'about.txt' },
+      { type: 'directory', name: 'experience' },
+      { type: 'directory', name: 'client-work' },
+      { type: 'directory', name: 'projects' },
+      { type: 'file', name: 'contact.txt' },
+      { type: 'file', name: 'links.txt' },
+    ],
     directories: [
       { name: 'experience', path: '/experience' },
       { name: 'client-work', path: '/client-work' },
@@ -158,7 +171,7 @@ export const terminalDirectories: Record<TerminalDirectory, { directories: Termi
   },
 };
 
-export const terminalSections: Record<string, string> = {
+export const terminalSections: Record<TerminalSectionKey, TerminalSectionId> = {
   about: 'about-me',
   experience: 'experience',
   work: 'experience',

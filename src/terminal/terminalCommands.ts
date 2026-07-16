@@ -1,5 +1,11 @@
 import { terminalDirectories, terminalExternalLinks, terminalSections } from './terminalData';
-import { TerminalCommandResult, TerminalDirectory, TerminalSession } from './terminalTypes';
+import {
+  TerminalCommandResult,
+  TerminalDirectory,
+  TerminalDirectoryListingEntry,
+  TerminalSectionKey,
+  TerminalSession,
+} from './terminalTypes';
 
 const noAction = { type: 'none' as const };
 
@@ -31,10 +37,11 @@ function pathForDirectory(input: string, cwd: TerminalDirectory): TerminalDirect
 }
 
 function fileLinesForPath(input: string, cwd: TerminalDirectory): string[] | undefined {
+  const baseDirectory = input.startsWith('/') ? '/' : cwd;
   const parts = normalizePath(input);
 
   if (parts.length === 1) {
-    return terminalDirectories[cwd].files.find((file) => file.name === parts[0])?.lines;
+    return terminalDirectories[baseDirectory].files.find((file) => file.name === parts[0])?.lines;
   }
 
   if (parts.length === 2) {
@@ -47,23 +54,25 @@ function fileLinesForPath(input: string, cwd: TerminalDirectory): string[] | und
   return undefined;
 }
 
+function listingEntryName(entry: TerminalDirectoryListingEntry): string {
+  return entry.type === 'directory' ? `${entry.name}/` : entry.name;
+}
+
 function listDirectory(path: TerminalDirectory): string[] {
-  if (path === '/') {
-    return [
-      'about.txt',
-      'experience/',
-      'client-work/',
-      'projects/',
-      'contact.txt',
-      'links.txt',
-    ];
+  const directory = terminalDirectories[path];
+
+  if (directory.listing !== undefined) {
+    return directory.listing.map(listingEntryName);
   }
 
-  const directory = terminalDirectories[path];
   return [
     ...directory.files.map((file) => file.name),
     ...directory.directories.map((entry) => `${entry.name}/`),
   ];
+}
+
+function isTerminalSectionKey(input: string): input is TerminalSectionKey {
+  return input in terminalSections;
 }
 
 export function executeTerminalCommand(rawCommand: string, session: TerminalSession): TerminalCommandResult {
@@ -150,9 +159,10 @@ export function executeTerminalCommand(rawCommand: string, session: TerminalSess
 
   const openMatch = lower.match(/^open (about|experience|work|client-work|clients|projects|contact)$/);
   const sectionKey = openMatch?.[1] ?? lower;
-  const sectionTarget = terminalSections[sectionKey];
 
-  if (sectionTarget !== undefined) {
+  if (isTerminalSectionKey(sectionKey)) {
+    const sectionTarget = terminalSections[sectionKey];
+
     return { session, lines: [`opening ${sectionKey}...`], action: { type: 'scroll', targetId: sectionTarget } };
   }
 
