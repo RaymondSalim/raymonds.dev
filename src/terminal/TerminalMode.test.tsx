@@ -1,5 +1,10 @@
 import React from 'react';
-import { fireEvent, render, screen } from '@testing-library/react';
+import {
+  act,
+  fireEvent,
+  render,
+  screen,
+} from '@testing-library/react';
 import { TerminalMode } from './TerminalMode';
 
 function renderOpenTerminal(overrides: Partial<React.ComponentProps<typeof TerminalMode>> = {}) {
@@ -7,7 +12,7 @@ function renderOpenTerminal(overrides: Partial<React.ComponentProps<typeof Termi
   const onScrollToSection = jest.fn();
   const onExternalOpen = jest.fn();
 
-  render(
+  const view = render(
     <TerminalMode
       isOpen={true}
       onClose={onClose}
@@ -18,7 +23,12 @@ function renderOpenTerminal(overrides: Partial<React.ComponentProps<typeof Termi
     />,
   );
 
-  return { onClose, onScrollToSection, onExternalOpen };
+  return {
+    onClose,
+    onScrollToSection,
+    onExternalOpen,
+    ...view,
+  };
 }
 
 function submitCommand(command: string) {
@@ -28,7 +38,48 @@ function submitCommand(command: string) {
   fireEvent.keyDown(input, { key: 'Enter', code: 'Enter' });
 }
 
+function mockVisualViewport(initial: {
+  height: number,
+  width: number,
+  offsetTop: number,
+  offsetLeft: number,
+}) {
+  const listeners: Record<string, EventListener[]> = {
+    resize: [],
+    scroll: [],
+  };
+  const visualViewport = {
+    ...initial,
+    addEventListener: jest.fn((eventName: string, listener: EventListener) => {
+      listeners[eventName].push(listener);
+    }),
+    removeEventListener: jest.fn((eventName: string, listener: EventListener) => {
+      listeners[eventName] = listeners[eventName].filter((registered) => registered !== listener);
+    }),
+  };
+
+  Object.defineProperty(window, 'visualViewport', {
+    configurable: true,
+    value: visualViewport,
+  });
+
+  return {
+    visualViewport,
+    update(next: Partial<typeof initial>, eventName: 'resize' | 'scroll' = 'resize') {
+      Object.assign(visualViewport, next);
+      listeners[eventName].forEach((listener) => listener(new Event(eventName)));
+    },
+  };
+}
+
 describe('TerminalMode', () => {
+  afterEach(() => {
+    Object.defineProperty(window, 'visualViewport', {
+      configurable: true,
+      value: undefined,
+    });
+  });
+
   test('focuses command input when opened', () => {
     renderOpenTerminal();
 
@@ -42,6 +93,50 @@ describe('TerminalMode', () => {
 
     expect(dialog).toHaveClass('terminal-mode-mobile');
     expect(dialog).toHaveAttribute('aria-modal', 'true');
+  });
+
+  test('mobile render follows the visual viewport when browser chrome or keyboard changes it', () => {
+    const viewport = mockVisualViewport({
+      height: 640,
+      width: 390,
+      offsetTop: 0,
+      offsetLeft: 0,
+    });
+
+    renderOpenTerminal({ isMobile: true });
+
+    const dialog = screen.getByRole('dialog', { name: 'Terminal mode' });
+    expect(dialog).toHaveStyle({
+      height: '640px',
+      width: '390px',
+      top: '0px',
+      left: '0px',
+    });
+
+    act(() => {
+      viewport.update({ height: 340, offsetTop: 180 });
+    });
+
+    expect(dialog).toHaveStyle({
+      height: '340px',
+      top: '180px',
+    });
+  });
+
+  test('mobile visual viewport listeners are removed on unmount', () => {
+    const { visualViewport } = mockVisualViewport({
+      height: 640,
+      width: 390,
+      offsetTop: 0,
+      offsetLeft: 0,
+    });
+
+    const { unmount } = renderOpenTerminal({ isMobile: true });
+
+    unmount();
+
+    expect(visualViewport.removeEventListener).toHaveBeenCalledWith('resize', expect.any(Function));
+    expect(visualViewport.removeEventListener).toHaveBeenCalledWith('scroll', expect.any(Function));
   });
 
   test('desktop render exposes desktop dialog semantics', () => {

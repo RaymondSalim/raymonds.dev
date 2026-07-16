@@ -15,6 +15,7 @@ type TerminalModeState = {
   session: TerminalSession,
   outputLines: TerminalOutputLine[],
   commandHistory: string[],
+  mobileViewport?: TerminalMobileViewport,
   historyIndex?: number,
 };
 
@@ -23,6 +24,13 @@ type TerminalLineKind = 'input' | 'output' | 'error';
 type TerminalOutputLine = {
   text: string,
   kind: TerminalLineKind,
+};
+
+type TerminalMobileViewport = {
+  height: number,
+  width: number,
+  top: number,
+  left: number,
 };
 
 export class TerminalMode extends React.Component<TerminalModeProps, TerminalModeState> {
@@ -42,14 +50,32 @@ export class TerminalMode extends React.Component<TerminalModeProps, TerminalMod
 
   componentDidMount() {
     if (this.props.isOpen) {
+      this.syncMobileViewport();
+      this.bindMobileViewportListeners();
       this.focusInput();
     }
   }
 
   componentDidUpdate(prevProps: TerminalModeProps) {
     if (!prevProps.isOpen && this.props.isOpen) {
+      this.syncMobileViewport();
+      this.bindMobileViewportListeners();
       this.focusInput();
     }
+
+    if (prevProps.isOpen && !this.props.isOpen) {
+      this.unbindMobileViewportListeners();
+    }
+
+    if (prevProps.isMobile !== this.props.isMobile && this.props.isOpen) {
+      this.unbindMobileViewportListeners();
+      this.syncMobileViewport();
+      this.bindMobileViewportListeners();
+    }
+  }
+
+  componentWillUnmount() {
+    this.unbindMobileViewportListeners();
   }
 
   private focusInput() {
@@ -65,6 +91,74 @@ export class TerminalMode extends React.Component<TerminalModeProps, TerminalMod
 
     output.scrollTop = output.scrollHeight;
   };
+
+  private static getVisualViewport(): VisualViewport | undefined {
+    return window.visualViewport ?? undefined;
+  }
+
+  private syncMobileViewport = () => {
+    if (!this.props.isMobile) {
+      this.setState({ mobileViewport: undefined });
+      return;
+    }
+
+    const viewport = TerminalMode.getVisualViewport();
+
+    if (viewport === undefined) {
+      this.setState({ mobileViewport: undefined });
+      return;
+    }
+
+    this.setState({
+      mobileViewport: {
+        height: viewport.height,
+        width: viewport.width,
+        top: viewport.offsetTop,
+        left: viewport.offsetLeft,
+      },
+    });
+  };
+
+  private bindMobileViewportListeners() {
+    if (!this.props.isMobile) {
+      return;
+    }
+
+    const viewport = TerminalMode.getVisualViewport();
+
+    if (viewport === undefined) {
+      return;
+    }
+
+    viewport.removeEventListener('resize', this.syncMobileViewport);
+    viewport.removeEventListener('scroll', this.syncMobileViewport);
+    viewport.addEventListener('resize', this.syncMobileViewport);
+    viewport.addEventListener('scroll', this.syncMobileViewport);
+  }
+
+  private unbindMobileViewportListeners() {
+    const viewport = TerminalMode.getVisualViewport();
+
+    if (viewport === undefined) {
+      return;
+    }
+
+    viewport.removeEventListener('resize', this.syncMobileViewport);
+    viewport.removeEventListener('scroll', this.syncMobileViewport);
+  }
+
+  private mobileViewportStyle(): React.CSSProperties | undefined {
+    if (!this.props.isMobile || this.state.mobileViewport === undefined) {
+      return undefined;
+    }
+
+    return {
+      height: `${this.state.mobileViewport.height}px`,
+      width: `${this.state.mobileViewport.width}px`,
+      top: `${this.state.mobileViewport.top}px`,
+      left: `${this.state.mobileViewport.left}px`,
+    };
+  }
 
   private static promptForSession(session: TerminalSession): string {
     return `root@raymonds:${session.cwd}$`;
@@ -244,6 +338,7 @@ export class TerminalMode extends React.Component<TerminalModeProps, TerminalMod
         aria-label="Terminal mode"
         aria-modal={this.props.isMobile}
         className={this.props.isMobile ? 'terminal-mode-mobile' : 'terminal-mode-desktop'}
+        style={this.mobileViewportStyle()}
       >
         <header id="terminal-mode-header" role="group" aria-label="Terminal header">
           <button type="button" onClick={this.props.onClose} aria-label="Close terminal">
