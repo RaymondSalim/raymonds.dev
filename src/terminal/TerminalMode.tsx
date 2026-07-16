@@ -27,6 +27,7 @@ type TerminalOutputLine = {
 
 export class TerminalMode extends React.Component<TerminalModeProps, TerminalModeState> {
   private readonly inputRef = React.createRef<HTMLInputElement>();
+  private readonly outputRef = React.createRef<HTMLDivElement>();
 
   constructor(props: TerminalModeProps) {
     super(props);
@@ -53,6 +54,20 @@ export class TerminalMode extends React.Component<TerminalModeProps, TerminalMod
 
   private focusInput() {
     this.inputRef.current?.focus();
+  }
+
+  private scrollOutputToBottom = () => {
+    const output = this.outputRef.current;
+
+    if (output === null) {
+      return;
+    }
+
+    output.scrollTop = output.scrollHeight;
+  };
+
+  private static promptForSession(session: TerminalSession): string {
+    return `root@raymonds:${session.cwd}$`;
   }
 
   private handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -95,6 +110,7 @@ export class TerminalMode extends React.Component<TerminalModeProps, TerminalMod
 
     this.setState((state) => {
       const commandHistory = [...state.commandHistory, command];
+      const prompt = TerminalMode.promptForSession(state.session);
 
       if (result.action.type === 'clear') {
         return {
@@ -111,7 +127,7 @@ export class TerminalMode extends React.Component<TerminalModeProps, TerminalMod
         session: result.session,
         outputLines: [
           ...state.outputLines,
-          { text: `> ${command}`, kind: 'input' },
+          { text: `${prompt} ${command}`, kind: 'input' },
           ...result.lines.map((line) => ({
             text: line,
             kind: TerminalMode.lineKindForOutput(line),
@@ -120,7 +136,7 @@ export class TerminalMode extends React.Component<TerminalModeProps, TerminalMod
         commandHistory,
         historyIndex: undefined,
       };
-    });
+    }, this.scrollOutputToBottom);
 
     this.handleCommandAction(result.action);
   }
@@ -210,7 +226,7 @@ export class TerminalMode extends React.Component<TerminalModeProps, TerminalMod
             Close
           </button>
         </header>
-        <div id="terminal-mode-output" role="log" aria-label="Terminal output" aria-live="polite">
+        <div id="terminal-mode-output" ref={this.outputRef} role="log" aria-label="Terminal output" aria-live="polite">
           {this.state.outputLines.map((line, index) => (
             <div key={`${index}-${line.text}`} className={TerminalMode.classNameForLine(line)}>
               {line.text}
@@ -218,9 +234,10 @@ export class TerminalMode extends React.Component<TerminalModeProps, TerminalMod
           ))}
         </div>
         <div id="terminal-mode-input-row" role="group" aria-label="Terminal input">
-          <label htmlFor="terminal-command-input">
+          <label htmlFor="terminal-command-input" className="sr-only">
             Terminal command
           </label>
+          <span aria-hidden="true">{TerminalMode.promptForSession(this.state.session)}</span>
           <input
             id="terminal-command-input"
             ref={this.inputRef}

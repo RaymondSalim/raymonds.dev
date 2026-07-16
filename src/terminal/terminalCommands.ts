@@ -88,12 +88,8 @@ export function executeTerminalCommand(rawCommand: string, session: TerminalSess
       session,
       lines: [
         'available commands:',
-        'help clear exit whoami pwd ls',
-        'cd experience cd client-work cd projects cd .. cd /',
-        'ls experience ls client-work ls projects',
-        'cat about.txt cat experience/domaintools.txt',
+        'help clear exit whoami pwd ls cd cat open',
         'about experience client-work projects contact',
-        'open projects open contact',
         'github linkedin email',
       ],
       action: noAction,

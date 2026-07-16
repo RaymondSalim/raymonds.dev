@@ -1,9 +1,9 @@
 #terminal-mode {
-    @apply z-[60] border-2 border-brutalist-border dark:border-brutalist-bg bg-brutalist-fg dark:bg-brutalist-bg text-brutalist-bg dark:text-brutalist-fg font-mono;
+    @apply z-[60] border border-gray-700 bg-black text-white font-mono shadow-2xl;
 }
 
 .terminal-mode-desktop {
-    @apply fixed right-4 bottom-4 w-[min(560px,calc(100vw_-_2rem))] max-h-[60vh] flex flex-col;
+    @apply fixed right-4 bottom-4 w-[min(640px,calc(100vw_-_2rem))] h-[42vh] min-h-[360px] max-h-[520px] flex flex-col;
 }
 
 .terminal-mode-mobile {
@@ -11,33 +11,33 @@
 }
 
 #terminal-mode-header {
-    @apply flex items-center justify-between border-b-2 border-brutalist-bg dark:border-brutalist-fg px-3 py-2 text-sm;
+    @apply flex items-center justify-end border-b border-gray-800 bg-gray-900 px-3 py-2 text-sm;
 }
 
 #terminal-mode-header span,
 #terminal-mode-header button {
-    @apply text-brutalist-bg dark:text-brutalist-fg font-mono;
+    @apply text-gray-300 font-mono;
 }
 
 #terminal-mode-header button {
-    @apply px-2 py-1 border-2 border-brutalist-bg dark:border-brutalist-fg uppercase font-bold;
+    @apply px-2 py-1 border border-gray-700 uppercase font-bold;
 }
 
 #terminal-mode-header button:hover,
 #terminal-mode-header button:focus {
-    @apply text-brutalist-accent border-brutalist-accent;
+    @apply text-emerald-300 border-emerald-400;
 }
 
 #terminal-mode-output {
-    @apply flex-1 overflow-y-auto px-3 py-3 space-y-1;
+    @apply flex-1 overflow-y-auto px-3 py-3 space-y-1 bg-black;
 }
 
 .terminal-line {
-    @apply text-sm leading-6 text-brutalist-bg dark:text-brutalist-fg font-mono whitespace-pre-wrap break-words;
+    @apply text-sm leading-6 text-white font-mono whitespace-pre-wrap break-words;
 }
 
 .terminal-line-input {
-    @apply text-brutalist-accent dark:text-brutalist-accent;
+    @apply text-emerald-300;
 }
 
 .terminal-line-error {
@@ -45,18 +45,18 @@
 }
 
 #terminal-mode-input-row {
-    @apply flex items-center gap-2 border-t-2 border-brutalist-bg dark:border-brutalist-fg px-3 py-2;
+    @apply flex items-center gap-2 border-t border-gray-800 bg-black px-3 py-2;
 }
 
 #terminal-mode-input-row:focus-within {
-    @apply border-brutalist-accent dark:border-brutalist-accent;
+    @apply border-emerald-400;
 }
 
 #terminal-mode-input-row span,
 #terminal-mode-input-row label {
-    @apply text-brutalist-accent dark:text-brutalist-accent font-mono;
+    @apply text-emerald-300 font-mono text-sm whitespace-nowrap;
 }
 
 #terminal-mode-input-row input {
-    @apply flex-1 bg-transparent text-brutalist-bg dark:text-brutalist-fg font-mono outline-none border-0 p-0;
+    @apply min-w-0 flex-1 bg-transparent text-white font-mono outline-none border-0 p-0;
 }

@@ -66,7 +66,7 @@ describe('TerminalMode', () => {
 
     submitCommand('whoami');
 
-    expect(screen.getByText('> whoami')).toBeInTheDocument();
+    expect(screen.getByText('root@raymonds:/$ whoami')).toBeInTheDocument();
     expect(screen.getByText('Raymond Salim')).toBeInTheDocument();
     expect(screen.getByText('Software Engineer II')).toBeInTheDocument();
   });
@@ -77,9 +77,9 @@ describe('TerminalMode', () => {
     submitCommand('whoami');
     submitCommand('clear');
 
-    expect(screen.queryByText('> whoami')).not.toBeInTheDocument();
+    expect(screen.queryByText('root@raymonds:/$ whoami')).not.toBeInTheDocument();
     expect(screen.queryByText('Raymond Salim')).not.toBeInTheDocument();
-    expect(screen.queryByText('> clear')).not.toBeInTheDocument();
+    expect(screen.queryByText('root@raymonds:/$ clear')).not.toBeInTheDocument();
   });
 
   test('exit calls onClose', () => {
@@ -134,6 +134,29 @@ describe('TerminalMode', () => {
 
     submitCommand('whoami');
 
-    expect(screen.getByText('> whoami')).toHaveClass('terminal-line', 'terminal-line-input');
+    expect(screen.getByText('root@raymonds:/$ whoami')).toHaveClass('terminal-line', 'terminal-line-input');
+  });
+
+  test('input row shows a linux-style prompt for the current directory', () => {
+    renderOpenTerminal();
+
+    expect(screen.getByText('root@raymonds:/$')).toBeInTheDocument();
+
+    submitCommand('cd experience');
+
+    expect(screen.getByText('root@raymonds:/experience$')).toBeInTheDocument();
+  });
+
+  test('submitted commands scroll output to the bottom', () => {
+    renderOpenTerminal();
+    const output = screen.getByRole('log', { name: 'Terminal output' });
+
+    Object.defineProperty(output, 'scrollHeight', { configurable: true, value: 200 });
+    Object.defineProperty(output, 'clientHeight', { configurable: true, value: 100 });
+    output.scrollTop = 0;
+
+    submitCommand('whoami');
+
+    expect(output.scrollTop).toBe(200);
   });
 });

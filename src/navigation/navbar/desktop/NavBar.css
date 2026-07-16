@@ -24,14 +24,14 @@
 }
 
 #navbar-desktop .terminal-trigger-container {
-    @apply !ml-4;
+    @apply !ml-2;
 }
 
 #navbar-desktop .terminal-trigger {
-    @apply h-7 px-2 border-2 border-brutalist-border dark:border-brutalist-bg text-brutalist-fg dark:text-brutalist-bg bg-brutalist-bg dark:bg-brutalist-fg font-mono font-bold transition-colors;
+    @apply h-7 px-1 text-brutalist-fg dark:text-brutalist-bg bg-transparent font-mono font-bold transition-colors outline-none;
 }
 
 #navbar-desktop .terminal-trigger:hover,
 #navbar-desktop .terminal-trigger:focus {
-    @apply text-brutalist-accent border-brutalist-accent;
+    @apply text-brutalist-accent dark:text-brutalist-accent;
 }

@@ -143,19 +143,13 @@ describe('executeTerminalCommand', () => {
     const result = executeTerminalCommand('help', initialTerminalSession());
     const helpText = result.lines.join('\n');
 
-    expect(helpText).toContain('cd experience');
-    expect(helpText).toContain('cd client-work');
-    expect(helpText).toContain('cd projects');
-    expect(helpText).toContain('cd ..');
-    expect(helpText).toContain('cd /');
-    expect(helpText).toContain('ls experience');
-    expect(helpText).toContain('ls client-work');
-    expect(helpText).toContain('ls projects');
-    expect(helpText).toContain('cat about.txt');
-    expect(helpText).toContain('cat experience/domaintools.txt');
-    expect(helpText).toContain('open projects');
-    expect(helpText).toContain('open contact');
-    expect(result.lines[1]).toBe('help clear exit whoami pwd ls');
+    expect(helpText).toContain('help clear exit whoami pwd ls cd cat open');
+    expect(helpText).toContain('about experience client-work projects contact');
+    expect(helpText).toContain('github linkedin email');
+    expect(helpText).not.toContain('cd experience');
+    expect(helpText).not.toContain('ls experience');
+    expect(helpText).not.toContain('cat about.txt');
+    expect(helpText).not.toContain('open projects');
   });
 
   test('suggests help for unknown commands', () => {

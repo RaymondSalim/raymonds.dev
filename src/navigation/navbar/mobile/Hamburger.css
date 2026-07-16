@@ -20,12 +20,12 @@
 }
 
 .terminal-trigger-mobile {
-    @apply z-40 h-10 px-2 border-2 border-brutalist-border dark:border-brutalist-bg text-brutalist-fg dark:text-brutalist-bg bg-brutalist-bg dark:bg-brutalist-fg font-mono font-bold transition-colors;
+    @apply z-40 h-10 px-1 text-brutalist-fg dark:text-brutalist-bg bg-transparent font-mono font-bold transition-colors outline-none;
 }
 
 .terminal-trigger-mobile:hover,
 .terminal-trigger-mobile:focus {
-    @apply text-brutalist-accent border-brutalist-accent;
+    @apply text-brutalist-accent dark:text-brutalist-accent;
 }
 
 .burger-container {
