@@ -39,7 +39,7 @@ The plan intentionally avoids extracting all portfolio content into shared data.
 - Create: `src/terminal/terminalCommands.ts`
 - Test: `src/terminal/terminalCommands.test.ts`
 
-- [ ] **Step 1: Write failing command tests**
+- [x] **Step 1: Write failing command tests**
 
 Create `src/terminal/terminalCommands.test.ts`:
 
@@ -120,7 +120,7 @@ describe('executeTerminalCommand', () => {
 });
 ```
 
-- [ ] **Step 2: Run tests and verify they fail**
+- [x] **Step 2: Run tests and verify they fail**
 
 Run:
 
@@ -130,7 +130,7 @@ CI=true npm test -- --runTestsByPath src/terminal/terminalCommands.test.ts --wat
 
 Expected: FAIL because `src/terminal/terminalCommands.ts` does not exist.
 
-- [ ] **Step 3: Add terminal types**
+- [x] **Step 3: Add terminal types**
 
 Create `src/terminal/terminalTypes.ts`:
 
@@ -165,7 +165,7 @@ export type TerminalDirectoryEntry = {
 };
 ```
 
-- [ ] **Step 4: Add virtual filesystem and command metadata**
+- [x] **Step 4: Add virtual filesystem and command metadata**
 
 Create `src/terminal/terminalData.ts`:
 
@@ -347,7 +347,7 @@ export const terminalExternalLinks: Record<string, { label: string, url: string 
 };
 ```
 
-- [ ] **Step 5: Implement command execution**
+- [x] **Step 5: Implement command execution**
 
 Create `src/terminal/terminalCommands.ts`:
 
@@ -483,7 +483,7 @@ export function executeTerminalCommand(rawCommand: string, session: TerminalSess
 }
 ```
 
-- [ ] **Step 6: Run command tests and verify they pass**
+- [x] **Step 6: Run command tests and verify they pass**
 
 Run:
 
@@ -493,7 +493,7 @@ CI=true npm test -- --runTestsByPath src/terminal/terminalCommands.test.ts --wat
 
 Expected: PASS.
 
-- [ ] **Step 7: Commit command engine**
+- [x] **Step 7: Commit command engine**
 
 ```bash
 git add src/terminal/terminalTypes.ts src/terminal/terminalData.ts src/terminal/terminalCommands.ts src/terminal/terminalCommands.test.ts
@@ -508,7 +508,7 @@ git commit -m "feat(terminal): add command engine"
 - Create: `src/terminal/TerminalMode.tsx`
 - Create: `src/terminal/TerminalMode.test.tsx`
 
-- [ ] **Step 1: Write failing component interaction tests**
+- [x] **Step 1: Write failing component interaction tests**
 
 Create `src/terminal/TerminalMode.test.tsx`:
 
@@ -615,7 +615,7 @@ test('arrow keys navigate in-memory command history', () => {
 });
 ```
 
-- [ ] **Step 2: Run component tests and verify they fail**
+- [x] **Step 2: Run component tests and verify they fail**
 
 Run:
 
@@ -625,7 +625,7 @@ CI=true npm test -- --runTestsByPath src/terminal/TerminalMode.test.tsx --watchA
 
 Expected: FAIL because `TerminalMode` does not exist.
 
-- [ ] **Step 3: Implement `TerminalMode`**
+- [x] **Step 3: Implement `TerminalMode`**
 
 Create `src/terminal/TerminalMode.tsx`:
 
@@ -804,7 +804,7 @@ export class TerminalMode extends React.Component<TerminalModeProps, TerminalMod
 }
 ```
 
-- [ ] **Step 4: Run component tests and verify they pass**
+- [x] **Step 4: Run component tests and verify they pass**
 
 Run:
 
@@ -814,7 +814,7 @@ CI=true npm test -- --runTestsByPath src/terminal/TerminalMode.test.tsx --watchA
 
 Expected: PASS.
 
-- [ ] **Step 5: Commit component behavior**
+- [x] **Step 5: Commit component behavior**
 
 ```bash
 git add src/terminal/TerminalMode.tsx src/terminal/TerminalMode.test.tsx
@@ -829,7 +829,7 @@ git commit -m "feat(terminal): add terminal mode component"
 - Create: `src/terminal/TerminalMode.css`
 - Modify: `src/components/components.css`
 
-- [ ] **Step 1: Add terminal styles**
+- [x] **Step 1: Add terminal styles**
 
 Create `src/terminal/TerminalMode.css`:
 
@@ -893,7 +893,7 @@ Create `src/terminal/TerminalMode.css`:
 }
 ```
 
-- [ ] **Step 2: Import terminal CSS**
+- [x] **Step 2: Import terminal CSS**
 
 Modify `src/components/components.css`:
 
@@ -908,7 +908,7 @@ Modify `src/components/components.css`:
 @import "../terminal/TerminalMode.css";
 ```
 
-- [ ] **Step 3: Run build**
+- [x] **Step 3: Run build**
 
 Run:
 
@@ -918,7 +918,7 @@ npm run build
 
 Expected: exit 0. Existing warnings about `react-anime` sourcemap and older lint rules may still appear.
 
-- [ ] **Step 4: Commit styles**
+- [x] **Step 4: Commit styles**
 
 ```bash
 git add src/terminal/TerminalMode.css src/components/components.css
@@ -933,7 +933,7 @@ git commit -m "feat(terminal): style terminal panel"
 - Modify: `src/App.tsx`
 - Test: `src/App.test.tsx`
 
-- [ ] **Step 1: Write failing app integration tests**
+- [x] **Step 1: Write failing app integration tests**
 
 Create `src/App.test.tsx`:
 
@@ -982,7 +982,7 @@ test('desktop section command scrolls and keeps terminal open', () => {
 });
 ```
 
-- [ ] **Step 2: Run app tests and verify they fail**
+- [x] **Step 2: Run app tests and verify they fail**
 
 Run:
 
@@ -992,7 +992,7 @@ CI=true npm test -- --runTestsByPath src/App.test.tsx --watchAll=false
 
 Expected: FAIL because `App` does not yet render terminal mode, handle backtick, or process terminal scroll actions.
 
-- [ ] **Step 3: Extend `AppState` and imports**
+- [x] **Step 3: Extend `AppState` and imports**
 
 Modify the top of `src/App.tsx`:
 
@@ -1024,7 +1024,7 @@ this.state = {
 };
 ```
 
-- [ ] **Step 4: Add terminal control methods**
+- [x] **Step 4: Add terminal control methods**
 
 Add methods inside `App`:
 
@@ -1077,7 +1077,7 @@ handleTerminalShortcut = (e: KeyboardEvent) => {
 };
 ```
 
-- [ ] **Step 5: Register and remove the shortcut listener**
+- [x] **Step 5: Register and remove the shortcut listener**
 
 In `componentDidMount`, after the resize listener:
 
@@ -1091,7 +1091,7 @@ In `componentWillUnmount`:
 document.removeEventListener('keydown', this.handleTerminalShortcut);
 ```
 
-- [ ] **Step 6: Keep mobile state current on resize**
+- [x] **Step 6: Keep mobile state current on resize**
 
 Update `handleResize()`:
 
@@ -1111,7 +1111,7 @@ handleResize() {
 }
 ```
 
-- [ ] **Step 7: Render terminal mode**
+- [x] **Step 7: Render terminal mode**
 
 Do not pass `onTerminalOpen` into `Header` yet. Header trigger props are added in Task 5. Task 4 only wires the desktop backtick shortcut and terminal actions.
 
@@ -1127,7 +1127,7 @@ Render `TerminalMode` before closing `#page`:
 />
 ```
 
-- [ ] **Step 8: Run app tests**
+- [x] **Step 8: Run app tests**
 
 Run:
 
@@ -1137,7 +1137,7 @@ CI=true npm test -- --runTestsByPath src/App.test.tsx --watchAll=false
 
 Expected: PASS.
 
-- [ ] **Step 9: Commit app integration**
+- [x] **Step 9: Commit app integration**
 
 ```bash
 git add src/App.tsx src/App.test.tsx
@@ -1159,7 +1159,7 @@ git commit -m "feat(terminal): integrate terminal mode in app"
 - Modify: `src/navigation/navbar/mobile/Hamburger.css`
 - Test: `src/navigation/Header.test.tsx`
 
-- [ ] **Step 1: Write failing header tests**
+- [x] **Step 1: Write failing header tests**
 
 Create `src/navigation/Header.test.tsx`:
 
@@ -1209,7 +1209,7 @@ test('terminal hint can be dismissed and persisted', () => {
 });
 ```
 
-- [ ] **Step 2: Run header tests and verify they fail**
+- [x] **Step 2: Run header tests and verify they fail**
 
 Run:
 
@@ -1219,7 +1219,7 @@ CI=true npm test -- --runTestsByPath src/navigation/Header.test.tsx --watchAll=f
 
 Expected: FAIL because header trigger and hint bubble do not exist.
 
-- [ ] **Step 3: Extend app/header/nav prop types**
+- [x] **Step 3: Extend app/header/nav prop types**
 
 Modify `src/App.tsx` `Header` usage:
 
@@ -1252,7 +1252,7 @@ Modify mobile menu props in `src/navigation/menu/Menu.tsx`:
 onTerminalOpen: () => void
 ```
 
-- [ ] **Step 4: Add trigger and hint state to Header**
+- [x] **Step 4: Add trigger and hint state to Header**
 
 Modify `HeaderState`:
 
@@ -1299,7 +1299,7 @@ window.setTimeout(() => {
 }, 6000);
 ```
 
-- [ ] **Step 5: Pass trigger callback to navs and render hint bubble**
+- [x] **Step 5: Pass trigger callback to navs and render hint bubble**
 
 Modify the `Header` render body:
 
@@ -1319,7 +1319,7 @@ Modify the `Header` render body:
 }
 ```
 
-- [ ] **Step 6: Render desktop trigger button**
+- [x] **Step 6: Render desktop trigger button**
 
 In `src/navigation/navbar/desktop/NavBar.tsx`, add this list item before the dark-mode toggle:
 
@@ -1331,7 +1331,7 @@ In `src/navigation/navbar/desktop/NavBar.tsx`, add this list item before the dar
 </li>
 ```
 
-- [ ] **Step 7: Render mobile trigger button**
+- [x] **Step 7: Render mobile trigger button**
 
 In `src/navigation/navbar/mobile/NavBar.tsx`, render trigger before `Hamburger`:
 
@@ -1346,7 +1346,7 @@ In `src/navigation/navbar/mobile/NavBar.tsx`, render trigger before `Hamburger`:
 </button>
 ```
 
-- [ ] **Step 8: Style trigger and hint**
+- [x] **Step 8: Style trigger and hint**
 
 Add to `src/navigation/Header.css`:
 
@@ -1395,7 +1395,7 @@ Add to `src/navigation/navbar/mobile/Hamburger.css`:
 }
 ```
 
-- [ ] **Step 9: Run header tests**
+- [x] **Step 9: Run header tests**
 
 Run:
 
@@ -1405,7 +1405,7 @@ CI=true npm test -- --runTestsByPath src/navigation/Header.test.tsx --watchAll=f
 
 Expected: PASS.
 
-- [ ] **Step 10: Commit header trigger and hint**
+- [x] **Step 10: Commit header trigger and hint**
 
 ```bash
 git add src/App.tsx src/navigation/Header.tsx src/navigation/Header.css src/navigation/navbar/desktop/NavBar.tsx src/navigation/navbar/desktop/NavBar.css src/navigation/navbar/mobile/NavBar.tsx src/navigation/navbar/mobile/Hamburger.css src/navigation/menu/Menu.tsx src/navigation/Header.test.tsx
@@ -1419,7 +1419,7 @@ git commit -m "feat(terminal): add header trigger and hint"
 **Files:**
 - Modify only files needed to fix issues found by verification.
 
-- [ ] **Step 1: Run focused terminal tests**
+- [x] **Step 1: Run focused terminal tests**
 
 Run:
 
@@ -1429,7 +1429,7 @@ CI=true npm test -- --runTestsByPath src/terminal/terminalCommands.test.ts src/t
 
 Expected: PASS.
 
-- [ ] **Step 2: Run production build**
+- [x] **Step 2: Run production build**
 
 Run:
 
@@ -1439,7 +1439,7 @@ npm run build
 
 Expected: exit 0. Existing warnings about `react-anime` sourcemap and legacy lint rules may appear. New TypeScript errors or new build failures must be fixed.
 
-- [ ] **Step 3: Manual desktop verification**
+- [x] **Step 3: Manual desktop verification**
 
 Run:
 
@@ -1459,7 +1459,7 @@ Verify:
 - `Esc` closes the terminal.
 - Light and dark mode remain legible.
 
-- [ ] **Step 4: Manual mobile verification**
+- [x] **Step 4: Manual mobile verification**
 
 With the dev server still running, use a 390px-wide viewport.
 
@@ -1472,7 +1472,7 @@ Verify:
 - The input receives focus on open.
 - Closing terminal restores page scroll.
 
-- [ ] **Step 5: Commit final fixes if needed**
+- [x] **Step 5: Commit final fixes if needed**
 
 If verification required code changes:
 
