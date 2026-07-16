@@ -20,6 +20,7 @@ import { Redis } from './icons/Redis';
 import { Skill } from './icons/Skill';
 import { Experiences } from './components/Experiences';
 import { Projects } from './components/Projects';
+import { ClientWork } from './components/ClientWork';
 import { debounce } from './util/common';
 import { EnvironmentVariables } from './enum';
 import { Contact } from './components/Contact';
@@ -215,16 +216,23 @@ export default class App extends React.Component<any, AppState> {
               <Experiences/>
             </div>
           </section>
+          <section id="client-work">
+            <div id="client-work-content" className="content">
+              <p className="font-mono uppercase tracking-wide text-sm text-brutalist-accent mb-2">03 &middot; Client Work</p>
+              <h2>Client Work</h2>
+              <ClientWork/>
+            </div>
+          </section>
           <section id="projects">
             <div id="projects-content" className="content">
-              <p className="font-mono uppercase tracking-wide text-sm text-brutalist-accent mb-2">03 &middot; Projects</p>
+              <p className="font-mono uppercase tracking-wide text-sm text-brutalist-accent mb-2">04 &middot; Projects</p>
               <h2>Things I&apos;ve Built</h2>
               <Projects/>
             </div>
           </section>
           <section id="contact">
             <div id="contact-content" className="content mb-16">
-              <p className="font-mono uppercase tracking-wide text-sm text-brutalist-accent mb-2">04 &middot; Contact</p>
+              <p className="font-mono uppercase tracking-wide text-sm text-brutalist-accent mb-2">05 &middot; Contact</p>
               <h2>Contact</h2>
               <Contact />
             </div>

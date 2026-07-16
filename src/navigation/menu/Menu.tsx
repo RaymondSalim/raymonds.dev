@@ -1,6 +1,7 @@
 import React, { SyntheticEvent } from 'react';
 import { User } from '../../icons/User';
 import { Work } from '../../icons/Work';
+import { Handshake } from '../../icons/Handshake';
 import { Project } from '../../icons/Project';
 import { Contact } from '../../icons/Contact';
 import { DarkModeToggle } from '../../util/darkmode/DarkModeToggle';
@@ -37,6 +38,12 @@ export class Menu extends React.Component<MenuProps> {
             <a href="#experience" onClick={this.props.onItemClick}>
               <Work/>
               <span>Experience</span>
+            </a>
+          </li>
+          <li>
+            <a href="#client-work" onClick={this.props.onItemClick}>
+              <Handshake/>
+              <span>Client Work</span>
             </a>
           </li>
           <li>

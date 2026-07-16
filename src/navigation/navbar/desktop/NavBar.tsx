@@ -22,6 +22,11 @@ export class NavBar extends React.Component<NavBarDesktopProps> {
             </a>
           </li>
           <li>
+            <a href="#client-work">
+              <span>Client Work</span>
+            </a>
+          </li>
+          <li>
             <a href="#projects">
               <span>Projects</span>
             </a>
