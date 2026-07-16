@@ -10,6 +10,7 @@ import { Button } from './buttons/Button';
 import { Gopher } from './icons/Gopher';
 import { Typescript } from './icons/Typescript';
 import { Python } from './icons/Python';
+import { Java } from './icons/Java';
 import { Rust } from './icons/Rust';
 import { PostgreSQL } from './icons/PostgreSQL';
 import { Kafka } from './icons/Kafka';
@@ -128,6 +129,7 @@ export default class App extends React.Component<any, AppState> {
     const skills: { icon: JSX.Element, label: string, padding: string }[] = [
       { icon: <Gopher/>, label: 'Go', padding: 'p-4' },
       { icon: <Python/>, label: 'Python', padding: 'p-4' },
+      { icon: <Java/>, label: 'Java', padding: 'p-4' },
       { icon: <Rust/>, label: 'Rust', padding: 'p-5' },
       { icon: <Typescript/>, label: 'Typescript', padding: 'p-5' },
       { icon: <Kafka/>, label: 'Kafka', padding: 'p-5' },
