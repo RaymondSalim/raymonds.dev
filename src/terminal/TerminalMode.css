@@ -7,7 +7,7 @@
 }
 
 .terminal-mode-mobile {
-    @apply fixed inset-0 w-screen h-[100dvh] min-h-screen flex flex-col;
+    @apply fixed inset-0 w-screen h-[100dvh] flex flex-col;
 }
 
 #terminal-mode-header {
