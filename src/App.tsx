@@ -31,6 +31,7 @@ import { TerminalMode } from './terminal/TerminalMode';
 
 export interface AppState {
   siteReady: boolean
+  pageLoadActive: boolean
   menuActive: boolean
   darkMode: boolean
   terminalModeActive: boolean
@@ -47,6 +48,7 @@ export default class App extends React.Component<any, AppState> {
     super(p);
     this.state = {
       siteReady: false,
+      pageLoadActive: true,
       menuActive: false,
       darkMode: App.isDarkModeEnabled(),
       terminalModeActive: false,
@@ -63,12 +65,8 @@ export default class App extends React.Component<any, AppState> {
   componentDidMount = () => {
     ReactGA.pageview('/');
 
-    window.onload = () => {
-      this.setState({
-        siteReady: true,
-      });
-    };
-    this.toggleDocumentOverflow(true); // Prevent scrolling when page load animation is active
+    window.addEventListener('load', this.handleWindowLoad);
+    this.syncDocumentOverflow();
     this.initDarkMode();
 
     this.debouncedResizeHandler = debounce<App>(this.handleResize, 200, this);
@@ -77,53 +75,67 @@ export default class App extends React.Component<any, AppState> {
   };
 
   componentWillUnmount() {
+    window.removeEventListener('load', this.handleWindowLoad);
     window.removeEventListener('resize', this.debouncedResizeHandler);
     document.removeEventListener('keydown', this.handleTerminalShortcut);
   }
 
+  handleWindowLoad = () => {
+    this.setState({
+      siteReady: true,
+    }, this.syncDocumentOverflow);
+  };
+
   handleResize() {
     const isMobileViewport = window.innerWidth <= 768;
 
-    this.setState({ isMobileViewport });
-
-    if (window.innerWidth > 768) {
-      this.toggleMenu(false);
-      if (this.state.terminalModeActive) {
-        this.toggleDocumentOverflow(false);
-      }
-    } else if (this.state.terminalModeActive) {
-      this.toggleDocumentOverflow(true);
+    if (!isMobileViewport) {
+      this.setState({
+        isMobileViewport,
+        menuActive: false,
+      }, this.syncDocumentOverflow);
+      return;
     }
+
+    this.setState({ isMobileViewport }, this.syncDocumentOverflow);
   }
 
-  toggleDocumentOverflow = (force?: boolean) => {
-    document.documentElement.classList.toggle('overflow-hidden', force);
+  shouldLockDocumentOverflow = (state: AppState = this.state) => (
+    state.pageLoadActive || state.menuActive || (state.terminalModeActive && state.isMobileViewport)
+  );
+
+  syncDocumentOverflow = (nextState: AppState = this.state) => {
+    document.documentElement.classList.toggle('overflow-hidden', this.shouldLockDocumentOverflow(nextState));
+  };
+
+  handlePageLoadOverflow = (force?: boolean) => {
+    const pageLoadActive = force ?? !this.state.pageLoadActive;
+
+    this.setState({ pageLoadActive }, this.syncDocumentOverflow);
   };
 
   toggleMenu = (forceShow?: boolean) => {
-    const expected = forceShow ?? !this.state.menuActive;
-    this.toggleDocumentOverflow(expected); // Prevent scrolling when menu is open
+    const menuActive = forceShow ?? !this.state.menuActive;
+
     this.setState({
-      menuActive: expected,
-    });
+      menuActive,
+    }, this.syncDocumentOverflow);
   };
 
   openTerminalMode = () => {
     const isMobileViewport = window.innerWidth <= 768;
 
     this.toggleMenu(false);
-    this.toggleDocumentOverflow(isMobileViewport);
     this.setState({
       terminalModeActive: true,
       isMobileViewport,
-    });
+    }, this.syncDocumentOverflow);
   };
 
   closeTerminalMode = () => {
-    this.toggleDocumentOverflow(false);
     this.setState({
       terminalModeActive: false,
-    });
+    }, this.syncDocumentOverflow);
   };
 
   scrollToSectionFromTerminal = (targetId: string) => {
@@ -140,6 +152,8 @@ export default class App extends React.Component<any, AppState> {
     scroll();
   };
 
+  // Required as a TerminalMode callback; it has no App state dependency.
+  // eslint-disable-next-line class-methods-use-this
   openExternalFromTerminal = (url: string) => {
     window.open(url, '_blank', 'noopener,noreferrer');
   };
@@ -208,7 +222,7 @@ export default class App extends React.Component<any, AppState> {
     ];
     return (
       <div id={'page'}>
-        <PageLoad togglePageOverflow={this.toggleDocumentOverflow} siteReady={this.state.siteReady}/>
+        <PageLoad togglePageOverflow={this.handlePageLoadOverflow} siteReady={this.state.siteReady}/>
         <Header navBarMobileProps={navbarMobileProps}/>
         <main>
           <section id="home">
