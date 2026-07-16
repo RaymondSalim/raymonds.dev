@@ -8,7 +8,7 @@ Terminal mode is not a replacement for the portfolio. It is an easter egg and po
 
 ## Product Shape
 
-Terminal mode is a hybrid command palette with terminal-flavored commands. It lets visitors run deterministic commands like `help`, `whoami`, `projects`, `contact`, and `cat about.txt`.
+Terminal mode is a hybrid command palette with terminal-flavored commands. It lets visitors run deterministic commands like `help`, `whoami`, `projects`, `contact`, `ls`, and `cat experience/domaintools.txt`.
 
 The normal portfolio remains the primary experience. Terminal mode can navigate to sections, print compact information, and open external links, but it should not duplicate the full site as a second content system.
 
@@ -53,6 +53,9 @@ exit
 whoami
 pwd
 ls
+ls experience
+ls client-work
+ls projects
 about
 experience
 client-work
@@ -64,6 +67,7 @@ email
 open projects
 open contact
 cat about.txt
+cat experience/domaintools.txt
 ```
 
 Aliases can be added when they are obvious and low maintenance, for example `work` for `experience` or `clients` for `client-work`.
@@ -71,8 +75,56 @@ Aliases can be added when they are obvious and low maintenance, for example `wor
 Output style is hybrid:
 
 - Terse by default. Commands like `whoami`, `pwd`, and section navigation print short shell-like output.
-- Richer output only for explicit detail commands like `help` and `cat about.txt`.
+- Richer output only for explicit detail commands like `help`, `cat about.txt`, and `cat experience/domaintools.txt`.
 - No broad fake Unix surface. If a command appears supported, it must do something useful and predictable.
+
+## Virtual Filesystem
+
+`ls` and `cat` operate on a small virtual filesystem, not real repo files, browser routes, or downloadable documents.
+
+Top-level `ls` prints stable virtual entries:
+
+```text
+about.txt
+experience/
+client-work/
+projects/
+contact.txt
+links.txt
+```
+
+`ls experience` prints one file per experience entry:
+
+```text
+domaintools.txt
+novometrix.txt
+tokopedia.txt
+mandiri.txt
+kalbe-farma.txt
+freelance.txt
+```
+
+`ls client-work` prints one file per client-work entry:
+
+```text
+hms.txt
+proven.txt
+life.txt
+```
+
+`ls projects` prints one file per project entry:
+
+```text
+ultiboard.txt
+icloud-album-downloader.txt
+reddit-downloader.txt
+e-commerce-web-scraper.txt
+tracker.txt
+```
+
+`cat` reads curated summaries for these virtual files. It must not attempt to fetch files from the network or parse source files at runtime. The v1 implementation can define this filesystem as a typed in-memory object near the terminal command table.
+
+The failure mode is content drift because current portfolio content lives inside React components. Keep file output concise for v1: title, role or tagline, dates when relevant, key technologies, and one or two short summary lines. Do not duplicate every bullet from the normal site unless the portfolio content is later extracted into shared data.
 
 ## Navigation Rules
 
@@ -145,7 +197,7 @@ Header integration should expose an `onTerminalOpen` callback or equivalent prop
 - Route-based `/terminal` page.
 - Natural-language command parsing.
 - Network-backed commands.
-- Full filesystem simulation.
+- Full filesystem simulation beyond the curated virtual files listed above.
 - Refactoring all portfolio content into shared data.
 
 ## Testing
@@ -154,6 +206,8 @@ Automated coverage should focus on command parsing and state behavior where prac
 
 - known commands produce the expected action or output.
 - unknown commands print a helpful error.
+- `ls`, `ls experience`, `ls client-work`, and `ls projects` list the expected virtual entries.
+- `cat` prints the matching virtual file summary and errors clearly for unknown files.
 - `clear` clears output.
 - `exit` closes the terminal.
 - ArrowUp and ArrowDown navigate in-memory history.
