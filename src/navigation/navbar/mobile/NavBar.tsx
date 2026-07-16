@@ -62,6 +62,7 @@ export class NavBar extends React.Component<NavbarMobileProps> {
           ref={this.terminalRef}
           type="button"
           className="terminal-trigger terminal-trigger-mobile"
+          data-testid="mobile-terminal-trigger"
           aria-label="Open terminal mode"
           onClick={this.props.onTerminalOpen}
         >

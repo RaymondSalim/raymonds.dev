@@ -40,6 +40,7 @@ export class NavBar extends React.Component<NavBarDesktopProps> {
             <button
               type="button"
               className="terminal-trigger"
+              data-testid="desktop-terminal-trigger"
               aria-label="Open terminal mode"
               aria-describedby={this.props.terminalHintId}
               onClick={this.props.onTerminalOpen}

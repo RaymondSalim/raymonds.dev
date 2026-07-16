@@ -42,7 +42,7 @@ afterEach(() => {
 test('desktop terminal trigger opens terminal', () => {
   const { onTerminalOpen } = renderHeader();
 
-  fireEvent.click(screen.getAllByRole('button', { name: 'Open terminal mode' })[0]);
+  fireEvent.click(screen.getByTestId('desktop-terminal-trigger'));
 
   expect(onTerminalOpen).toHaveBeenCalledTimes(1);
 });
@@ -50,7 +50,7 @@ test('desktop terminal trigger opens terminal', () => {
 test('mobile terminal trigger opens terminal', () => {
   const { onTerminalOpen } = renderHeader();
 
-  fireEvent.click(screen.getAllByRole('button', { name: 'Open terminal mode' })[1]);
+  fireEvent.click(screen.getByTestId('mobile-terminal-trigger'));
 
   expect(onTerminalOpen).toHaveBeenCalledTimes(1);
 });
@@ -69,7 +69,7 @@ test('desktop terminal hint appears once and can be dismissed', () => {
 test('opening terminal hides and persists the desktop hint', () => {
   const { onTerminalOpen } = renderHeader();
 
-  fireEvent.click(screen.getAllByRole('button', { name: 'Open terminal mode' })[0]);
+  fireEvent.click(screen.getByTestId('desktop-terminal-trigger'));
 
   expect(onTerminalOpen).toHaveBeenCalledTimes(1);
   expect(localStorage.getItem('terminalHintSeen')).toBe('true');

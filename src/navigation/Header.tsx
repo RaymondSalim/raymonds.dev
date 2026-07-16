@@ -9,7 +9,7 @@ export class Header extends React.Component<HeaderProps, HeaderState> {
 
   expandYLimit = 90;
   hiddenYStart = 150;
-  terminalHintTimer?: ReturnType<typeof window.setTimeout>;
+  terminalHintTimer?: number;
 
   constructor(props: HeaderProps) {
     super(props);
