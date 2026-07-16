@@ -52,6 +52,9 @@ clear
 exit
 whoami
 pwd
+cd experience
+cd ..
+cd /
 ls
 ls experience
 ls client-work
@@ -81,6 +84,8 @@ Output style is hybrid:
 ## Virtual Filesystem
 
 `ls` and `cat` operate on a small virtual filesystem, not real repo files, browser routes, or downloadable documents.
+
+The starting working directory is `/`. `pwd` prints the current virtual directory.
 
 Top-level `ls` prints stable virtual entries:
 
@@ -123,6 +128,20 @@ tracker.txt
 ```
 
 `cat` reads curated summaries for these virtual files. It must not attempt to fetch files from the network or parse source files at runtime. The v1 implementation can define this filesystem as a typed in-memory object near the terminal command table.
+
+`cd` changes the current virtual directory only for known directories:
+
+```text
+cd /
+cd experience
+cd client-work
+cd projects
+cd ..
+```
+
+After `cd experience`, `pwd` prints `/experience` and `ls` prints the same output as `ls experience`. Relative `cat` commands resolve from the current directory, so `cat domaintools.txt` works after `cd experience`.
+
+`cd` to a file prints a `not a directory` error. `cd` to an unknown path prints a `no such directory` error. Directory state resets when the page reloads.
 
 The failure mode is content drift because current portfolio content lives inside React components. Keep file output concise for v1: title, role or tagline, dates when relevant, key technologies, and one or two short summary lines. Do not duplicate every bullet from the normal site unless the portfolio content is later extracted into shared data.
 
@@ -197,6 +216,7 @@ Header integration should expose an `onTerminalOpen` callback or equivalent prop
 - Route-based `/terminal` page.
 - Natural-language command parsing.
 - Network-backed commands.
+- Shell expansion, globbing, pipes, redirects, environment variables, permissions, or executable scripts.
 - Full filesystem simulation beyond the curated virtual files listed above.
 - Refactoring all portfolio content into shared data.
 
@@ -208,6 +228,8 @@ Automated coverage should focus on command parsing and state behavior where prac
 - unknown commands print a helpful error.
 - `ls`, `ls experience`, `ls client-work`, and `ls projects` list the expected virtual entries.
 - `cat` prints the matching virtual file summary and errors clearly for unknown files.
+- `cd`, `cd ..`, and `cd /` update virtual directory state.
+- relative `ls` and `cat` commands resolve from the current virtual directory.
 - `clear` clears output.
 - `exit` closes the terminal.
 - ArrowUp and ArrowDown navigate in-memory history.
