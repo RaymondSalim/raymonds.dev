@@ -152,7 +152,7 @@ export default class App extends React.Component<any, AppState> {
                 <span><strong>Raymond</strong></span>
                 .
               </h1>
-              <p>I&apos;m a software engineer specializing in backend and data-platform engineering.</p>
+              <p>I&apos;m a software engineer specializing in backend engineering.</p>
               <Button text="Hire me!" className="px-8 py-4 mt-4" href="#contact" onfocus={() => {
                 window.scrollTo(0, 0);
               }}/>
