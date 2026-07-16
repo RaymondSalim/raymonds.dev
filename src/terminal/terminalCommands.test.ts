@@ -65,6 +65,14 @@ describe('executeTerminalCommand', () => {
     expect(executeTerminalCommand('clear', initialTerminalSession()).action).toEqual({ type: 'clear' });
   });
 
+  test('documents open section commands in help', () => {
+    const result = executeTerminalCommand('help', initialTerminalSession());
+    const helpText = result.lines.join('\n');
+
+    expect(helpText).toContain('open projects');
+    expect(helpText).toContain('open contact');
+  });
+
   test('suggests help for unknown commands', () => {
     const result = executeTerminalCommand('sudo make me a sandwich', initialTerminalSession());
 
