@@ -79,7 +79,7 @@ export function executeTerminalCommand(rawCommand: string, session: TerminalSess
       session,
       lines: [
         'available commands:',
-        'help clear exit whoami pwd ls cd cat',
+        'help clear exit whoami pwd ls',
         'cd experience cd client-work cd projects cd .. cd /',
         'ls experience ls client-work ls projects',
         'cat about.txt cat experience/domaintools.txt',

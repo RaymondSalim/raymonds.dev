@@ -146,6 +146,7 @@ describe('executeTerminalCommand', () => {
     expect(helpText).toContain('cat experience/domaintools.txt');
     expect(helpText).toContain('open projects');
     expect(helpText).toContain('open contact');
+    expect(result.lines[1]).toBe('help clear exit whoami pwd ls');
   });
 
   test('suggests help for unknown commands', () => {
