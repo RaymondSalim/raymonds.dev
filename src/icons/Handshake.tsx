@@ -4,12 +4,10 @@ export class Handshake extends React.Component {
   render() {
     return (
         <svg
-            fill="none"
+            fill="currentColor"
             height="24"
             stroke="currentColor"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
+            strokeWidth="0"
             viewBox="0 0 24 24"
             width="24"
             xmlns="http://www.w3.org/2000/svg"
