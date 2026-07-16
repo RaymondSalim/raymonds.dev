@@ -14,9 +14,6 @@ export class Footer extends React.Component<any, any> {
             <span className={'mt-6'}>© Copyright 2026, Raymond Salim</span>
           </div>
           <div>
-            <div id="sellout">
-              <a href="https://github.com/RaymondSalim/raymonds.dev">This website is open-source</a>
-            </div>
             <div id="footer-credits">
               <span>Thanks to </span>
               <a href="https://colebemis.com/" target="_blank" rel="noopener noreferrer">Cole Bemis</a>
