@@ -9,12 +9,13 @@ import { Header } from './navigation/Header';
 import { Button } from './buttons/Button';
 import { Gopher } from './icons/Gopher';
 import { Typescript } from './icons/Typescript';
-import { Jenkins } from './icons/Jenkins';
 import { Python } from './icons/Python';
-import { Kotlin } from './icons/Kotlin';
-import { Java } from './icons/Java';
+import { Rust } from './icons/Rust';
 import { PostgreSQL } from './icons/PostgreSQL';
-import { HTML } from './icons/HTML';
+import { Kafka } from './icons/Kafka';
+import { Kubernetes } from './icons/Kubernetes';
+import { AWS } from './icons/AWS';
+import { Redis } from './icons/Redis';
 import { Skill } from './icons/Skill';
 import { Experiences } from './components/Experiences';
 import { Projects } from './components/Projects';
@@ -125,14 +126,15 @@ export default class App extends React.Component<any, AppState> {
     };
 
     const skills: { icon: JSX.Element, label: string, padding: string }[] = [
-      { icon: <Gopher/>, label: 'Gopher', padding: 'p-4' },
-      { icon: <Typescript/>, label: 'Typescript', padding: 'p-5' },
+      { icon: <Gopher/>, label: 'Go', padding: 'p-4' },
       { icon: <Python/>, label: 'Python', padding: 'p-4' },
-      { icon: <Kotlin/>, label: 'Kotlin', padding: 'p-5' },
-      { icon: <Java/>, label: 'Java', padding: 'p-4' },
+      { icon: <Rust/>, label: 'Rust', padding: 'p-5' },
+      { icon: <Typescript/>, label: 'Typescript', padding: 'p-5' },
+      { icon: <Kafka/>, label: 'Kafka', padding: 'p-5' },
+      { icon: <Kubernetes/>, label: 'Kubernetes', padding: 'p-4' },
+      { icon: <AWS/>, label: 'AWS', padding: 'p-5' },
       { icon: <PostgreSQL/>, label: 'PostgreSQL', padding: 'p-5' },
-      { icon: <HTML/>, label: 'HTML', padding: 'p-5' },
-      { icon: <Jenkins/>, label: 'Jenkins', padding: 'p-4' },
+      { icon: <Redis/>, label: 'Redis', padding: 'p-5' },
     ];
     return (
       <div id={'page'}>
@@ -148,7 +150,7 @@ export default class App extends React.Component<any, AppState> {
                 <span><strong>Raymond</strong></span>
                 .
               </h1>
-              <p>I&apos;m a software engineer specializing in backend development.</p>
+              <p>I&apos;m a software engineer specializing in backend and data-platform engineering.</p>
               <Button text="Hire me!" className="px-8 py-4 mt-4" href="#contact" onfocus={() => {
                 window.scrollTo(0, 0);
               }}/>
@@ -168,8 +170,10 @@ export default class App extends React.Component<any, AppState> {
                       me. My interest in software development started back in 2019 when I stumbled upon a youtube
                       tutorial on building an android application.</p>
                     <p>
-                      Fast forward to today, I have developed software for clients ranging from individuals to large
-                      enterprise corporations such as&nbsp;
+                      Fast forward to today, I&apos;m a Software Engineer II at&nbsp;
+                      <a href="https://www.domaintools.com/" target="_blank" rel="noopener noreferrer" className={'text-highlight'}>DomainTools</a>
+                      , building and operating distributed data pipelines. I&apos;ve also developed software for
+                      clients ranging from individuals to large enterprise corporations such as&nbsp;
                       <a href="https://www.tokopedia.com/about/" target="_blank" rel="noopener noreferrer" className={'text-highlight'}>Tokopedia</a>
                       ,&nbsp;
                       <a href="https://www.kalbe.co.id/" target="_blank" rel="noopener noreferrer" className={'text-highlight'}>Kalbe Farma</a>
@@ -184,11 +188,12 @@ export default class App extends React.Component<any, AppState> {
                   <p>When I am not coding, you can find me doing any
                     of the following:</p>
                   <ul className="list-disc list-outside mt-8 ml-5">
-                    <li>Gym</li>
                     <li>Badminton</li>
                     <li>Ultimate Frisbee</li>
+                    <li>Hiking</li>
                     <li>Rock Climbing</li>
-                    <li>Watching/playing video games</li>
+                    <li>Video Games</li>
+                    <li>Volunteering</li>
                   </ul>
                 </div>
                 <div className="row-start-3 md:row-start-2 md:col-span-full">
