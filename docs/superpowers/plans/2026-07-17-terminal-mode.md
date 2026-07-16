@@ -927,7 +927,7 @@ git commit -m "feat(terminal): style terminal panel"
 
 ---
 
-## Task 4: App Integration, Mobile Scroll Rule, And External Actions
+## Task 4: App Integration, Desktop Shortcut, And Terminal Actions
 
 **Files:**
 - Modify: `src/App.tsx`
@@ -1111,25 +1111,9 @@ handleResize() {
 }
 ```
 
-- [ ] **Step 7: Pass terminal callback into header and render terminal mode**
+- [ ] **Step 7: Render terminal mode**
 
-In `render`, update `navbarMobileProps.menu`:
-
-```tsx
-menu: {
-  isOpen: this.state.menuActive,
-  onItemClick: this.toggleMenu,
-  darkModeToggle: this.toggleDarkMode,
-  darkMode: this.state.darkMode,
-  onTerminalOpen: this.openTerminalMode,
-},
-```
-
-Update `Header` usage:
-
-```tsx
-<Header navBarMobileProps={navbarMobileProps} onTerminalOpen={this.openTerminalMode}/>
-```
+Do not pass `onTerminalOpen` into `Header` yet. Header trigger props are added in Task 5. Task 4 only wires the desktop backtick shortcut and terminal actions.
 
 Render `TerminalMode` before closing `#page`:
 
@@ -1165,6 +1149,7 @@ git commit -m "feat(terminal): integrate terminal mode in app"
 ## Task 5: Header Triggers And One-Time Hint Bubble
 
 **Files:**
+- Modify: `src/App.tsx`
 - Modify: `src/navigation/Header.tsx`
 - Modify: `src/navigation/navbar/desktop/NavBar.tsx`
 - Modify: `src/navigation/navbar/mobile/NavBar.tsx`
@@ -1234,7 +1219,13 @@ CI=true npm test -- --runTestsByPath src/navigation/Header.test.tsx --watchAll=f
 
 Expected: FAIL because header trigger and hint bubble do not exist.
 
-- [ ] **Step 3: Extend nav prop types**
+- [ ] **Step 3: Extend app/header/nav prop types**
+
+Modify `src/App.tsx` `Header` usage:
+
+```tsx
+<Header navBarMobileProps={navbarMobileProps} onTerminalOpen={this.openTerminalMode}/>
+```
 
 Modify `src/navigation/Header.tsx` `HeaderProps`:
 
@@ -1417,7 +1408,7 @@ Expected: PASS.
 - [ ] **Step 10: Commit header trigger and hint**
 
 ```bash
-git add src/navigation/Header.tsx src/navigation/Header.css src/navigation/navbar/desktop/NavBar.tsx src/navigation/navbar/desktop/NavBar.css src/navigation/navbar/mobile/NavBar.tsx src/navigation/navbar/mobile/Hamburger.css src/navigation/menu/Menu.tsx src/navigation/Header.test.tsx
+git add src/App.tsx src/navigation/Header.tsx src/navigation/Header.css src/navigation/navbar/desktop/NavBar.tsx src/navigation/navbar/desktop/NavBar.css src/navigation/navbar/mobile/NavBar.tsx src/navigation/navbar/mobile/Hamburger.css src/navigation/menu/Menu.tsx src/navigation/Header.test.tsx
 git commit -m "feat(terminal): add header trigger and hint"
 ```
 
