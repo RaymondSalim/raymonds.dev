@@ -72,8 +72,7 @@ export class Projects extends React.Component<ProjectsProps, ProjectsState> {
       {
         name: 'Ultiboard',
         repoUrl: 'http://github.com/RaymondSalim/ultiboard',
-        projUrl: '',
-        // TODO: upload a screenshot to CDN_Assets as "Personal Website/Ultiboard.png" and update this URL
+        projUrl: 'https://ultiboard.app',
         imgUrl: 'https://raw.githubusercontent.com/RaymondSalim/CDN_Assets/main/Personal%20Website/Ultiboard.png',
         imgAlt: 'Ultiboard',
         techStacks: [
@@ -86,8 +85,7 @@ export class Projects extends React.Component<ProjectsProps, ProjectsState> {
         name: 'iCloud Album Downloader',
         repoUrl: 'https://github.com/RaymondSalim/icloud-album-downloader-ext',
         projUrl: '',
-        // TODO: upload a screenshot to CDN_Assets as "Personal Website/iCloud Album Downloader.png" and update this URL
-        imgUrl: 'https://raw.githubusercontent.com/RaymondSalim/CDN_Assets/main/Personal%20Website/iCloud%20Album%20Downloader.png',
+        imgUrl: 'https://raw.githubusercontent.com/RaymondSalim/CDN_Assets/main/Personal%20Website/iCloudExt.png',
         imgAlt: 'iCloud Album Downloader',
         techStacks: [
           'TypeScript', 'Cloudflare Workers', 'GitHub Actions',
@@ -161,6 +159,7 @@ export class Projects extends React.Component<ProjectsProps, ProjectsState> {
                     alt={proj.imgAlt}
                     style={{
                       aspectRatio: '16/9',
+                      objectFit: 'cover',
                       // maxWidth: '25vw',
                     }}
                   />
@@ -190,7 +189,7 @@ export class Projects extends React.Component<ProjectsProps, ProjectsState> {
                     }
                     {
                       proj.projUrl.length > 0
-                        ? <a href={proj.projUrl} className={'project-links'}>
+                        ? <a rel="noopener noreferrer" target={'_blank'} href={proj.projUrl} className={'project-links'}>
                           <External />
                         </a>
                         : null
