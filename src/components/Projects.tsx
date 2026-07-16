@@ -70,6 +70,32 @@ export class Projects extends React.Component<ProjectsProps, ProjectsState> {
   render() {
     const projects: Project[] = [
       {
+        name: 'Ultiboard',
+        repoUrl: 'http://github.com/RaymondSalim/ultiboard',
+        projUrl: '',
+        // TODO: upload a screenshot to CDN_Assets as "Personal Website/Ultiboard.png" and update this URL
+        imgUrl: 'https://raw.githubusercontent.com/RaymondSalim/CDN_Assets/main/Personal%20Website/Ultiboard.png',
+        imgAlt: 'Ultiboard',
+        techStacks: [
+          'Next.js', 'Prisma', 'TypeScript', 'PostgreSQL', 'Vitest', 'Playwright',
+        ],
+        description: 'Built and deployed a full-stack strategy-board platform that enables coaches to create, animate, share, duplicate, and fork multi-step plays. Designed authenticated APIs and transactional persistence with ownership enforcement, optimistic concurrency control, and rate limiting.',
+        date: new Date(2025, 0),
+      },
+      {
+        name: 'iCloud Album Downloader',
+        repoUrl: 'https://github.com/RaymondSalim/icloud-album-downloader-ext',
+        projUrl: '',
+        // TODO: upload a screenshot to CDN_Assets as "Personal Website/iCloud Album Downloader.png" and update this URL
+        imgUrl: 'https://raw.githubusercontent.com/RaymondSalim/CDN_Assets/main/Personal%20Website/iCloud%20Album%20Downloader.png',
+        imgAlt: 'iCloud Album Downloader',
+        techStacks: [
+          'TypeScript', 'Cloudflare Workers', 'GitHub Actions',
+        ],
+        description: "Built a Chrome and Firefox extension that downloads complete public iCloud shared albums, including photos, videos, and optional Live Photo video components. Integrated Apple's shared-album APIs with privacy-conscious error telemetry via a rate-limited Cloudflare Worker.",
+        date: new Date(2024, 6),
+      },
+      {
         name: 'Proven',
         repoUrl: '',
         projUrl: 'https://fl.klbf-proven.raymonds.dev',

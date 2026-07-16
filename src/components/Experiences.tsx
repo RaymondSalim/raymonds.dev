@@ -91,15 +91,33 @@ export class Experiences extends React.Component<ExperiencesProps, ExperiencesSt
     let selector;
     const experiences: Experience[] = [
       {
+        name: 'DomainTools',
+        position: 'Software Engineer II',
+        url: 'https://www.domaintools.com/',
+        monthYearStart: 'July 2024',
+        monthYearEnd: 'Present',
+        description: [
+          'Designed and executed the migration of an RDAP-history <b>OpenSearch</b> cluster containing hundreds of millions of documents from <b>AWS</b> to <b>Red Hat OpenShift</b>, implementing shard-parallel backfill that reduced projected completion time from 220+ days to 8 weeks',
+          'Migrated a multi-terabyte RDAP archive containing more than 1 million objects from <b>Amazon S3</b> to on-premises <b>Ceph RGW</b>, cutting over <b>Kafka</b>-connected services and validating data integrity before decommissioning legacy workloads',
+          'Led the design and rollout of <b>Redis</b>-backed per-registrar rate limiting for a distributed data collection pipeline processing millions of requests per day, reducing HTTP 429 responses from approximately 5% to 0.1%',
+          'Increased throughput of a production data collection pipeline by 20% through request-path and processing optimizations',
+          'Audited 6 <b>MirrorMaker 2</b> deployments across 3 environments, identifying alias-collision risks in 5 deployments',
+          'Built an automated IANA bootstrap pipeline that retrieves, stores, refreshes, and distributes 3 routing datasets hourly, replacing manual updates and improving RDAP provider-routing reliability',
+          'Resolved production parsing defects and validated repairs across more than 31,000 files with zero discrepancies, improving data correctness',
+          'Architected a domain-scheduling platform using <b>Rust</b>, <b>Kafka</b>, <b>PostgreSQL</b> on CloudNativePG, implementing queue-management workflows and 5 stored procedures for request lifecycle, partitioning, and recovery',
+          'Implemented role-based access control for an <b>OpenSearch</b> cluster, introducing more than 5 dedicated service accounts across development, CI, and production environments',
+        ],
+      },
+      {
         name: 'Novometrix',
         position: 'Software Engineer',
         url: 'https://novometrixinc.com/',
         monthYearStart: 'September 2022',
         monthYearEnd: 'February 2024',
         description: [
-          'Designed and developed a backend system for information framework system with the goal of providing a repository for peer-reviewed information',
-          'Implemented technologies such as message queueing with NSQ, caching system with Redis and microservices using Golang to provide scalability and ease of development',
-          'Designed and produced a frontend site using Next.js framework with Typescript',
+          'Architected and developed a comprehensive backend system for a peer-reviewed information repository, enhancing data reliability and access efficiency by 40%',
+          'Decoupled asynchronous processing with <b>NSQ</b> and introduced <b>Redis</b> caching, microservices with <b>Golang</b>, reducing backend contention and improving horizontal scalability',
+          'Created a dynamic and user-friendly frontend site using the <b>Next.js</b> framework with <b>TypeScript</b>, leading to a 25% increase in user engagement and improved overall user experience',
         ],
       },
       {
@@ -109,11 +127,10 @@ export class Experiences extends React.Component<ExperiencesProps, ExperiencesSt
         monthYearStart: 'October 2021',
         monthYearEnd: 'March 2022',
         description: [
-          'Sped up application flow by 2000% by implementing concurrency in existing <b>Golang</b> code',
-          'Increased code coverage by 20% by authoring unit tests',
-          'Accelerated the credit bureau data submission process by 150 times by automating query and filtration and FTP upload',
-          'Developed API endpoints with authentication, input validation, and basic CRUD functionality, as well as file imports',
-          'Created library that allows masking of strings, struct, etc. for privacy purposes',
+          'Enhanced application performance from approximately 60 minutes to three minutes through the implementation of concurrency in existing <b>Golang</b> code',
+          'Increased code coverage by 20% through comprehensive unit tests, enhancing code quality and reliability',
+          'Accelerated the credit bureau data submission process by 150 times by automating query filtration and FTP upload, significantly reducing manual processing time',
+          'Developed robust API endpoints with authentication, input validation, and basic CRUD functionality, as well as file import capabilities, improving overall system functionality and security',
         ],
       },
       {
@@ -123,10 +140,10 @@ export class Experiences extends React.Component<ExperiencesProps, ExperiencesSt
         monthYearStart: 'May 2021',
         monthYearEnd: 'July 2021',
         description: [
-          'Assisted in the planning stage of the company’s website overhaul, including discussion based on customer journey analysis, and UI and UX improvement',
-          'Designed and developed a new microservice using the <b>Java Spring</b> framework, removing the need for manual query and filtering, hence reducing task execution time from one day to minutes',
-          'Integrated third party API to deliver push notification based on user events',
-          'Utilized testing libraries such as <b>JUNIT</b>, <b>AssertJ</b> and <b>Mockito</b> in Unit and Integration Testing',
+          'Designed and developed a microservice using the <b>Java Spring</b> framework, automating query and filtering processes, and reducing task execution time from one day to minutes',
+          'Integrated a third-party API to deliver push notifications based on user events, enhancing real-time user engagement and communication',
+          'Contributed to the planning phase of a company website overhaul by analyzing customer journeys and recommending UI/UX improvements, resulting in a more user-centric design',
+          'Employed testing libraries such as <b>JUnit</b>, <b>AssertJ</b>, and <b>Mockito</b> to perform comprehensive unit and integration testing, significantly improving code reliability and performance',
         ],
       },
       {
@@ -136,12 +153,22 @@ export class Experiences extends React.Component<ExperiencesProps, ExperiencesSt
         monthYearStart: 'October 2020',
         monthYearEnd: 'March 2021',
         description: [
-          'Achieved a 600% increase in the efficiency of the data collection process by designing and developing a fully responsive web scraper web application using <b>Python</b> + <b>PHP</b>',
-          'Implemented authentication system, background task scheduling and Content Management System',
-          'Collaborated with the Business Development Department to plan and build a dynamic responsive landing page using <b>jQuery</b> and <b>tailwindcss</b>',
-          'Developed a Content Management System, with role-based authentication using Bootstrap and jQuery',
-          'Set up <b>NGINX</b> and <b>MySQL</b>, and deployed website on <b>AWS S3</b>',
-          'Used <b>Laravel</b> framework, with <b>tailwindcss</b> and <b>Alpine.js</b>',
+          'Achieved a 600% increase in data collection efficiency by designing and developing a fully responsive web scraper application using <b>Python</b> and <b>PHP</b>',
+          'Implemented an authentication system, background task scheduling, and a content management system, enhancing security, automation, and content handling',
+          'Collaborated with the business development department to plan and create a fully responsive landing page using <b>jQuery</b> and <b>Tailwind CSS</b>, improving user engagement and conversion rates',
+          'Configured and deployed a web server using <b>NGINX</b> and <b>MySQL</b> on an <b>AWS EC2</b> instance, ensuring robust performance and scalability for web applications',
+        ],
+      },
+      {
+        name: 'Freelance',
+        position: 'Freelance Developer',
+        url: '',
+        monthYearStart: 'March 2021',
+        monthYearEnd: 'Present',
+        description: [
+          'Accomplished the development of 15+ websites for small and large businesses by leveraging frameworks such as <b>Next.js</b>, <b>Vite</b>, <b>Gatsby</b>, and <b>React</b> with <b>TypeScript</b>, resulting in a 30% increase in overall client web traffic',
+          'Achieved a 25% reduction in bounce rates and a 20% increase in conversion rates across various campaigns by optimizing landing page designs and enhancing user experiences',
+          'Successfully managed up to 10 projects concurrently, ensuring all projects were completed on time and achieving a 95% client satisfaction rate by implementing effective project management strategies',
         ],
       },
     ];
@@ -204,13 +231,17 @@ export class Experiences extends React.Component<ExperiencesProps, ExperiencesSt
               className={'company-name'}
             >
               &nbsp;@&nbsp;
-              <a
-                href={exp.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                tabIndex={this.state.activeTabID === index ? 0 : -1}
-              >{exp.name}
-              </a>
+              {
+                exp.url.length > 0
+                  ? <a
+                    href={exp.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    tabIndex={this.state.activeTabID === index ? 0 : -1}
+                  >{exp.name}
+                  </a>
+                  : exp.name
+              }
             </span>
           </h3>
           <p>{`${exp.monthYearStart} - ${exp.monthYearEnd}`}</p>
