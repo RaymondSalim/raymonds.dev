@@ -35,6 +35,32 @@ describe('TerminalMode', () => {
     expect(screen.getByLabelText('Terminal command')).toHaveFocus();
   });
 
+  test('mobile render exposes mobile dialog semantics', () => {
+    renderOpenTerminal({ isMobile: true });
+
+    const dialog = screen.getByRole('dialog', { name: 'Terminal mode' });
+
+    expect(dialog).toHaveClass('terminal-mode-mobile');
+    expect(dialog).toHaveAttribute('aria-modal', 'true');
+  });
+
+  test('desktop render exposes desktop dialog semantics', () => {
+    renderOpenTerminal();
+
+    const dialog = screen.getByRole('dialog', { name: 'Terminal mode' });
+
+    expect(dialog).toHaveClass('terminal-mode-desktop');
+    expect(dialog).toHaveAttribute('aria-modal', 'false');
+  });
+
+  test('exposes terminal markup hooks for styling', () => {
+    renderOpenTerminal();
+
+    expect(screen.getByRole('group', { name: 'Terminal header' })).toHaveAttribute('id', 'terminal-mode-header');
+    expect(screen.getByRole('log', { name: 'Terminal output' })).toHaveAttribute('id', 'terminal-mode-output');
+    expect(screen.getByRole('group', { name: 'Terminal input' })).toHaveAttribute('id', 'terminal-mode-input-row');
+  });
+
   test('submits whoami and prints output', () => {
     renderOpenTerminal();
 
@@ -101,5 +127,13 @@ describe('TerminalMode', () => {
     fireEvent.keyDown(input, { key: 'ArrowDown', code: 'ArrowDown' });
 
     expect(input).toHaveValue('');
+  });
+
+  test('submitted command line has input styling hook', () => {
+    renderOpenTerminal();
+
+    submitCommand('whoami');
+
+    expect(screen.getByText('> whoami')).toHaveClass('terminal-line', 'terminal-line-input');
   });
 });

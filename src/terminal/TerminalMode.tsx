@@ -13,9 +13,16 @@ export interface TerminalModeProps {
 type TerminalModeState = {
   input: string,
   session: TerminalSession,
-  outputLines: string[],
+  outputLines: TerminalOutputLine[],
   commandHistory: string[],
   historyIndex?: number,
+};
+
+type TerminalLineKind = 'input' | 'output' | 'error';
+
+type TerminalOutputLine = {
+  text: string,
+  kind: TerminalLineKind,
 };
 
 export class TerminalMode extends React.Component<TerminalModeProps, TerminalModeState> {
@@ -102,13 +109,36 @@ export class TerminalMode extends React.Component<TerminalModeProps, TerminalMod
       return {
         input: '',
         session: result.session,
-        outputLines: [...state.outputLines, `> ${command}`, ...result.lines],
+        outputLines: [
+          ...state.outputLines,
+          { text: `> ${command}`, kind: 'input' },
+          ...result.lines.map((line) => ({
+            text: line,
+            kind: TerminalMode.lineKindForOutput(line),
+          })),
+        ],
         commandHistory,
         historyIndex: undefined,
       };
     });
 
     this.handleCommandAction(result.action);
+  }
+
+  private static lineKindForOutput(line: string): TerminalLineKind {
+    if (
+      line.startsWith('command not found:')
+      || line.includes(': no such ')
+      || line.includes(': not a directory')
+    ) {
+      return 'error';
+    }
+
+    return 'output';
+  }
+
+  private static classNameForLine(line: TerminalOutputLine): string {
+    return `terminal-line terminal-line-${line.kind}`;
   }
 
   private handleCommandAction(action: ReturnType<typeof executeTerminalCommand>['action']) {
@@ -172,30 +202,33 @@ export class TerminalMode extends React.Component<TerminalModeProps, TerminalMod
         id="terminal-mode"
         role="dialog"
         aria-label="Terminal mode"
+        aria-modal={this.props.isMobile}
         className={this.props.isMobile ? 'terminal-mode-mobile' : 'terminal-mode-desktop'}
       >
-        <header>
+        <header id="terminal-mode-header" role="group" aria-label="Terminal header">
           <button type="button" onClick={this.props.onClose} aria-label="Close terminal">
             Close
           </button>
         </header>
-        <div aria-live="polite">
+        <div id="terminal-mode-output" role="log" aria-label="Terminal output" aria-live="polite">
           {this.state.outputLines.map((line, index) => (
-            <div key={`${index}-${line}`}>
-              {line}
+            <div key={`${index}-${line.text}`} className={TerminalMode.classNameForLine(line)}>
+              {line.text}
             </div>
           ))}
         </div>
-        <label htmlFor="terminal-command-input">
-          Terminal command
-        </label>
-        <input
-          id="terminal-command-input"
-          ref={this.inputRef}
-          value={this.state.input}
-          onChange={this.handleInputChange}
-          onKeyDown={this.handleKeyDown}
-        />
+        <div id="terminal-mode-input-row" role="group" aria-label="Terminal input">
+          <label htmlFor="terminal-command-input">
+            Terminal command
+          </label>
+          <input
+            id="terminal-command-input"
+            ref={this.inputRef}
+            value={this.state.input}
+            onChange={this.handleInputChange}
+            onKeyDown={this.handleKeyDown}
+          />
+        </div>
       </section>
     );
   }
