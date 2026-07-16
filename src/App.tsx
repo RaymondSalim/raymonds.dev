@@ -27,11 +27,14 @@ import { Contact } from './components/Contact';
 import { Footer } from './components/Footer';
 import { ScrollToTop } from './buttons/ScrollToTop';
 import { ScrollProgress } from './buttons/ScrollProgress';
+import { TerminalMode } from './terminal/TerminalMode';
 
 export interface AppState {
   siteReady: boolean
   menuActive: boolean
   darkMode: boolean
+  terminalModeActive: boolean
+  isMobileViewport: boolean
 }
 
 export default class App extends React.Component<any, AppState> {
@@ -46,6 +49,8 @@ export default class App extends React.Component<any, AppState> {
       siteReady: false,
       menuActive: false,
       darkMode: App.isDarkModeEnabled(),
+      terminalModeActive: false,
+      isMobileViewport: window.innerWidth <= 768,
     };
 
     if (process.env[EnvironmentVariables.DEPLOYMENT_ENV] === 'staging') {
@@ -68,15 +73,26 @@ export default class App extends React.Component<any, AppState> {
 
     this.debouncedResizeHandler = debounce<App>(this.handleResize, 200, this);
     window.addEventListener('resize', this.debouncedResizeHandler);
+    document.addEventListener('keydown', this.handleTerminalShortcut);
   };
 
   componentWillUnmount() {
     window.removeEventListener('resize', this.debouncedResizeHandler);
+    document.removeEventListener('keydown', this.handleTerminalShortcut);
   }
 
   handleResize() {
+    const isMobileViewport = window.innerWidth <= 768;
+
+    this.setState({ isMobileViewport });
+
     if (window.innerWidth > 768) {
       this.toggleMenu(false);
+      if (this.state.terminalModeActive) {
+        this.toggleDocumentOverflow(false);
+      }
+    } else if (this.state.terminalModeActive) {
+      this.toggleDocumentOverflow(true);
     }
   }
 
@@ -90,6 +106,57 @@ export default class App extends React.Component<any, AppState> {
     this.setState({
       menuActive: expected,
     });
+  };
+
+  openTerminalMode = () => {
+    const isMobileViewport = window.innerWidth <= 768;
+
+    this.toggleMenu(false);
+    this.toggleDocumentOverflow(isMobileViewport);
+    this.setState({
+      terminalModeActive: true,
+      isMobileViewport,
+    });
+  };
+
+  closeTerminalMode = () => {
+    this.toggleDocumentOverflow(false);
+    this.setState({
+      terminalModeActive: false,
+    });
+  };
+
+  scrollToSectionFromTerminal = (targetId: string) => {
+    const scroll = () => {
+      document.getElementById(targetId)?.scrollIntoView({ behavior: 'smooth' });
+    };
+
+    if (this.state.isMobileViewport) {
+      this.closeTerminalMode();
+      window.setTimeout(scroll, 0);
+      return;
+    }
+
+    scroll();
+  };
+
+  openExternalFromTerminal = (url: string) => {
+    window.open(url, '_blank', 'noopener,noreferrer');
+  };
+
+  handleTerminalShortcut = (e: KeyboardEvent) => {
+    const target = e.target as HTMLElement | null;
+    const tagName = target?.tagName?.toLowerCase();
+    const isTextInput = tagName === 'input' || tagName === 'textarea' || target?.isContentEditable;
+
+    if (isTextInput || window.innerWidth <= 768) {
+      return;
+    }
+
+    if (e.key === '`') {
+      e.preventDefault();
+      this.openTerminalMode();
+    }
   };
 
   initDarkMode() {
@@ -241,6 +308,13 @@ export default class App extends React.Component<any, AppState> {
         <Footer />
         <ScrollToTop />
         <ScrollProgress />
+        <TerminalMode
+          isOpen={this.state.terminalModeActive}
+          isMobile={this.state.isMobileViewport}
+          onClose={this.closeTerminalMode}
+          onScrollToSection={this.scrollToSectionFromTerminal}
+          onExternalOpen={this.openExternalFromTerminal}
+        />
       </div>
     );
   }
