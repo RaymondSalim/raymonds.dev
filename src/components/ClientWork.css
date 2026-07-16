@@ -1,0 +1,27 @@
+#client-work-grid {
+    @apply grid md:grid-cols-3 gap-y-12 md:gap-y-0 gap-x-4 md:gap-x-10 2xl:gap-x-16;
+}
+
+.client-work-name {
+    @apply font-display text-brutalist-accent text-3xl uppercase mb-2;
+}
+
+.client-work-tagline {
+    @apply font-mono text-brutalist-fg-muted dark:text-brutalist-fg-muted-dark text-xs uppercase tracking-wide mb-4;
+}
+
+.client-work-description {
+    @apply mb-4;
+}
+
+.client-work-stack-list {
+    @apply list-none mb-4 flex flex-wrap gap-2;
+}
+
+.client-work-stack-list > li {
+    @apply inline-block bg-brutalist-accent text-brutalist-accent-contrast font-mono font-bold text-xs uppercase tracking-wide px-2 py-1;
+}
+
+.client-work-link {
+    @apply inline-block transition-transform hover:scale-125 hover:text-brutalist-accent;
+}
