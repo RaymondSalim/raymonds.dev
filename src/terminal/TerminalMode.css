@@ -1,0 +1,58 @@
+#terminal-mode {
+    @apply z-[60] border-2 border-brutalist-border dark:border-brutalist-bg bg-brutalist-fg dark:bg-brutalist-bg text-brutalist-bg dark:text-brutalist-fg font-mono;
+}
+
+.terminal-mode-desktop {
+    @apply fixed right-4 bottom-4 w-[min(560px,calc(100vw_-_2rem))] max-h-[60vh] flex flex-col;
+}
+
+.terminal-mode-mobile {
+    @apply fixed inset-0 w-screen h-screen flex flex-col;
+}
+
+#terminal-mode-header {
+    @apply flex items-center justify-between border-b-2 border-brutalist-bg dark:border-brutalist-fg px-3 py-2 text-sm;
+}
+
+#terminal-mode-header span,
+#terminal-mode-header button {
+    @apply text-brutalist-bg dark:text-brutalist-fg font-mono;
+}
+
+#terminal-mode-header button {
+    @apply px-2 py-1 border-2 border-brutalist-bg dark:border-brutalist-fg uppercase font-bold;
+}
+
+#terminal-mode-header button:hover,
+#terminal-mode-header button:focus {
+    @apply text-brutalist-accent border-brutalist-accent;
+}
+
+#terminal-mode-output {
+    @apply flex-1 overflow-y-auto px-3 py-3 space-y-1;
+}
+
+.terminal-line {
+    @apply text-sm leading-6 text-brutalist-bg dark:text-brutalist-fg font-mono whitespace-pre-wrap;
+}
+
+.terminal-line-input {
+    @apply text-brutalist-accent dark:text-brutalist-accent;
+}
+
+.terminal-line-error {
+    @apply text-red-400 dark:text-red-400;
+}
+
+#terminal-mode-input-row {
+    @apply flex items-center gap-2 border-t-2 border-brutalist-bg dark:border-brutalist-fg px-3 py-2;
+}
+
+#terminal-mode-input-row span,
+#terminal-mode-input-row label {
+    @apply text-brutalist-accent dark:text-brutalist-accent font-mono;
+}
+
+#terminal-mode-input-row input {
+    @apply flex-1 bg-transparent text-brutalist-bg dark:text-brutalist-fg font-mono outline-none border-0 p-0;
+}
