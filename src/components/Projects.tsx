@@ -96,30 +96,6 @@ export class Projects extends React.Component<ProjectsProps, ProjectsState> {
         date: new Date(2024, 6),
       },
       {
-        name: 'Proven',
-        repoUrl: '',
-        projUrl: 'https://fl.klbf-proven.raymonds.dev',
-        imgUrl: 'https://raw.githubusercontent.com/RaymondSalim/CDN_Assets/main/Personal%20Website/Proven.png',
-        imgAlt: 'Proven',
-        techStacks: [
-          'TypeScript', 'React', 'Vite.js',
-        ],
-        description: 'Developed a landing page for a client using React with TypeScript, featuring an interactive online quiz and Google Analytics integration for user engagement and tracking.',
-        date: new Date(2023, 9),
-      },
-      {
-        name: 'Life',
-        repoUrl: '',
-        projUrl: 'https://fl.klbf-life.raymonds.dev',
-        imgUrl: 'https://raw.githubusercontent.com/RaymondSalim/CDN_Assets/main/Personal%20Website/Life.png',
-        imgAlt: 'Proven',
-        techStacks: [
-          'TypeScript', 'React', 'Vite.js',
-        ],
-        description: 'Developed a landing page for a client using React with TypeScript, featuring Google Analytics integration for user engagement and tracking.',
-        date: new Date(2024, 1),
-      },
-      {
         name: 'Reddit Downloader',
         repoUrl: 'https://github.com/RaymondSalim/RedditDownloader-Kotlin',
         projUrl: '',
