@@ -93,6 +93,17 @@ test('unmount removes the window load listener', () => {
   expect(removeEventListener).toHaveBeenCalledWith('load', loadHandler);
 });
 
+test('unmount clears document overflow lock', () => {
+  Object.defineProperty(window, 'innerWidth', { writable: true, value: 1024 });
+  const { unmount } = render(<App />);
+
+  expect(document.documentElement).toHaveClass('overflow-hidden');
+
+  unmount();
+
+  expect(document.documentElement).not.toHaveClass('overflow-hidden');
+});
+
 test('desktop section command projects scrolls to #projects and keeps terminal open', () => {
   Object.defineProperty(window, 'innerWidth', { writable: true, value: 1024 });
   const target = document.createElement('section');

@@ -78,6 +78,7 @@ export default class App extends React.Component<any, AppState> {
     window.removeEventListener('load', this.handleWindowLoad);
     window.removeEventListener('resize', this.debouncedResizeHandler);
     document.removeEventListener('keydown', this.handleTerminalShortcut);
+    document.documentElement.classList.remove('overflow-hidden');
   }
 
   handleWindowLoad = () => {
