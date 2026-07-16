@@ -36,6 +36,17 @@ export class NavBar extends React.Component<NavBarDesktopProps> {
               <span>Contact</span>
             </a>
           </li>
+          <li className={'terminal-trigger-container'}>
+            <button
+              type="button"
+              className="terminal-trigger"
+              aria-label="Open terminal mode"
+              aria-describedby={this.props.terminalHintId}
+              onClick={this.props.onTerminalOpen}
+            >
+              &gt;_
+            </button>
+          </li>
           <li className={'toggle-container'}>
             <DarkModeToggle singleIconDim={iconDim?.pixels} isDarkModeEnabled={this.props.darkMode}
                             onChange={this.props.darkModeToggle} singleIconMode={true}/>
@@ -49,4 +60,6 @@ export class NavBar extends React.Component<NavBarDesktopProps> {
 export interface NavBarDesktopProps {
   darkMode: boolean
   darkModeToggle: (e: SyntheticEvent) => void
+  onTerminalOpen: () => void
+  terminalHintId?: string
 }

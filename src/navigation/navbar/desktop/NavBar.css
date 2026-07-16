@@ -22,3 +22,16 @@
 #navbar-desktop .toggle-container {
     @apply !ml-4 h-7 w-7;
 }
+
+#navbar-desktop .terminal-trigger-container {
+    @apply !ml-4;
+}
+
+#navbar-desktop .terminal-trigger {
+    @apply h-7 px-2 border-2 border-brutalist-border dark:border-brutalist-bg text-brutalist-fg dark:text-brutalist-bg bg-brutalist-bg dark:bg-brutalist-fg font-mono font-bold transition-colors;
+}
+
+#navbar-desktop .terminal-trigger:hover,
+#navbar-desktop .terminal-trigger:focus {
+    @apply text-brutalist-accent border-brutalist-accent;
+}

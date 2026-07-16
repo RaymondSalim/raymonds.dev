@@ -196,7 +196,7 @@ export default class App extends React.Component<any, AppState> {
   }
 
   render() {
-    const navbarMobileProps: NavbarMobileProps = {
+    const navbarMobileProps: Omit<NavbarMobileProps, 'onTerminalOpen'> = {
       hamburger: {
         isActive: this.state.menuActive,
         onclick: this.toggleMenu,
@@ -224,7 +224,7 @@ export default class App extends React.Component<any, AppState> {
     return (
       <div id={'page'}>
         <PageLoad togglePageOverflow={this.handlePageLoadOverflow} siteReady={this.state.siteReady}/>
-        <Header navBarMobileProps={navbarMobileProps}/>
+        <Header navBarMobileProps={navbarMobileProps} onTerminalOpen={this.openTerminalMode}/>
         <main>
           <section id="home">
             <div id="home-content" className="content">

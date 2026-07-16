@@ -15,6 +15,19 @@
     @apply h-full z-40 flex items-center relative p-4 outline-none;
 }
 
+.mobile-navbar {
+    @apply flex items-center gap-2;
+}
+
+.terminal-trigger-mobile {
+    @apply z-40 h-10 px-2 border-2 border-brutalist-border dark:border-brutalist-bg text-brutalist-fg dark:text-brutalist-bg bg-brutalist-bg dark:bg-brutalist-fg font-mono font-bold transition-colors;
+}
+
+.terminal-trigger-mobile:hover,
+.terminal-trigger-mobile:focus {
+    @apply text-brutalist-accent border-brutalist-accent;
+}
+
 .burger-container {
     @apply cursor-pointer;
     height: var(--burger-container-height);
