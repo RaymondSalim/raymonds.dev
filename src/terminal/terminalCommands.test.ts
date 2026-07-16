@@ -27,7 +27,7 @@ describe('executeTerminalCommand', () => {
   });
 
   test('lists the current directory after cd', () => {
-    const session = executeTerminalCommand('cd experience', initialTerminalSession()).session;
+    const { session } = executeTerminalCommand('cd experience', initialTerminalSession());
     const result = executeTerminalCommand('ls .', session);
 
     expect(result.session.cwd).toBe('/experience');
@@ -46,7 +46,7 @@ describe('executeTerminalCommand', () => {
   });
 
   test('resolves absolute cat paths from nested directories', () => {
-    const session = executeTerminalCommand('cd experience', initialTerminalSession()).session;
+    const { session } = executeTerminalCommand('cd experience', initialTerminalSession());
     const result = executeTerminalCommand('cat /about.txt', session);
 
     expect(result.session.cwd).toBe('/experience');
@@ -55,7 +55,7 @@ describe('executeTerminalCommand', () => {
   });
 
   test('supports parent and root directory navigation', () => {
-    const inExperience = executeTerminalCommand('cd experience', initialTerminalSession()).session;
+    const { session: inExperience } = executeTerminalCommand('cd experience', initialTerminalSession());
     const parent = executeTerminalCommand('cd ..', inExperience);
     const root = executeTerminalCommand('cd /', inExperience);
 
@@ -82,7 +82,7 @@ describe('executeTerminalCommand', () => {
   });
 
   test('prints the working directory', () => {
-    const session = executeTerminalCommand('cd projects', initialTerminalSession()).session;
+    const { session } = executeTerminalCommand('cd projects', initialTerminalSession());
     const result = executeTerminalCommand('pwd', session);
 
     expect(result.lines).toEqual(['/projects']);
