@@ -3,7 +3,7 @@
 }
 
 .client-work-name {
-    @apply font-display text-brutalist-accent text-3xl uppercase mb-2;
+    @apply font-display !text-brutalist-accent text-3xl uppercase mb-2;
 }
 
 .client-work-tagline {
