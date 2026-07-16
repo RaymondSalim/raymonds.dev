@@ -7,7 +7,7 @@
 }
 
 .terminal-mode-mobile {
-    @apply fixed inset-0 w-screen h-screen flex flex-col;
+    @apply fixed inset-0 w-screen h-[100dvh] min-h-screen flex flex-col;
 }
 
 #terminal-mode-header {
@@ -33,7 +33,7 @@
 }
 
 .terminal-line {
-    @apply text-sm leading-6 text-brutalist-bg dark:text-brutalist-fg font-mono whitespace-pre-wrap;
+    @apply text-sm leading-6 text-brutalist-bg dark:text-brutalist-fg font-mono whitespace-pre-wrap break-words;
 }
 
 .terminal-line-input {
@@ -46,6 +46,10 @@
 
 #terminal-mode-input-row {
     @apply flex items-center gap-2 border-t-2 border-brutalist-bg dark:border-brutalist-fg px-3 py-2;
+}
+
+#terminal-mode-input-row:focus-within {
+    @apply border-brutalist-accent dark:border-brutalist-accent;
 }
 
 #terminal-mode-input-row span,
