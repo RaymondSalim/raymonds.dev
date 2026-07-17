@@ -6,6 +6,7 @@ import { GitHub } from '../icons/GitHub';
 import { Email } from '../icons/Email';
 import { Button } from '../buttons/Button';
 import { LinkedIn } from '../icons/LinkedIn';
+import { EnvironmentVariables } from '../enum';
 
 interface ContactState {
   emailJSFormSent: boolean
@@ -17,6 +18,28 @@ interface Links {
   icon: React.ReactElement,
   name: string,
 }
+
+const contactLinks: Links[] = [
+  {
+    name: 'GitHub',
+    url: 'https://github.com/RaymondSalim',
+    icon: (
+      <GitHub className={'link-icon'} />
+    ),
+  }, {
+    name: 'LinkedIn',
+    url: 'https://www.linkedin.com/in/raymondsalim/',
+    icon: (
+      <LinkedIn className={'link-icon'} />
+    ),
+  }, {
+    name: 'Email',
+    url: 'mailto:raymond@raymonds.dev',
+    icon: (
+      <Email className={'link-icon'} />
+    ),
+  },
+];
 
 export class Contact extends React.Component<ContactProps, ContactState> {
   EMAILJS_SERVICEID = 'service_w572sev';
@@ -135,28 +158,32 @@ export class Contact extends React.Component<ContactProps, ContactState> {
     return noErrors;
   };
 
-  render() {
-    const links: Links[] = [
-      {
-        name: 'GitHub',
-        url: 'https://github.com/RaymondSalim',
-        icon: (
-          <GitHub className={'link-icon'} />
-        ),
-      }, {
-        name: 'LinkedIn',
-        url: 'https://www.linkedin.com/in/raymondsalim/',
-        icon: (
-          <LinkedIn className={'link-icon'} />
-        ),
-      }, {
-        name: 'Email',
-        url: 'mailto:raymond@raymonds.dev',
-        icon: (
-          <Email className={'link-icon'} />
-        ),
-      },
-    ];
+  static isContactFormEnabled(): boolean {
+    return process.env[EnvironmentVariables.CONTACT_FORM_ENABLED] === 'true';
+  }
+
+  static renderContactLinks() {
+    return (
+      <div id={'contact-links'}>
+        {
+          contactLinks.map((el) => (
+            <div
+              key={el.name}
+            >
+              <a
+                href={el.url}
+              >
+                {el.icon}
+                <span>{el.name}</span>
+              </a>
+            </div>
+          ))
+        }
+      </div>
+    );
+  }
+
+  renderContactForm() {
     let emailStatus;
 
     if (this.state.emailJSFormSent) {
@@ -171,41 +198,48 @@ export class Contact extends React.Component<ContactProps, ContactState> {
       }
     }
     return (
+      <form
+        ref={this.formRef}
+        id={'contact-form'}
+        data-testid="contact-form"
+      >
+        {
+          this.inputFields.map((el) => (
+            <Input key={el.name} {...el} />
+          ))
+        }
+        { emailStatus }
+        <Button
+          text="Send Message!"
+          className="btn"
+          onclick={this.sendMail}
+        />
+      </form>
+    );
+  }
+
+  static renderStaticContact() {
+    return (
+      <div id="contact-grid">
+        <p>My inbox is always open to opportunities. Email me directly and I&apos;ll get back to you.</p>
+        <div id={'contact-ways'}>
+          {Contact.renderContactLinks()}
+        </div>
+      </div>
+    );
+  }
+
+  render() {
+    if (!Contact.isContactFormEnabled()) {
+      return Contact.renderStaticContact();
+    }
+
+    return (
       <div id="contact-grid">
         <p>My inbox is always open to opportunities! If you have any questions, offers or just want to say hi, send a message and I&apos;ll get back to you!</p>
         <div id={'contact-ways'}>
-          <div id={'contact-links'}>
-            {
-              links.map((el) => (
-                <div
-                  key={el.name}
-                >
-                  <a
-                    href={el.url}
-                  >
-                    {el.icon}
-                    <span>{el.name}</span>
-                  </a>
-                </div>
-              ))
-            }
-          </div>
-          <form
-            ref={this.formRef}
-            id={'contact-form'}
-          >
-            {
-              this.inputFields.map((el) => (
-                <Input key={el.name} {...el} />
-              ))
-            }
-            { emailStatus }
-            <Button
-              text="Send Message!"
-              className="btn"
-              onclick={this.sendMail}
-            />
-          </form>
+          {Contact.renderContactLinks()}
+          {this.renderContactForm()}
         </div>
       </div>
     );
