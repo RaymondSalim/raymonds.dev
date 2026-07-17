@@ -1,0 +1,371 @@
+import React from 'react';
+import { completeTerminalInput, executeTerminalCommand, initialTerminalSession } from './terminalCommands';
+import { TerminalSession } from './terminalTypes';
+
+export interface TerminalModeProps {
+  isOpen: boolean
+  isMobile: boolean
+  onClose: () => void
+  onScrollToSection: (targetId: string) => void
+  onExternalOpen: (url: string) => void
+}
+
+type TerminalModeState = {
+  input: string,
+  session: TerminalSession,
+  outputLines: TerminalOutputLine[],
+  commandHistory: string[],
+  mobileViewport?: TerminalMobileViewport,
+  historyIndex?: number,
+};
+
+type TerminalLineKind = 'input' | 'output' | 'error';
+
+type TerminalOutputLine = {
+  text: string,
+  kind: TerminalLineKind,
+};
+
+type TerminalMobileViewport = {
+  height: number,
+  width: number,
+  top: number,
+  left: number,
+};
+
+export class TerminalMode extends React.Component<TerminalModeProps, TerminalModeState> {
+  private readonly inputRef = React.createRef<HTMLInputElement>();
+  private readonly outputRef = React.createRef<HTMLDivElement>();
+
+  constructor(props: TerminalModeProps) {
+    super(props);
+
+    this.state = {
+      input: '',
+      session: initialTerminalSession(),
+      outputLines: [],
+      commandHistory: [],
+    };
+  }
+
+  componentDidMount() {
+    if (this.props.isOpen) {
+      this.syncMobileViewport();
+      this.bindMobileViewportListeners();
+      this.focusInput();
+    }
+  }
+
+  componentDidUpdate(prevProps: TerminalModeProps) {
+    if (!prevProps.isOpen && this.props.isOpen) {
+      this.syncMobileViewport();
+      this.bindMobileViewportListeners();
+      this.focusInput();
+    }
+
+    if (prevProps.isOpen && !this.props.isOpen) {
+      this.unbindMobileViewportListeners();
+    }
+
+    if (prevProps.isMobile !== this.props.isMobile && this.props.isOpen) {
+      this.unbindMobileViewportListeners();
+      this.syncMobileViewport();
+      this.bindMobileViewportListeners();
+    }
+  }
+
+  componentWillUnmount() {
+    this.unbindMobileViewportListeners();
+  }
+
+  private focusInput() {
+    this.inputRef.current?.focus();
+  }
+
+  private scrollOutputToBottom = () => {
+    const output = this.outputRef.current;
+
+    if (output === null) {
+      return;
+    }
+
+    output.scrollTop = output.scrollHeight;
+  };
+
+  private static getVisualViewport(): VisualViewport | undefined {
+    return window.visualViewport ?? undefined;
+  }
+
+  private syncMobileViewport = () => {
+    if (!this.props.isMobile) {
+      this.setState({ mobileViewport: undefined });
+      return;
+    }
+
+    const viewport = TerminalMode.getVisualViewport();
+
+    if (viewport === undefined) {
+      this.setState({ mobileViewport: undefined });
+      return;
+    }
+
+    this.setState({
+      mobileViewport: {
+        height: viewport.height,
+        width: viewport.width,
+        top: viewport.offsetTop,
+        left: viewport.offsetLeft,
+      },
+    });
+  };
+
+  private bindMobileViewportListeners() {
+    if (!this.props.isMobile) {
+      return;
+    }
+
+    const viewport = TerminalMode.getVisualViewport();
+
+    if (viewport === undefined) {
+      return;
+    }
+
+    viewport.removeEventListener('resize', this.syncMobileViewport);
+    viewport.removeEventListener('scroll', this.syncMobileViewport);
+    viewport.addEventListener('resize', this.syncMobileViewport);
+    viewport.addEventListener('scroll', this.syncMobileViewport);
+  }
+
+  private unbindMobileViewportListeners() {
+    const viewport = TerminalMode.getVisualViewport();
+
+    if (viewport === undefined) {
+      return;
+    }
+
+    viewport.removeEventListener('resize', this.syncMobileViewport);
+    viewport.removeEventListener('scroll', this.syncMobileViewport);
+  }
+
+  private mobileViewportStyle(): React.CSSProperties | undefined {
+    if (!this.props.isMobile || this.state.mobileViewport === undefined) {
+      return undefined;
+    }
+
+    return {
+      height: `${this.state.mobileViewport.height}px`,
+      width: `${this.state.mobileViewport.width}px`,
+      top: `${this.state.mobileViewport.top}px`,
+      left: `${this.state.mobileViewport.left}px`,
+    };
+  }
+
+  private static promptForSession(session: TerminalSession): string {
+    return `root@raymonds:${session.cwd}$`;
+  }
+
+  private handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    this.setState({ input: event.target.value, historyIndex: undefined });
+  };
+
+  private handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      this.submitCommand();
+      return;
+    }
+
+    if (event.key === 'Tab') {
+      event.preventDefault();
+      this.completeInput();
+      return;
+    }
+
+    if (event.key === 'Escape') {
+      event.preventDefault();
+      this.props.onClose();
+      return;
+    }
+
+    if (event.key === 'ArrowUp') {
+      event.preventDefault();
+      this.navigateHistory('previous');
+      return;
+    }
+
+    if (event.key === 'ArrowDown') {
+      event.preventDefault();
+      this.navigateHistory('next');
+    }
+  };
+
+  private submitCommand() {
+    const command = this.state.input.trim();
+
+    if (command.length === 0) {
+      return;
+    }
+
+    const result = executeTerminalCommand(command, this.state.session);
+
+    this.setState((state) => {
+      const commandHistory = [...state.commandHistory, command];
+      const prompt = TerminalMode.promptForSession(state.session);
+
+      if (result.action.type === 'clear') {
+        return {
+          input: '',
+          session: result.session,
+          outputLines: [],
+          commandHistory,
+          historyIndex: undefined,
+        };
+      }
+
+      return {
+        input: '',
+        session: result.session,
+        outputLines: [
+          ...state.outputLines,
+          { text: `${prompt} ${command}`, kind: 'input' },
+          ...result.lines.map((line) => ({
+            text: line,
+            kind: TerminalMode.lineKindForOutput(line),
+          })),
+        ],
+        commandHistory,
+        historyIndex: undefined,
+      };
+    }, this.scrollOutputToBottom);
+
+    this.handleCommandAction(result.action);
+  }
+
+  private completeInput() {
+    const completion = completeTerminalInput(this.state.input, this.state.session);
+
+    if (completion.input !== undefined) {
+      this.setState({ input: completion.input, historyIndex: undefined }, this.scrollOutputToBottom);
+      return;
+    }
+
+    if (completion.matches.length > 1) {
+      this.setState((state) => ({
+        outputLines: [
+          ...state.outputLines,
+          { text: completion.matches.join(' '), kind: 'output' },
+        ],
+      }), this.scrollOutputToBottom);
+    }
+  }
+
+  private static lineKindForOutput(line: string): TerminalLineKind {
+    if (
+      line.startsWith('command not found:')
+      || line.includes(': no such ')
+      || line.includes(': not a directory')
+    ) {
+      return 'error';
+    }
+
+    return 'output';
+  }
+
+  private static classNameForLine(line: TerminalOutputLine): string {
+    return `terminal-line terminal-line-${line.kind}`;
+  }
+
+  private handleCommandAction(action: ReturnType<typeof executeTerminalCommand>['action']) {
+    if (action.type === 'close') {
+      this.props.onClose();
+    }
+
+    if (action.type === 'scroll') {
+      this.props.onScrollToSection(action.targetId);
+    }
+
+    if (action.type === 'external') {
+      this.props.onExternalOpen(action.url);
+    }
+  }
+
+  private navigateHistory(direction: 'previous' | 'next') {
+    this.setState((state) => {
+      if (state.commandHistory.length === 0) {
+        return null;
+      }
+
+      if (direction === 'previous') {
+        const previousIndex = state.historyIndex === undefined
+          ? state.commandHistory.length - 1
+          : Math.max(state.historyIndex - 1, 0);
+
+        return {
+          input: state.commandHistory[previousIndex],
+          historyIndex: previousIndex,
+        };
+      }
+
+      if (state.historyIndex === undefined) {
+        return null;
+      }
+
+      if (state.historyIndex >= state.commandHistory.length - 1) {
+        return {
+          input: '',
+          historyIndex: undefined,
+        };
+      }
+
+      const nextIndex = state.historyIndex + 1;
+
+      return {
+        input: state.commandHistory[nextIndex],
+        historyIndex: nextIndex,
+      };
+    });
+  }
+
+  render() {
+    if (!this.props.isOpen) {
+      return null;
+    }
+
+    return (
+      <section
+        id="terminal-mode"
+        role="dialog"
+        aria-label="Terminal mode"
+        aria-modal={this.props.isMobile}
+        className={this.props.isMobile ? 'terminal-mode-mobile' : 'terminal-mode-desktop'}
+        style={this.mobileViewportStyle()}
+      >
+        <header id="terminal-mode-header" role="group" aria-label="Terminal header">
+          <button type="button" onClick={this.props.onClose} aria-label="Close terminal">
+            Close
+          </button>
+        </header>
+        <div id="terminal-mode-output" ref={this.outputRef} role="log" aria-label="Terminal output" aria-live="polite">
+          {this.state.outputLines.map((line, index) => (
+            <div key={`${index}-${line.text}`} className={TerminalMode.classNameForLine(line)}>
+              {line.text}
+            </div>
+          ))}
+        </div>
+        <div id="terminal-mode-input-row" role="group" aria-label="Terminal input">
+          <label htmlFor="terminal-command-input" className="sr-only">
+            Terminal command
+          </label>
+          <span aria-hidden="true">{TerminalMode.promptForSession(this.state.session)}</span>
+          <input
+            id="terminal-command-input"
+            ref={this.inputRef}
+            value={this.state.input}
+            onChange={this.handleInputChange}
+            onKeyDown={this.handleKeyDown}
+          />
+        </div>
+      </section>
+    );
+  }
+}

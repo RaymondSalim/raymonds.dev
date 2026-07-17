@@ -13,3 +13,25 @@
 #header nav {
     @apply h-[fit-content] my-auto;
 }
+
+#terminal-hint {
+    @apply hidden md:flex absolute right-16 top-[calc(var(--header-height-scroll)+0.75rem)] z-[70] max-w-[14rem] items-center gap-2 border-2 border-brutalist-border dark:border-brutalist-bg bg-brutalist-bg dark:bg-brutalist-fg px-3 py-2;
+}
+
+#terminal-hint span,
+#terminal-hint button {
+    @apply font-mono text-sm text-brutalist-fg dark:text-brutalist-bg;
+}
+
+#terminal-hint span {
+    @apply whitespace-nowrap;
+}
+
+#terminal-hint button {
+    @apply border-2 border-brutalist-border dark:border-brutalist-bg px-2 font-bold leading-none;
+}
+
+#terminal-hint button:hover,
+#terminal-hint button:focus {
+    @apply text-brutalist-accent border-brutalist-accent;
+}

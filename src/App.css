@@ -14,7 +14,7 @@ main {
 }
 
 #menu-blur-layer {
-    @apply w-screen h-screen fixed top-0 left-full z-30 backdrop-blur-sm bg-white bg-opacity-0 md:hidden;
+    @apply w-full h-screen fixed top-0 left-0 z-30 backdrop-blur-sm bg-white bg-opacity-0 md:hidden;
 }
 
 section:nth-of-type(2) {

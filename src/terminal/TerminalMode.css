@@ -1,0 +1,68 @@
+#terminal-mode {
+    @apply z-[60] border border-gray-700 bg-black text-white font-mono shadow-2xl overflow-hidden;
+    box-sizing: border-box;
+}
+
+.terminal-mode-desktop {
+    @apply fixed right-4 bottom-4 w-[min(640px,calc(100vw_-_2rem))] h-[42vh] min-h-[360px] max-h-[520px] flex flex-col;
+}
+
+.terminal-mode-mobile {
+    @apply fixed top-0 left-0 flex flex-col;
+    width: 100%;
+    max-width: 100%;
+    height: 100vh;
+    height: 100svh;
+    overscroll-behavior: contain;
+}
+
+#terminal-mode-header {
+    @apply flex items-center justify-end border-b border-gray-800 bg-gray-900 px-3 py-2 text-sm;
+}
+
+#terminal-mode-header span,
+#terminal-mode-header button {
+    @apply text-gray-300 font-mono;
+}
+
+#terminal-mode-header button {
+    @apply px-2 py-1 border border-gray-700 uppercase font-bold;
+}
+
+#terminal-mode-header button:hover,
+#terminal-mode-header button:focus {
+    @apply text-emerald-300 border-emerald-400;
+}
+
+#terminal-mode-output {
+    @apply flex-1 overflow-y-auto px-3 py-3 space-y-1 bg-black;
+}
+
+.terminal-line {
+    @apply text-sm leading-6 text-white font-mono whitespace-pre-wrap break-words;
+}
+
+.terminal-line-input {
+    @apply text-emerald-300;
+}
+
+.terminal-line-error {
+    @apply text-red-400 dark:text-red-400;
+}
+
+#terminal-mode-input-row {
+    @apply flex items-center gap-2 border-t border-gray-800 bg-black px-3 py-2;
+}
+
+#terminal-mode-input-row:focus-within {
+    @apply border-emerald-400;
+}
+
+#terminal-mode-input-row span,
+#terminal-mode-input-row label {
+    @apply text-emerald-300 font-mono text-sm whitespace-nowrap;
+}
+
+#terminal-mode-input-row input {
+    @apply min-w-0 flex-1 bg-transparent text-white font-mono outline-none border-0 p-0;
+}

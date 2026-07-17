@@ -27,11 +27,15 @@ import { Contact } from './components/Contact';
 import { Footer } from './components/Footer';
 import { ScrollToTop } from './buttons/ScrollToTop';
 import { ScrollProgress } from './buttons/ScrollProgress';
+import { TerminalMode } from './terminal/TerminalMode';
 
 export interface AppState {
   siteReady: boolean
+  pageLoadActive: boolean
   menuActive: boolean
   darkMode: boolean
+  terminalModeActive: boolean
+  isMobileViewport: boolean
 }
 
 export default class App extends React.Component<any, AppState> {
@@ -44,8 +48,11 @@ export default class App extends React.Component<any, AppState> {
     super(p);
     this.state = {
       siteReady: false,
+      pageLoadActive: true,
       menuActive: false,
       darkMode: App.isDarkModeEnabled(),
+      terminalModeActive: false,
+      isMobileViewport: window.innerWidth <= 768,
     };
 
     if (process.env[EnvironmentVariables.DEPLOYMENT_ENV] === 'staging') {
@@ -58,38 +65,114 @@ export default class App extends React.Component<any, AppState> {
   componentDidMount = () => {
     ReactGA.pageview('/');
 
-    window.onload = () => {
-      this.setState({
-        siteReady: true,
-      });
-    };
-    this.toggleDocumentOverflow(true); // Prevent scrolling when page load animation is active
+    window.addEventListener('load', this.handleWindowLoad);
+    this.syncDocumentOverflow();
     this.initDarkMode();
 
     this.debouncedResizeHandler = debounce<App>(this.handleResize, 200, this);
     window.addEventListener('resize', this.debouncedResizeHandler);
+    document.addEventListener('keydown', this.handleTerminalShortcut);
   };
 
   componentWillUnmount() {
+    window.removeEventListener('load', this.handleWindowLoad);
     window.removeEventListener('resize', this.debouncedResizeHandler);
+    document.removeEventListener('keydown', this.handleTerminalShortcut);
+    document.documentElement.classList.remove('overflow-hidden');
   }
+
+  handleWindowLoad = () => {
+    this.setState({
+      siteReady: true,
+    }, this.syncDocumentOverflow);
+  };
 
   handleResize() {
-    if (window.innerWidth > 768) {
-      this.toggleMenu(false);
+    const isMobileViewport = window.innerWidth <= 768;
+
+    if (!isMobileViewport) {
+      this.setState({
+        isMobileViewport,
+        menuActive: false,
+      }, this.syncDocumentOverflow);
+      return;
     }
+
+    this.setState({ isMobileViewport }, this.syncDocumentOverflow);
   }
 
-  toggleDocumentOverflow = (force?: boolean) => {
-    document.documentElement.classList.toggle('overflow-hidden', force);
+  shouldLockDocumentOverflow = (state: AppState = this.state) => (
+    state.pageLoadActive || state.menuActive || (state.terminalModeActive && state.isMobileViewport)
+  );
+
+  syncDocumentOverflow = (nextState: AppState = this.state) => {
+    document.documentElement.classList.toggle('overflow-hidden', this.shouldLockDocumentOverflow(nextState));
+  };
+
+  handlePageLoadOverflow = (force?: boolean) => {
+    const pageLoadActive = force ?? !this.state.pageLoadActive;
+
+    this.setState({ pageLoadActive }, this.syncDocumentOverflow);
   };
 
   toggleMenu = (forceShow?: boolean) => {
-    const expected = forceShow ?? !this.state.menuActive;
-    this.toggleDocumentOverflow(expected); // Prevent scrolling when menu is open
+    const menuActive = forceShow ?? !this.state.menuActive;
+
     this.setState({
-      menuActive: expected,
-    });
+      menuActive,
+    }, this.syncDocumentOverflow);
+  };
+
+  openTerminalMode = () => {
+    const isMobileViewport = window.innerWidth <= 768;
+
+    this.toggleMenu(false);
+    this.setState({
+      terminalModeActive: true,
+      isMobileViewport,
+    }, this.syncDocumentOverflow);
+  };
+
+  closeTerminalMode = () => {
+    this.setState({
+      terminalModeActive: false,
+    }, this.syncDocumentOverflow);
+  };
+
+  scrollToSectionFromTerminal = (targetId: string) => {
+    const scroll = () => {
+      document.getElementById(targetId)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    };
+
+    if (this.state.isMobileViewport) {
+      (document.activeElement as HTMLElement | null)?.blur();
+      this.closeTerminalMode();
+      window.setTimeout(scroll, 300);
+      return;
+    }
+
+    scroll();
+  };
+
+  // Required as a TerminalMode callback; it has no App state dependency.
+  // eslint-disable-next-line class-methods-use-this
+  openExternalFromTerminal = (url: string) => {
+    window.open(url, '_blank', 'noopener,noreferrer');
+  };
+
+  handleTerminalShortcut = (e: KeyboardEvent) => {
+    const target = e.target as HTMLElement | null;
+    const tagName = target?.tagName?.toLowerCase();
+    const isTextInput = tagName === 'input' || tagName === 'textarea' || target?.isContentEditable;
+
+    if (isTextInput || window.innerWidth <= 768) {
+      return;
+    }
+
+    if (e.key === '`') {
+      e.preventDefault();
+      this.openTerminalMode();
+    }
   };
 
   initDarkMode() {
@@ -114,7 +197,7 @@ export default class App extends React.Component<any, AppState> {
   }
 
   render() {
-    const navbarMobileProps: NavbarMobileProps = {
+    const navbarMobileProps: Omit<NavbarMobileProps, 'onTerminalOpen'> = {
       hamburger: {
         isActive: this.state.menuActive,
         onclick: this.toggleMenu,
@@ -141,8 +224,8 @@ export default class App extends React.Component<any, AppState> {
     ];
     return (
       <div id={'page'}>
-        <PageLoad togglePageOverflow={this.toggleDocumentOverflow} siteReady={this.state.siteReady}/>
-        <Header navBarMobileProps={navbarMobileProps}/>
+        <PageLoad togglePageOverflow={this.handlePageLoadOverflow} siteReady={this.state.siteReady}/>
+        <Header navBarMobileProps={navbarMobileProps} onTerminalOpen={this.openTerminalMode}/>
         <main>
           <section id="home">
             <div id="home-content" className="content">
@@ -161,7 +244,7 @@ export default class App extends React.Component<any, AppState> {
           </section>
           {/* Using div as applying filter to the main tag will cause position:fixed element to be relative to the main tag (why???) */}
           {/* See https://developer.mozilla.org/en-US/docs/Web/CSS/position#fixed */}
-          <div id="menu-blur-layer" className={`${this.state.menuActive ? '-translate-x-full' : ''}`} onClick={() => { this.toggleMenu(); }}/>
+          <div id="menu-blur-layer" data-testid="menu-blur-layer" className={`${this.state.menuActive ? 'visible' : 'invisible pointer-events-none'}`} onClick={() => { this.toggleMenu(); }}/>
           <section id="about-me">
             <div id="about-me-content" className="content">
               <p className="font-mono uppercase tracking-wide text-sm text-brutalist-accent mb-2">01 &middot; About</p>
@@ -241,6 +324,13 @@ export default class App extends React.Component<any, AppState> {
         <Footer />
         <ScrollToTop />
         <ScrollProgress />
+        <TerminalMode
+          isOpen={this.state.terminalModeActive}
+          isMobile={this.state.isMobileViewport}
+          onClose={this.closeTerminalMode}
+          onScrollToSection={this.scrollToSectionFromTerminal}
+          onExternalOpen={this.openExternalFromTerminal}
+        />
       </div>
     );
   }

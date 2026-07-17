@@ -5,14 +5,17 @@ import { Logo } from '../icons/Logo';
 
 export class Header extends React.Component<HeaderProps, HeaderState> {
   static elementID = 'header';
+  static terminalHintStorageKey = 'terminalHintSeen';
 
   expandYLimit = 90;
   hiddenYStart = 150;
+  terminalHintTimer?: number;
 
   constructor(props: HeaderProps) {
     super(props);
     this.state = {
       windowY: Number.MIN_SAFE_INTEGER,
+      terminalHintVisible: localStorage.getItem(Header.terminalHintStorageKey) !== 'true',
     };
   }
 
@@ -21,6 +24,13 @@ export class Header extends React.Component<HeaderProps, HeaderState> {
       windowY: window.scrollY,
     });
     this.toggleOnScroll();
+    this.terminalHintTimer = window.setTimeout(this.dismissTerminalHint, 6000);
+  }
+
+  componentWillUnmount() {
+    if (this.terminalHintTimer) {
+      window.clearTimeout(this.terminalHintTimer);
+    }
   }
 
   forceHeaderState(visible?: boolean) {
@@ -52,7 +62,26 @@ export class Header extends React.Component<HeaderProps, HeaderState> {
     window.scroll();
   }
 
+  dismissTerminalHint = () => {
+    localStorage.setItem(Header.terminalHintStorageKey, 'true');
+    this.setState({ terminalHintVisible: false });
+  };
+
+  openTerminal = () => {
+    this.dismissTerminalHint();
+    this.props.onTerminalOpen();
+  };
+
   render() {
+    const terminalHint = this.state.terminalHintVisible
+      ? (
+        <div id="terminal-hint" role="status">
+          <span>feeling techy?</span>
+          <button type="button" aria-label="Dismiss terminal hint" onClick={this.dismissTerminalHint}>x</button>
+        </div>
+      )
+      : null;
+
     return (
       <header
         id={Header.elementID}
@@ -71,17 +100,23 @@ export class Header extends React.Component<HeaderProps, HeaderState> {
             this.forceHeaderState(undefined);
           }}
         >
-          <NavBarMobile hamburger={this.props.navBarMobileProps.hamburger} menu={this.props.navBarMobileProps.menu}/>
+          <NavBarMobile hamburger={this.props.navBarMobileProps.hamburger}
+                        menu={this.props.navBarMobileProps.menu}
+                        onTerminalOpen={this.openTerminal}/>
           <NavBarDesktop darkMode={this.props.navBarMobileProps.menu.darkMode}
-                         darkModeToggle={this.props.navBarMobileProps.menu.darkModeToggle}/>
+                         darkModeToggle={this.props.navBarMobileProps.menu.darkModeToggle}
+                         onTerminalOpen={this.openTerminal}
+                         terminalHintId={terminalHint ? 'terminal-hint' : undefined}/>
         </nav>
+        {terminalHint}
       </header>
     );
   }
 }
 
 export interface HeaderProps {
-  navBarMobileProps: NavbarMobileProps
+  navBarMobileProps: Omit<NavbarMobileProps, 'onTerminalOpen'>
+  onTerminalOpen: () => void
 }
 
 export interface HeaderState {
@@ -89,4 +124,5 @@ export interface HeaderState {
   expanded?: boolean
   hidden?: boolean
   forceNotHidden?: boolean
+  terminalHintVisible: boolean
 }
