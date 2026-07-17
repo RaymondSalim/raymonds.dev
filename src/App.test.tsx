@@ -65,6 +65,56 @@ test('backtick is ignored on mobile viewport', () => {
   expect(screen.queryByRole('dialog', { name: 'Terminal mode' })).not.toBeInTheDocument();
 });
 
+test('mobile menu and blur layer stay within viewport when closed', () => {
+  Object.defineProperty(window, 'innerWidth', { writable: true, value: 768 });
+  render(<App />);
+
+  expect(screen.getByTestId('menu-blur-layer')).toHaveClass('translate-x-full');
+  expect(screen.getByTestId('mobile-menu')).toHaveClass('translate-x-full');
+
+  fireEvent.click(screen.getByRole('button', { name: 'Menu' }));
+
+  expect(screen.getByTestId('menu-blur-layer')).toHaveClass('translate-x-0');
+  expect(screen.getByTestId('mobile-menu')).toHaveClass('translate-x-0');
+});
+
+test('mobile section command blurs input and waits before scrolling after keyboard close', () => {
+  jest.useFakeTimers();
+  Object.defineProperty(window, 'innerWidth', { writable: true, value: 1024 });
+  const target = document.createElement('section');
+  target.id = 'about-me';
+  target.scrollIntoView = jest.fn();
+  document.body.appendChild(target);
+
+  render(<App />);
+  fireEvent.click(screen.getByRole('button', { name: 'Finish page load' }));
+  fireEvent.keyDown(document, { key: '`' });
+  Object.defineProperty(window, 'innerWidth', { writable: true, value: 768 });
+  act(() => {
+    window.dispatchEvent(new Event('resize'));
+    jest.runOnlyPendingTimers();
+  });
+  const input = screen.getByLabelText('Terminal command');
+  input.focus();
+
+  fireEvent.change(input, { target: { value: 'about' } });
+  fireEvent.keyDown(input, { key: 'Enter' });
+
+  expect(input).not.toHaveFocus();
+  expect(target.scrollIntoView).not.toHaveBeenCalled();
+
+  act(() => {
+    jest.advanceTimersByTime(299);
+  });
+  expect(target.scrollIntoView).not.toHaveBeenCalled();
+
+  act(() => {
+    jest.advanceTimersByTime(1);
+  });
+
+  expect(target.scrollIntoView).toHaveBeenCalledWith({ behavior: 'smooth', block: 'start' });
+});
+
 test('unmount removes the desktop backtick shortcut listener', () => {
   Object.defineProperty(window, 'innerWidth', { writable: true, value: 1024 });
   const removeEventListener = jest.spyOn(document, 'removeEventListener');
@@ -118,7 +168,7 @@ test('desktop section command projects scrolls to #projects and keeps terminal o
   fireEvent.change(input, { target: { value: 'projects' } });
   fireEvent.keyDown(input, { key: 'Enter' });
 
-  expect(target.scrollIntoView).toHaveBeenCalledWith({ behavior: 'smooth' });
+  expect(target.scrollIntoView).toHaveBeenCalledWith({ behavior: 'smooth', block: 'start' });
   expect(screen.getByRole('dialog', { name: 'Terminal mode' })).toBeInTheDocument();
 });
 
@@ -152,5 +202,5 @@ test('mobile section command closes terminal and unlocks scroll before deferred 
     jest.runOnlyPendingTimers();
   });
 
-  expect(target.scrollIntoView).toHaveBeenCalledWith({ behavior: 'smooth' });
+  expect(target.scrollIntoView).toHaveBeenCalledWith({ behavior: 'smooth', block: 'start' });
 });

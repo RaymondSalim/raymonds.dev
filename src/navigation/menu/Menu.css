@@ -1,5 +1,5 @@
 #mobile-menu {
-    @apply fixed top-0 left-full right-0 w-[min(75vw,400px)] h-screen pt-[var(--header-height)] p-4 z-30
+    @apply fixed top-0 right-0 w-[min(75vw,400px)] h-screen pt-[var(--header-height)] p-4 z-30
     bg-brutalist-bg dark:bg-brutalist-fg border-l-2 border-brutalist-border dark:border-brutalist-bg transition-all flex flex-col;
 }
 

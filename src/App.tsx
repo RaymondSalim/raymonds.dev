@@ -141,12 +141,13 @@ export default class App extends React.Component<any, AppState> {
 
   scrollToSectionFromTerminal = (targetId: string) => {
     const scroll = () => {
-      document.getElementById(targetId)?.scrollIntoView({ behavior: 'smooth' });
+      document.getElementById(targetId)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     };
 
     if (this.state.isMobileViewport) {
+      (document.activeElement as HTMLElement | null)?.blur();
       this.closeTerminalMode();
-      window.setTimeout(scroll, 0);
+      window.setTimeout(scroll, 300);
       return;
     }
 
@@ -243,7 +244,7 @@ export default class App extends React.Component<any, AppState> {
           </section>
           {/* Using div as applying filter to the main tag will cause position:fixed element to be relative to the main tag (why???) */}
           {/* See https://developer.mozilla.org/en-US/docs/Web/CSS/position#fixed */}
-          <div id="menu-blur-layer" className={`${this.state.menuActive ? '-translate-x-full' : ''}`} onClick={() => { this.toggleMenu(); }}/>
+          <div id="menu-blur-layer" data-testid="menu-blur-layer" className={`${this.state.menuActive ? 'translate-x-0' : 'translate-x-full'}`} onClick={() => { this.toggleMenu(); }}/>
           <section id="about-me">
             <div id="about-me-content" className="content">
               <p className="font-mono uppercase tracking-wide text-sm text-brutalist-accent mb-2">01 &middot; About</p>

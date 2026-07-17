@@ -12,10 +12,10 @@ export class Menu extends React.Component<MenuProps> {
     let cls;
     let tabIndex;
     if (this.props.isOpen) {
-      cls = '-translate-x-full visible';
+      cls = 'translate-x-0 visible';
       tabIndex = 1;
     } else {
-      cls = 'invisible';
+      cls = 'translate-x-full invisible';
       tabIndex = -1;
     }
 
@@ -24,6 +24,7 @@ export class Menu extends React.Component<MenuProps> {
         aria-hidden={!this.props.isOpen}
         ref={this.props.innerRef}
         id="mobile-menu"
+        data-testid="mobile-menu"
         tabIndex={tabIndex}
         className={cls}
       >
