@@ -69,13 +69,15 @@ test('mobile menu and blur layer stay within viewport when closed', () => {
   Object.defineProperty(window, 'innerWidth', { writable: true, value: 768 });
   render(<App />);
 
-  expect(screen.getByTestId('menu-blur-layer')).toHaveClass('translate-x-full');
-  expect(screen.getByTestId('mobile-menu')).toHaveClass('translate-x-full');
+  expect(screen.getByTestId('menu-blur-layer')).toHaveClass('invisible', 'pointer-events-none');
+  expect(screen.getByTestId('menu-blur-layer')).not.toHaveClass('translate-x-full');
+  expect(screen.getByTestId('mobile-menu')).toHaveClass('invisible', 'pointer-events-none');
+  expect(screen.getByTestId('mobile-menu')).not.toHaveClass('translate-x-full');
 
   fireEvent.click(screen.getByRole('button', { name: 'Menu' }));
 
-  expect(screen.getByTestId('menu-blur-layer')).toHaveClass('translate-x-0');
-  expect(screen.getByTestId('mobile-menu')).toHaveClass('translate-x-0');
+  expect(screen.getByTestId('menu-blur-layer')).toHaveClass('visible');
+  expect(screen.getByTestId('mobile-menu')).toHaveClass('visible');
 });
 
 test('mobile section command blurs input and waits before scrolling after keyboard close', () => {

@@ -12,10 +12,10 @@ export class Menu extends React.Component<MenuProps> {
     let cls;
     let tabIndex;
     if (this.props.isOpen) {
-      cls = 'translate-x-0 visible';
+      cls = 'visible';
       tabIndex = 1;
     } else {
-      cls = 'translate-x-full invisible';
+      cls = 'invisible pointer-events-none';
       tabIndex = -1;
     }
 

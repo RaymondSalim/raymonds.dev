@@ -50,6 +50,12 @@ html {
     overflow-x: hidden;
 }
 
+body,
+#root,
+#page {
+    overflow-x: hidden;
+}
+
 :root {
     --header-height: 6rem;
     --header-height-scroll: 4rem;
