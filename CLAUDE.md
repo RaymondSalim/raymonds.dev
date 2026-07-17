@@ -10,7 +10,7 @@ Raymond's personal website (raymonds.dev): a single-page React 17 + TypeScript s
 
 - `npm start` — run the dev server (sets `TAILWIND_MODE=watch` and `REACT_APP_DEPLOYMENT_ENV=local`).
 - `npm run build` — production build via craco.
-- `npm test` — run tests via `craco test` (Jest/react-scripts test runner). No test files currently exist in `src/`, and the pre-push hook runs `npx craco test --onlyChanged`.
+- `npm test` — run tests via `craco test` (Jest/react-scripts test runner). The pre-push hook runs `npx craco test --onlyChanged`.
 - `npm run lint` — `eslint --ext .tsx,.ts src/ public/`. Run this (and fix with `--fix`) before committing; the pre-commit hook runs eslint on staged `.ts`/`.tsx` files.
 - `npm run deploy-stg` / `npm run deploy-prod` — build and deploy to GitHub Pages via `config/deploy.sh`; not meant to be run manually in normal development (triggered by `/deploy` PR comments in CI, see below).
 
@@ -38,13 +38,13 @@ Trunk-based development: PRs from `development` → `staging` are squash-merged;
 - `src/icons/` — one component per SVG icon (tech-stack icons, UI icons like `Sun`/`Moon`/`External`); `Skill.tsx` wraps an icon + label for the "technologies" grid.
 - `src/util/` — `common.ts` (e.g. `debounce`), `dimensions.ts` (px/rem/vh/dpi unit conversion), `LocalStorage.tsx` (typed localStorage get/set), `util/darkmode/DarkModeToggle.tsx`.
 - `src/common/interface/` — shared prop/type contracts: `BaseProps` (dimension, className, onclick, onfocus) is the base interface most component props extend; `IconProps` extends it for icon components; `Dimension.tsx`.
-- `src/enum.tsx` — `EnvironmentVariables` enum mapping to `process.env` keys (`NODE_ENV`, `REACT_APP_DEPLOYMENT_ENV`).
+- `src/enum.tsx` — `EnvironmentVariables` enum mapping to `process.env` keys (`NODE_ENV`, `REACT_APP_DEPLOYMENT_ENV`, `REACT_APP_CONTACT_FORM_ENABLED`).
 
 **State ownership is centralized in `App.tsx`.** `App` owns `siteReady`, `menuActive`, and `darkMode` state and passes callbacks/props down (e.g. `toggleMenu`, `toggleDarkMode` flow into `Header` → `NavBarMobile`/`NavBarDesktop` → `Menu`/`DarkModeToggle`). There is no context provider or external state library — prop drilling is the norm for the few pieces of shared state.
 
 **Dark mode** is applied by toggling a `dark` class on `document.body`, driven by Tailwind's `darkMode: 'class'` config (`tailwind.config.js`). Initial value comes from `localStorage` (key `DarkModeToggle.localStorageKey`) falling back to `prefers-color-scheme`, computed in `App.isDarkModeEnabled()`.
 
-**Deployment environments** are threaded through `process.env.REACT_APP_DEPLOYMENT_ENV` (`local`/`staging`/`production`), read via the `EnvironmentVariables` enum. This selects the Google Analytics tracking ID in `App`'s constructor and staging builds get additionally encrypted with `staticrypt` in `config/deploy.sh`.
+**Deployment environments** are threaded through `process.env.REACT_APP_DEPLOYMENT_ENV` (`local`/`staging`/`production`), read via the `EnvironmentVariables` enum. This selects the Google Analytics tracking ID in `App`'s constructor and staging builds get additionally encrypted with `staticrypt` in `config/deploy.sh`. `process.env.REACT_APP_CONTACT_FORM_ENABLED` gates the EmailJS contact form; only the literal value `true` renders the form. Any missing or different value renders static contact links instead.
 
 **Styling**: Tailwind utility classes are used directly in JSX, plus co-located per-component `.css` files for anything Tailwind doesn't express well (animations, complex layout). Custom Tailwind colors (`blue.sky`, `blue.sapphire`, `gray.lightest/light/dark/darker/darkest`) and custom breakpoints (`bp-max-1080/768/600/480`, mobile-first `max-width` variants) are defined in `tailwind.config.js` — prefer these tokens over hardcoded hex/px values.
 
